@@ -168,9 +168,10 @@ function CategoryStats({ papers, dataset }: { papers: Paper[]; dataset: Dataset 
   );
 }
 
-type FacetDefinition = {
-  key: FacetKey;
+type CompactFacetDefinition = {
+  key: "directions" | "displayLevels";
   label: string;
+  hint?: string;
   options: string[];
   paperValues: (paper: Paper, state: UserStateMap) => string[];
 };
@@ -191,22 +192,25 @@ function FilterPanel({
   onReset: () => void;
 }) {
   const papers = dataset.papers;
-  const allowedSubdirections = filters.directions.length
-    ? papers.filter((paper) => paper.direction && filters.directions.includes(paper.direction))
-    : papers;
-  const facets: FacetDefinition[] = [
-    { key: "directions", label: "研究方向", options: uniqueSorted(papers.map((p) => p.direction)), paperValues: (p) => p.direction ? [p.direction] : [] },
-    { key: "subdirections", label: "子方向", options: uniqueSorted(allowedSubdirections.map((p) => p.subdirection)), paperValues: (p) => p.subdirection ? [p.subdirection] : [] },
-    { key: "years", label: "年份", options: uniqueSorted(papers.map((p) => p.year), true), paperValues: (p) => p.year ? [String(p.year)] : [] },
-    { key: "venues", label: "会议 / 来源", options: uniqueSorted(papers.map((p) => p.venue)), paperValues: (p) => p.venue ? [p.venue] : [] },
-    { key: "displayLevels", label: "展示等级", options: dataset.config.displayLevels.length ? dataset.config.displayLevels : uniqueSorted(papers.map((p) => p.displayLevel)), paperValues: (p) => p.displayLevel ? [p.displayLevel] : [] },
-    { key: "contributionTypes", label: "贡献类型", options: uniqueSorted(papers.flatMap((p) => p.contributionTypes ?? [])), paperValues: (p) => p.contributionTypes ?? [] },
-    { key: "readingStatuses", label: "阅读状态", options: ["unread", "reading", "read"], paperValues: (p, state) => [state[p.id]?.readingStatus ?? "unread"] },
+  const facets: CompactFacetDefinition[] = [
+    {
+      key: "directions",
+      label: "核心方向",
+      hint: "每篇只属于一个",
+      options: dataset.config.directions.length ? dataset.config.directions : uniqueSorted(papers.map((p) => p.direction)),
+      paperValues: (p) => p.direction ? [p.direction] : [],
+    },
+    {
+      key: "displayLevels",
+      label: "展示等级",
+      options: dataset.config.displayLevels.length ? dataset.config.displayLevels : uniqueSorted(papers.map((p) => p.displayLevel)),
+      paperValues: (p) => p.displayLevel ? [p.displayLevel] : [],
+    },
   ];
 
-  const toggle = (key: FacetKey, value: string) => {
+  const selectOne = (key: "directions" | "displayLevels", value?: string) => {
     const current = filters[key] as string[];
-    const next = current.includes(value) ? current.filter((item) => item !== value) : [...current, value];
+    const next = value && current[0] !== value ? [value] : [];
     onChange({ ...filters, [key]: next });
   };
 
@@ -216,22 +220,20 @@ function FilterPanel({
         <span><SlidersHorizontal size={17} />筛选 / FILTERS</span>
         {activeFilterCount(filters) > 0 && <button onClick={onReset}>清空</button>}
       </div>
-      <div className="filter-specials">
-        <label>
-          <input type="checkbox" checked={filters.highlighted} onChange={(event) => onChange({ ...filters, highlighted: event.target.checked })} />
-          <Sparkles size={16} /><span>重点论文</span>
-          <b>{papers.filter((paper) => paper.highlighted).length}</b>
-        </label>
-        <label>
-          <input type="checkbox" checked={filters.favorites} onChange={(event) => onChange({ ...filters, favorites: event.target.checked })} />
-          <Heart size={16} /><span>我的收藏</span>
-          <b>{papers.filter((paper) => userState[paper.id]?.favorite).length}</b>
-        </label>
-      </div>
       {facets.filter((facet) => facet.options.length).map((facet) => (
         <fieldset key={facet.key}>
-          <legend>{facet.label}</legend>
-          <div className="facet-options">
+          <legend>{facet.label}{facet.hint && <small>（{facet.hint}）</small>}</legend>
+          <div className={`facet-options ${facet.key === "directions" ? "direction-options" : ""}`}>
+            <label className={(filters[facet.key] as string[]).length === 0 ? "selected" : ""}>
+              <input
+                type="radio"
+                name={`filter-${facet.key}`}
+                checked={(filters[facet.key] as string[]).length === 0}
+                onChange={() => selectOne(facet.key)}
+              />
+              <span>全部</span>
+              <b>{searchable.filter((paper) => matchesFilters(paper, filters, userState, facet.key)).length}</b>
+            </label>
             {facet.options.map((option) => {
               const count = searchable.filter((paper) =>
                 matchesFilters(paper, filters, userState, facet.key)
@@ -239,14 +241,18 @@ function FilterPanel({
               ).length;
               const selected = (filters[facet.key] as string[]).includes(option);
               return (
-                <label key={option} className={count === 0 && !selected ? "disabled" : ""}>
+                <label key={option} className={`${selected ? "selected" : ""} ${count === 0 && !selected ? "disabled" : ""}`.trim()}>
                   <input
-                    type="checkbox"
+                    type="radio"
+                    name={`filter-${facet.key}`}
                     checked={selected}
                     disabled={count === 0 && !selected}
-                    onChange={() => toggle(facet.key, option)}
+                    onChange={() => selectOne(facet.key, option)}
                   />
-                  <span>{facet.key === "readingStatuses" ? readingLabels[option as ReadingStatus] : option}</span>
+                  <span>
+                    {facet.key === "directions" && <i style={{ "--category": categoryColor(option, dataset.config.categoryColors) } as CSSProperties} />}
+                    {option}
+                  </span>
                   <b>{count}</b>
                 </label>
               );
@@ -254,6 +260,23 @@ function FilterPanel({
           </div>
         </fieldset>
       ))}
+      <fieldset className="team-signals">
+        <legend>团队信号</legend>
+        <div className="filter-specials">
+          <label>
+            <input type="checkbox" checked={filters.highlighted} onChange={(event) => onChange({ ...filters, highlighted: event.target.checked })} />
+            <Sparkles size={16} />
+            <span>重点论文<small>人工标记的重点条目</small></span>
+            <b>{papers.filter((paper) => paper.highlighted).length}</b>
+          </label>
+          <label>
+            <input type="checkbox" checked={filters.favorites} onChange={(event) => onChange({ ...filters, favorites: event.target.checked })} />
+            <Heart size={16} />
+            <span>只看我的收藏<small>当前收藏 {papers.filter((paper) => userState[paper.id]?.favorite).length} 篇</small></span>
+            <b>{papers.filter((paper) => userState[paper.id]?.favorite).length}</b>
+          </label>
+        </div>
+      </fieldset>
     </div>
   );
 }

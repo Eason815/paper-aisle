@@ -56,9 +56,10 @@ const rootSchema = z.object({
     sources: z.array(sourceSchema).optional(),
   }),
   config: z.object({
+    directions: z.array(z.string().trim().min(1)).default([]),
     displayLevels: z.array(z.string().trim().min(1)).default([]),
     categoryColors: z.record(z.string()).optional(),
-  }).default({ displayLevels: [] }),
+  }).default({ directions: [], displayLevels: [] }),
   papers: z.array(z.unknown()),
 });
 
@@ -75,6 +76,7 @@ export interface Dataset {
     sources?: DatasetSource[];
   };
   config: {
+    directions: string[];
     displayLevels: string[];
     categoryColors?: Record<string, string>;
   };

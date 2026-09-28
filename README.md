@@ -41,7 +41,7 @@ npm run preview
 
 只有论文的 `id` 和 `title` 是必填字段。空的可选内容不会出现在界面中；无效外链会被丢弃。无效论文或重复 ID 会被跳过并生成非阻塞警告，根结构或网络错误会进入可重试的错误状态。
 
-`config.categoryColors` 可以按顶层研究方向指定任意合法 CSS 颜色；未指定的方向会根据名称生成稳定的 OKLCH 颜色。`config.displayLevels` 决定展示等级的排序顺序。
+`config.directions` 决定侧栏展示的核心方向及顺序；每篇论文通过单一 `direction` 归入其中一个方向，`subdirection` 仍可用于搜索和详情展示，但不会占用侧栏空间。`config.categoryColors` 可以按核心方向指定任意合法 CSS 颜色；未指定的方向会根据名称生成稳定的 OKLCH 颜色。`config.displayLevels` 决定展示等级的筛选与排序顺序。
 
 ## 个人数据
 

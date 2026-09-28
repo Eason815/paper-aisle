@@ -57,6 +57,27 @@ describe("Paper Aisle app", () => {
     expect(container.querySelectorAll(".paper-card")).toHaveLength(60);
   });
 
+  it("uses configured core directions as a single-select filter", async () => {
+    const data = dataset(3);
+    data.config = { ...data.config, directions: ["Agent", "RL", "LLM"] };
+    data.papers[0].direction = "Agent";
+    data.papers[1].direction = "RL";
+    data.papers[2].direction = "LLM";
+    mockFetch(data);
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+    await screen.findByRole("heading", { name: "测试论文库" });
+
+    await user.click(screen.getByRole("radio", { name: /RL 1/ }));
+    expect(container.querySelectorAll(".paper-card")).toHaveLength(1);
+    expect(screen.getByRole("radio", { name: /RL 1/ })).toBeChecked();
+
+    await user.click(screen.getByRole("radio", { name: /LLM 1/ }));
+    expect(container.querySelectorAll(".paper-card")).toHaveLength(1);
+    expect(screen.getByRole("radio", { name: /RL 1/ })).not.toBeChecked();
+    expect(screen.getByRole("radio", { name: /LLM 1/ })).toBeChecked();
+  });
+
   it("shows a retry action when JSON loading fails", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 503 }));
     render(<App />);

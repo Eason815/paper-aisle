@@ -3,20 +3,19 @@
   "datasetId": "paper-aisle-demo-v1",
   "library": {
     "name": "Paper Aisle 演示论文库",
-    "description": "一组跨领域、跨年份的开放论文，用于展示检索、筛选、收藏、对比与速读能力。替换此 JSON 后，页面会随数据自动更新。",
+    "description": "围绕 Agent、强化学习与大语言模型的个人研究货架，用于展示检索、筛选、收藏、对比与速读能力。替换此 JSON 后，页面会随数据自动更新。",
     "updatedAt": "2026-09-28",
     "sources": [
       { "label": "arXiv 开放论文页面", "url": "https://arxiv.org/" }
     ]
   },
   "config": {
+    "directions": ["Agent", "RL", "LLM"],
     "displayLevels": ["里程碑", "精选", "延伸阅读"],
     "categoryColors": {
-      "自然语言处理": "oklch(84% 0.12 160)",
-      "计算机视觉": "oklch(83% 0.14 25)",
-      "生成模型": "oklch(86% 0.14 88)",
-      "高效学习": "oklch(82% 0.12 230)",
-      "多模态学习": "oklch(84% 0.13 315)"
+      "Agent": "oklch(84% 0.12 160)",
+      "RL": "oklch(83% 0.14 25)",
+      "LLM": "oklch(82% 0.12 230)"
     }
   },
   "papers": [
@@ -35,7 +34,7 @@
       ],
       "venue": "NeurIPS",
       "year": 2017,
-      "direction": "自然语言处理",
+      "direction": "LLM",
       "subdirection": "序列建模",
       "displayLevel": "里程碑",
       "contributionTypes": ["模型架构", "效率改进"],
@@ -68,7 +67,7 @@
       ],
       "venue": "NAACL",
       "year": 2019,
-      "direction": "自然语言处理",
+      "direction": "LLM",
       "subdirection": "预训练语言模型",
       "displayLevel": "里程碑",
       "contributionTypes": ["预训练方法", "模型架构"],
@@ -101,7 +100,7 @@
       ],
       "venue": "CVPR",
       "year": 2016,
-      "direction": "计算机视觉",
+      "direction": "Agent",
       "subdirection": "图像识别",
       "displayLevel": "里程碑",
       "contributionTypes": ["模型架构", "优化方法"],
@@ -136,7 +135,7 @@
       ],
       "venue": "ECCV",
       "year": 2020,
-      "direction": "计算机视觉",
+      "direction": "Agent",
       "subdirection": "三维视觉",
       "displayLevel": "里程碑",
       "contributionTypes": ["场景表示", "渲染方法"],
@@ -161,35 +160,36 @@
       }
     },
     {
-      "id": "arxiv-2006.11239",
-      "title": "Denoising Diffusion Probabilistic Models",
+      "id": "arxiv-1707.06347",
+      "title": "Proximal Policy Optimization Algorithms",
       "authors": [
-        { "name": "Jonathan Ho", "affiliations": ["UC Berkeley"] },
-        { "name": "Ajay Jain", "affiliations": ["UC Berkeley"] },
-        { "name": "Pieter Abbeel", "affiliations": ["UC Berkeley"] }
+        { "name": "John Schulman", "affiliations": ["OpenAI"] },
+        { "name": "Filip Wolski", "affiliations": ["OpenAI"] },
+        { "name": "Prafulla Dhariwal", "affiliations": ["OpenAI"] },
+        { "name": "Oleg Klimov", "affiliations": ["OpenAI"] }
       ],
-      "venue": "NeurIPS",
-      "year": 2020,
-      "direction": "生成模型",
-      "subdirection": "扩散模型",
+      "venue": "arXiv",
+      "year": 2017,
+      "direction": "RL",
+      "subdirection": "策略优化",
       "displayLevel": "里程碑",
-      "contributionTypes": ["生成方法", "概率建模"],
+      "contributionTypes": ["优化算法", "强化学习"],
       "highlighted": true,
       "recommendationScore": 94,
       "quickRead": {
-        "problem": "高质量生成模型常在训练稳定性、似然与采样质量之间取舍。",
-        "finding": "逐步去噪的概率模型能够生成高质量图像，并与分数匹配建立联系。",
-        "approach": "训练网络逆转固定的逐步加噪过程，以预测噪声并逐步还原数据。"
+        "problem": "策略梯度方法需要在更新幅度、训练稳定性和实现复杂度之间取舍。",
+        "finding": "限制新旧策略差异的简单目标函数，可以稳定地重复利用同一批交互数据。",
+        "approach": "用裁剪概率比构造代理目标，并进行多轮小批量梯度更新。"
       },
-      "researchQuestion": "扩散概率模型能否成为兼具训练稳定性与高样本质量的实用生成模型？",
-      "method": "构造马尔可夫加噪过程，并以变分界为目标训练参数化逆过程预测噪声。",
-      "findings": "在 CIFAR-10 和高分辨率人脸、卧室数据集上获得有竞争力的生成质量。",
-      "innovations": ["简化的噪声预测目标", "扩散模型与去噪分数匹配的联系"],
-      "significance": "成为后续文本到图像扩散模型的核心理论和工程基础。",
-      "abstractExcerpt": "扩散概率模型通过学习逆转逐步加噪过程生成高质量样本。",
+      "researchQuestion": "能否保留信赖域策略优化的稳定性，同时显著简化实现和计算？",
+      "method": "提出裁剪代理目标，在不显式计算复杂约束的情况下限制单次策略更新幅度。",
+      "findings": "PPO 在多类连续控制与 Atari 环境中表现稳定，并在样本效率和实现成本之间取得良好平衡。",
+      "innovations": ["裁剪概率比目标", "多轮小批量策略更新"],
+      "significance": "成为强化学习研究和工程实践中最常用的策略优化基线之一。",
+      "abstractExcerpt": "PPO 以简单的一阶优化目标实现可靠、易复现的策略更新。",
       "links": {
-        "official": "https://arxiv.org/abs/2006.11239",
-        "pdf": "https://arxiv.org/pdf/2006.11239"
+        "official": "https://arxiv.org/abs/1707.06347",
+        "pdf": "https://arxiv.org/pdf/1707.06347"
       }
     },
     {
@@ -205,7 +205,7 @@
       ],
       "venue": "ICCV",
       "year": 2023,
-      "direction": "计算机视觉",
+      "direction": "Agent",
       "subdirection": "图像分割",
       "displayLevel": "精选",
       "contributionTypes": ["基础模型", "数据集"],
@@ -241,7 +241,7 @@
       ],
       "venue": "ICML",
       "year": 2021,
-      "direction": "多模态学习",
+      "direction": "LLM",
       "subdirection": "视觉语言预训练",
       "displayLevel": "里程碑",
       "contributionTypes": ["预训练方法", "对比学习"],
@@ -275,7 +275,7 @@
       ],
       "venue": "ICLR",
       "year": 2022,
-      "direction": "高效学习",
+      "direction": "LLM",
       "subdirection": "参数高效微调",
       "displayLevel": "精选",
       "contributionTypes": ["效率改进", "微调方法"],
@@ -310,7 +310,7 @@
       ],
       "venue": "TMLR",
       "year": 2024,
-      "direction": "计算机视觉",
+      "direction": "Agent",
       "subdirection": "自监督学习",
       "displayLevel": "精选",
       "contributionTypes": ["预训练方法", "数据处理"],
@@ -345,7 +345,7 @@
       ],
       "venue": "NeurIPS",
       "year": 2022,
-      "direction": "高效学习",
+      "direction": "LLM",
       "subdirection": "高效注意力",
       "displayLevel": "精选",
       "contributionTypes": ["系统优化", "效率改进"],
@@ -380,7 +380,7 @@
       ],
       "venue": "NeurIPS",
       "year": 2020,
-      "direction": "自然语言处理",
+      "direction": "LLM",
       "subdirection": "检索增强生成",
       "displayLevel": "精选",
       "contributionTypes": ["系统架构", "知识增强"],
@@ -403,36 +403,36 @@
       }
     },
     {
-      "id": "arxiv-2002.05709",
-      "title": "A Simple Framework for Contrastive Learning of Visual Representations",
+      "id": "arxiv-1801.01290",
+      "title": "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor",
       "authors": [
-        { "name": "Ting Chen", "affiliations": ["Google Research"] },
-        { "name": "Simon Kornblith", "affiliations": ["Google Research"] },
-        { "name": "Mohammad Norouzi", "affiliations": ["Google Research"] },
-        { "name": "Geoffrey Hinton", "affiliations": ["Google Research", "University of Toronto"] }
+        { "name": "Tuomas Haarnoja", "affiliations": ["UC Berkeley"] },
+        { "name": "Aurick Zhou", "affiliations": ["UC Berkeley"] },
+        { "name": "Pieter Abbeel", "affiliations": ["UC Berkeley"] },
+        { "name": "Sergey Levine", "affiliations": ["UC Berkeley"] }
       ],
       "venue": "ICML",
-      "year": 2020,
-      "direction": "计算机视觉",
-      "subdirection": "自监督学习",
+      "year": 2018,
+      "direction": "RL",
+      "subdirection": "离策略强化学习",
       "displayLevel": "精选",
-      "contributionTypes": ["对比学习", "训练方法"],
+      "contributionTypes": ["强化学习", "连续控制"],
       "highlighted": false,
-      "recommendationScore": 87,
+      "recommendationScore": 89,
       "quickRead": {
-        "problem": "无标签图像表征学习包含许多复杂组件，哪些设计真正关键并不清楚。",
-        "finding": "强数据增强、非线性投影头与大批量训练就能得到非常有竞争力的表征。",
-        "approach": "把同一图像的两个增强视图视为正样本，其余图像视为负样本进行对比。"
+        "problem": "连续控制中的深度强化学习往往样本消耗大、训练不稳定且对超参数敏感。",
+        "finding": "在奖励之外鼓励策略保持高熵，能够同时提高探索能力、稳定性和最终表现。",
+        "approach": "把最大熵目标与离策略 actor-critic 结合，学习随机策略和两个价值网络。"
       },
-      "researchQuestion": "能否用一个足够简单的框架厘清并提升视觉对比学习的核心设计？",
-      "method": "组合随机增强、共享编码器、投影头和温度缩放的对比损失进行自监督训练。",
-      "findings": "线性评估结果接近监督模型，少量标签微调时也具有较强数据效率。",
-      "innovations": ["简化的视觉对比学习框架", "系统识别增强和投影头的作用"],
-      "significance": "让对比学习成为视觉自监督预训练的主流路线。",
-      "abstractExcerpt": "通过系统研究对比学习组件，提出简洁而有效的 SimCLR 框架。",
+      "researchQuestion": "如何构造兼具样本效率、稳定性和探索能力的连续控制算法？",
+      "method": "在最大熵强化学习框架中使用随机 actor、软价值函数和离策略经验回放。",
+      "findings": "SAC 在多项高维连续控制任务上取得领先表现，并降低了对任务特定调参的依赖。",
+      "innovations": ["最大熵离策略 actor-critic", "稳定的随机策略学习"],
+      "significance": "为现代连续控制和机器人强化学习提供了重要的通用基线。",
+      "abstractExcerpt": "SAC 通过最大化期望奖励与策略熵，获得高效且稳定的连续控制能力。",
       "links": {
-        "official": "https://arxiv.org/abs/2002.05709",
-        "pdf": "https://arxiv.org/pdf/2002.05709"
+        "official": "https://arxiv.org/abs/1801.01290",
+        "pdf": "https://arxiv.org/pdf/1801.01290"
       }
     }
   ]
