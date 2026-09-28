@@ -1,0 +1,439 @@
+{
+  "schemaVersion": 1,
+  "datasetId": "paper-aisle-demo-v1",
+  "library": {
+    "name": "Paper Aisle 演示论文库",
+    "description": "一组跨领域、跨年份的开放论文，用于展示检索、筛选、收藏、对比与速读能力。替换此 JSON 后，页面会随数据自动更新。",
+    "updatedAt": "2026-09-28",
+    "sources": [
+      { "label": "arXiv 开放论文页面", "url": "https://arxiv.org/" }
+    ]
+  },
+  "config": {
+    "displayLevels": ["里程碑", "精选", "延伸阅读"],
+    "categoryColors": {
+      "自然语言处理": "oklch(84% 0.12 160)",
+      "计算机视觉": "oklch(83% 0.14 25)",
+      "生成模型": "oklch(86% 0.14 88)",
+      "高效学习": "oklch(82% 0.12 230)",
+      "多模态学习": "oklch(84% 0.13 315)"
+    }
+  },
+  "papers": [
+    {
+      "id": "arxiv-1706.03762",
+      "title": "Attention Is All You Need",
+      "authors": [
+        { "name": "Ashish Vaswani", "affiliations": ["Google Brain"] },
+        { "name": "Noam Shazeer", "affiliations": ["Google Brain"] },
+        { "name": "Niki Parmar", "affiliations": ["Google Research"] },
+        { "name": "Jakob Uszkoreit", "affiliations": ["Google Research"] },
+        { "name": "Llion Jones", "affiliations": ["Google Research"] },
+        { "name": "Aidan N. Gomez", "affiliations": ["University of Toronto"] },
+        { "name": "Lukasz Kaiser", "affiliations": ["Google Brain"] },
+        { "name": "Illia Polosukhin", "affiliations": ["Google Research"] }
+      ],
+      "venue": "NeurIPS",
+      "year": 2017,
+      "direction": "自然语言处理",
+      "subdirection": "序列建模",
+      "displayLevel": "里程碑",
+      "contributionTypes": ["模型架构", "效率改进"],
+      "highlighted": true,
+      "recommendationScore": 100,
+      "quickRead": {
+        "problem": "循环网络让长序列训练难以充分并行，远距离依赖也不易建模。",
+        "finding": "仅使用注意力机制的模型在机器翻译上取得更高质量，同时显著提高训练并行度。",
+        "approach": "用多头自注意力、位置编码和前馈网络组成编码器—解码器。"
+      },
+      "researchQuestion": "序列到序列建模是否可以完全放弃循环和卷积，只依赖注意力机制？",
+      "method": "提出 Transformer，以缩放点积注意力和多头注意力构造编码器与解码器，并用位置编码保留词序。",
+      "findings": "在 WMT 2014 英德和英法翻译任务上取得当时领先结果，训练成本低于此前主流架构。",
+      "innovations": ["完全基于注意力的序列建模架构", "多头注意力", "可并行的全局依赖建模"],
+      "significance": "奠定了现代大语言模型及大量视觉、语音模型的基础架构。",
+      "abstractExcerpt": "提出完全依赖注意力机制、无需循环和卷积的 Transformer 架构。",
+      "links": {
+        "official": "https://arxiv.org/abs/1706.03762",
+        "pdf": "https://arxiv.org/pdf/1706.03762"
+      }
+    },
+    {
+      "id": "arxiv-1810.04805",
+      "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+      "authors": [
+        { "name": "Jacob Devlin", "affiliations": ["Google AI Language"] },
+        { "name": "Ming-Wei Chang", "affiliations": ["Google AI Language"] },
+        { "name": "Kenton Lee", "affiliations": ["Google AI Language"] },
+        { "name": "Kristina Toutanova", "affiliations": ["Google AI Language"] }
+      ],
+      "venue": "NAACL",
+      "year": 2019,
+      "direction": "自然语言处理",
+      "subdirection": "预训练语言模型",
+      "displayLevel": "里程碑",
+      "contributionTypes": ["预训练方法", "模型架构"],
+      "highlighted": true,
+      "recommendationScore": 97,
+      "quickRead": {
+        "problem": "早期语言模型通常只从单一方向读取上下文，难以形成真正的双向表示。",
+        "finding": "双向预训练后只需轻量微调，就能在多类语言理解任务上获得强结果。",
+        "approach": "通过掩码语言模型与下一句预测，在无标注文本上预训练双向 Transformer。"
+      },
+      "researchQuestion": "如何学习可被多种自然语言理解任务复用的深层双向表示？",
+      "method": "随机遮盖输入词并预测原词，同时训练句间关系目标，再对下游任务进行端到端微调。",
+      "findings": "在 GLUE、MultiNLI 与 SQuAD 等十一项任务上刷新当时的最佳结果。",
+      "innovations": ["深层双向预训练", "统一的预训练—微调范式"],
+      "significance": "推动了通用预训练语言模型成为自然语言处理的标准工作流。",
+      "abstractExcerpt": "BERT 通过同时利用左右上下文学习深层双向语言表示。",
+      "links": {
+        "official": "https://arxiv.org/abs/1810.04805",
+        "pdf": "https://arxiv.org/pdf/1810.04805"
+      }
+    },
+    {
+      "id": "arxiv-1512.03385",
+      "title": "Deep Residual Learning for Image Recognition",
+      "authors": [
+        { "name": "Kaiming He", "affiliations": ["Microsoft Research"] },
+        { "name": "Xiangyu Zhang", "affiliations": ["Microsoft Research"] },
+        { "name": "Shaoqing Ren", "affiliations": ["Microsoft Research"] },
+        { "name": "Jian Sun", "affiliations": ["Microsoft Research"] }
+      ],
+      "venue": "CVPR",
+      "year": 2016,
+      "direction": "计算机视觉",
+      "subdirection": "图像识别",
+      "displayLevel": "里程碑",
+      "contributionTypes": ["模型架构", "优化方法"],
+      "highlighted": true,
+      "recommendationScore": 96,
+      "quickRead": {
+        "problem": "网络越深越难优化，简单堆叠层数甚至会导致训练误差上升。",
+        "finding": "残差连接让百层以上网络更容易训练，并显著提升图像识别表现。",
+        "approach": "让网络学习相对输入的残差函数，并用恒等捷径跨层传递信息。"
+      },
+      "researchQuestion": "怎样让显著更深的神经网络仍然可以稳定优化并从深度中获益？",
+      "method": "构造残差块，通过恒等快捷连接将输入直接加入堆叠层输出。",
+      "findings": "152 层残差网络在 ImageNet 上取得领先结果，并迁移到检测与分割任务。",
+      "innovations": ["残差学习框架", "恒等快捷连接"],
+      "significance": "残差连接成为深度学习架构中最广泛使用的基础构件之一。",
+      "abstractExcerpt": "提出残差学习框架，以缓解显著加深网络带来的优化困难。",
+      "links": {
+        "official": "https://arxiv.org/abs/1512.03385",
+        "pdf": "https://arxiv.org/pdf/1512.03385"
+      }
+    },
+    {
+      "id": "arxiv-2003.08934",
+      "title": "NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis",
+      "authors": [
+        { "name": "Ben Mildenhall", "affiliations": ["UC Berkeley"] },
+        { "name": "Pratul P. Srinivasan", "affiliations": ["Google Research"] },
+        { "name": "Matthew Tancik", "affiliations": ["UC Berkeley"] },
+        { "name": "Jonathan T. Barron", "affiliations": ["Google Research"] },
+        { "name": "Ravi Ramamoorthi", "affiliations": ["UC San Diego"] },
+        { "name": "Ren Ng", "affiliations": ["UC Berkeley"] }
+      ],
+      "venue": "ECCV",
+      "year": 2020,
+      "direction": "计算机视觉",
+      "subdirection": "三维视觉",
+      "displayLevel": "里程碑",
+      "contributionTypes": ["场景表示", "渲染方法"],
+      "highlighted": true,
+      "recommendationScore": 95,
+      "quickRead": {
+        "problem": "从有限照片合成连续新视角时，传统三维表示难以兼顾细节和真实感。",
+        "finding": "连续神经场可以合成具有精细几何与视角相关外观的新视图。",
+        "approach": "用坐标网络表示体密度和颜色，再沿相机射线进行可微体渲染。"
+      },
+      "researchQuestion": "能否直接从带位姿的二维图像学习一个可连续查询和渲染的三维场景表示？",
+      "method": "以五维坐标为输入的 MLP 预测体密度与颜色，结合位置编码和分层采样优化重建误差。",
+      "findings": "在合成和真实场景的新视角合成上明显优于此前方法。",
+      "innovations": ["神经辐射场", "位置编码用于高频场景表示", "可微体渲染"],
+      "significance": "开启了神经场与神经渲染的大规模研究浪潮。",
+      "abstractExcerpt": "使用全连接网络将场景表示为连续体密度和视角相关辐射场。",
+      "links": {
+        "official": "https://arxiv.org/abs/2003.08934",
+        "pdf": "https://arxiv.org/pdf/2003.08934",
+        "project": "https://www.matthewtancik.com/nerf",
+        "code": "https://github.com/bmild/nerf"
+      }
+    },
+    {
+      "id": "arxiv-2006.11239",
+      "title": "Denoising Diffusion Probabilistic Models",
+      "authors": [
+        { "name": "Jonathan Ho", "affiliations": ["UC Berkeley"] },
+        { "name": "Ajay Jain", "affiliations": ["UC Berkeley"] },
+        { "name": "Pieter Abbeel", "affiliations": ["UC Berkeley"] }
+      ],
+      "venue": "NeurIPS",
+      "year": 2020,
+      "direction": "生成模型",
+      "subdirection": "扩散模型",
+      "displayLevel": "里程碑",
+      "contributionTypes": ["生成方法", "概率建模"],
+      "highlighted": true,
+      "recommendationScore": 94,
+      "quickRead": {
+        "problem": "高质量生成模型常在训练稳定性、似然与采样质量之间取舍。",
+        "finding": "逐步去噪的概率模型能够生成高质量图像，并与分数匹配建立联系。",
+        "approach": "训练网络逆转固定的逐步加噪过程，以预测噪声并逐步还原数据。"
+      },
+      "researchQuestion": "扩散概率模型能否成为兼具训练稳定性与高样本质量的实用生成模型？",
+      "method": "构造马尔可夫加噪过程，并以变分界为目标训练参数化逆过程预测噪声。",
+      "findings": "在 CIFAR-10 和高分辨率人脸、卧室数据集上获得有竞争力的生成质量。",
+      "innovations": ["简化的噪声预测目标", "扩散模型与去噪分数匹配的联系"],
+      "significance": "成为后续文本到图像扩散模型的核心理论和工程基础。",
+      "abstractExcerpt": "扩散概率模型通过学习逆转逐步加噪过程生成高质量样本。",
+      "links": {
+        "official": "https://arxiv.org/abs/2006.11239",
+        "pdf": "https://arxiv.org/pdf/2006.11239"
+      }
+    },
+    {
+      "id": "arxiv-2304.02643",
+      "title": "Segment Anything",
+      "authors": [
+        { "name": "Alexander Kirillov", "affiliations": ["Meta AI Research"] },
+        { "name": "Eric Mintun", "affiliations": ["Meta AI Research"] },
+        { "name": "Nikhila Ravi", "affiliations": ["Meta AI Research"] },
+        { "name": "Hanzi Mao", "affiliations": ["Meta AI Research"] },
+        { "name": "Chloe Rolland", "affiliations": ["Meta AI Research"] },
+        { "name": "Laura Gustafson", "affiliations": ["Meta AI Research"] }
+      ],
+      "venue": "ICCV",
+      "year": 2023,
+      "direction": "计算机视觉",
+      "subdirection": "图像分割",
+      "displayLevel": "精选",
+      "contributionTypes": ["基础模型", "数据集"],
+      "highlighted": true,
+      "recommendationScore": 91,
+      "quickRead": {
+        "problem": "传统分割模型通常针对固定任务训练，换领域时需要重新标注和适配。",
+        "finding": "可提示分割模型在未见图像与任务上也表现出较强的零样本迁移能力。",
+        "approach": "联合设计可提示模型、数据引擎和大规模分割数据集。"
+      },
+      "researchQuestion": "图像分割能否像语言模型一样，通过提示完成开放世界中的多种分割任务？",
+      "method": "使用图像编码器、提示编码器和轻量掩码解码器，并通过模型辅助的数据引擎构建 SA-1B。",
+      "findings": "在多种分割任务与分布迁移设置上展现了较强的零样本表现。",
+      "innovations": ["可提示分割任务", "Segment Anything Model", "SA-1B 数据集"],
+      "significance": "推动视觉基础模型从识别和生成扩展到通用像素级理解。",
+      "abstractExcerpt": "提出可提示分割模型与十亿级掩码数据集，以支持零样本迁移。",
+      "links": {
+        "official": "https://arxiv.org/abs/2304.02643",
+        "pdf": "https://arxiv.org/pdf/2304.02643",
+        "project": "https://segment-anything.com/",
+        "code": "https://github.com/facebookresearch/segment-anything"
+      }
+    },
+    {
+      "id": "arxiv-2103.00020",
+      "title": "Learning Transferable Visual Models From Natural Language Supervision",
+      "authors": [
+        { "name": "Alec Radford", "affiliations": ["OpenAI"] },
+        { "name": "Jong Wook Kim", "affiliations": ["OpenAI"] },
+        { "name": "Chris Hallacy", "affiliations": ["OpenAI"] },
+        { "name": "Aditya Ramesh", "affiliations": ["OpenAI"] },
+        { "name": "Gabriel Goh", "affiliations": ["OpenAI"] }
+      ],
+      "venue": "ICML",
+      "year": 2021,
+      "direction": "多模态学习",
+      "subdirection": "视觉语言预训练",
+      "displayLevel": "里程碑",
+      "contributionTypes": ["预训练方法", "对比学习"],
+      "highlighted": true,
+      "recommendationScore": 93,
+      "quickRead": {
+        "problem": "依赖固定类别标注的视觉模型难以直接迁移到开放词汇任务。",
+        "finding": "大规模图文对比预训练可以用自然语言定义类别并实现强零样本识别。",
+        "approach": "让图像和对应文本靠近、错误配对远离，学习共享嵌入空间。"
+      },
+      "researchQuestion": "自然语言监督能否训练出可迁移到广泛视觉任务的通用图像表示？",
+      "method": "在四亿图文对上进行对比学习，分别编码图像和文本，并用文本提示完成零样本分类。",
+      "findings": "无需目标数据集训练即可在大量图像分类基准上达到有竞争力的表现。",
+      "innovations": ["大规模图文对比预训练", "基于文本提示的零样本分类"],
+      "significance": "成为开放词汇视觉识别和现代多模态模型的重要基础。",
+      "abstractExcerpt": "从自然语言监督中学习可迁移视觉表示，并通过文本提示完成零样本识别。",
+      "links": {
+        "official": "https://arxiv.org/abs/2103.00020",
+        "pdf": "https://arxiv.org/pdf/2103.00020"
+      }
+    },
+    {
+      "id": "arxiv-2106.09685",
+      "title": "LoRA: Low-Rank Adaptation of Large Language Models",
+      "authors": [
+        { "name": "Edward J. Hu", "affiliations": ["Microsoft"] },
+        { "name": "Yelong Shen", "affiliations": ["Microsoft"] },
+        { "name": "Phillip Wallis", "affiliations": ["Microsoft"] },
+        { "name": "Zeyuan Allen-Zhu", "affiliations": ["Microsoft Research"] },
+        { "name": "Yuanzhi Li", "affiliations": ["Microsoft Research"] }
+      ],
+      "venue": "ICLR",
+      "year": 2022,
+      "direction": "高效学习",
+      "subdirection": "参数高效微调",
+      "displayLevel": "精选",
+      "contributionTypes": ["效率改进", "微调方法"],
+      "highlighted": true,
+      "recommendationScore": 92,
+      "quickRead": {
+        "problem": "为每个任务完整微调并保存大型模型，训练和存储成本都很高。",
+        "finding": "只学习少量低秩更新即可达到或超过完整微调，并显著减少可训练参数。",
+        "approach": "冻结预训练权重，在注意力层旁注入可训练的低秩矩阵。"
+      },
+      "researchQuestion": "大型预训练模型的任务适配是否能用极少量参数完成？",
+      "method": "将权重更新约束为两个低秩矩阵的乘积，训练时只优化这些增量参数。",
+      "findings": "在 GPT-3 等模型上减少多个数量级的可训练参数，同时保持任务质量和推理延迟。",
+      "innovations": ["低秩权重更新", "无需额外推理延迟的参数高效微调"],
+      "significance": "使个人和团队以较低成本定制大型模型成为常规做法。",
+      "abstractExcerpt": "冻结预训练模型并注入可训练低秩分解矩阵，以显著降低适配成本。",
+      "links": {
+        "official": "https://arxiv.org/abs/2106.09685",
+        "pdf": "https://arxiv.org/pdf/2106.09685",
+        "code": "https://github.com/microsoft/LoRA"
+      }
+    },
+    {
+      "id": "arxiv-2304.07193",
+      "title": "DINOv2: Learning Robust Visual Features without Supervision",
+      "authors": [
+        { "name": "Maxime Oquab", "affiliations": ["Meta AI Research"] },
+        { "name": "Timothée Darcet", "affiliations": ["Meta AI Research"] },
+        { "name": "Théo Moutakanni", "affiliations": ["Meta AI Research"] },
+        { "name": "Huy V. Vo", "affiliations": ["Meta AI Research"] },
+        { "name": "Marc Szafraniec", "affiliations": ["Meta AI Research"] }
+      ],
+      "venue": "TMLR",
+      "year": 2024,
+      "direction": "计算机视觉",
+      "subdirection": "自监督学习",
+      "displayLevel": "精选",
+      "contributionTypes": ["预训练方法", "数据处理"],
+      "highlighted": false,
+      "recommendationScore": 88,
+      "quickRead": {
+        "problem": "自监督视觉特征往往依赖复杂任务专用流程，跨任务泛化仍不稳定。",
+        "finding": "经过数据策展和稳定训练的大模型能产生无需微调也很通用的视觉特征。",
+        "approach": "扩展自蒸馏训练、改进数据筛选，并在大规模多样图像上训练视觉 Transformer。"
+      },
+      "researchQuestion": "只依靠自监督学习，能否获得可直接服务多种像素级和图像级任务的通用视觉特征？",
+      "method": "结合自蒸馏目标、教师模型更新、掩码图像建模与大规模自动策展数据训练 ViT。",
+      "findings": "冻结特征在分类、深度估计和分割等任务上表现稳健，常能匹配任务专用模型。",
+      "innovations": ["可扩展的自监督视觉训练流程", "面向通用特征的数据策展方法"],
+      "significance": "展示了无需文本或人工标注也能训练强通用视觉基础模型。",
+      "abstractExcerpt": "通过大规模自监督训练获得可跨任务使用的稳健视觉特征。",
+      "links": {
+        "official": "https://arxiv.org/abs/2304.07193",
+        "pdf": "https://arxiv.org/pdf/2304.07193",
+        "code": "https://github.com/facebookresearch/dinov2"
+      }
+    },
+    {
+      "id": "arxiv-2205.14135",
+      "title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+      "authors": [
+        { "name": "Tri Dao", "affiliations": ["Stanford University"] },
+        { "name": "Daniel Y. Fu", "affiliations": ["Stanford University"] },
+        { "name": "Stefano Ermon", "affiliations": ["Stanford University"] },
+        { "name": "Atri Rudra", "affiliations": ["University at Buffalo"] },
+        { "name": "Christopher Ré", "affiliations": ["Stanford University"] }
+      ],
+      "venue": "NeurIPS",
+      "year": 2022,
+      "direction": "高效学习",
+      "subdirection": "高效注意力",
+      "displayLevel": "精选",
+      "contributionTypes": ["系统优化", "效率改进"],
+      "highlighted": true,
+      "recommendationScore": 90,
+      "quickRead": {
+        "problem": "标准注意力频繁读写 GPU 高带宽内存，长序列训练既慢又占显存。",
+        "finding": "减少内存读写而不近似注意力本身，可以同时加速并节省显存。",
+        "approach": "通过分块和重计算把注意力计算融合在片上存储中完成。"
+      },
+      "researchQuestion": "能否从 IO 复杂度而不是只看算术复杂度，设计更快且精确的注意力算法？",
+      "method": "使用 tiling 在 SRAM 中完成注意力块计算，并通过重计算避免存储完整注意力矩阵。",
+      "findings": "在多种序列长度上获得显著速度提升和更低显存占用，同时保持精确结果。",
+      "innovations": ["IO-aware 精确注意力", "片上分块与反向重计算"],
+      "significance": "成为现代大模型训练和长上下文推理的重要底层算子。",
+      "abstractExcerpt": "通过减少 GPU 内存层级之间的读写，实现快速且显存高效的精确注意力。",
+      "links": {
+        "official": "https://arxiv.org/abs/2205.14135",
+        "pdf": "https://arxiv.org/pdf/2205.14135",
+        "code": "https://github.com/Dao-AILab/flash-attention"
+      }
+    },
+    {
+      "id": "arxiv-2005.11401",
+      "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+      "authors": [
+        { "name": "Patrick Lewis", "affiliations": ["Facebook AI Research", "University College London"] },
+        { "name": "Ethan Perez", "affiliations": ["New York University"] },
+        { "name": "Aleksandra Piktus", "affiliations": ["Facebook AI Research"] },
+        { "name": "Fabio Petroni", "affiliations": ["Facebook AI Research"] },
+        { "name": "Vladimir Karpukhin", "affiliations": ["Facebook AI Research"] }
+      ],
+      "venue": "NeurIPS",
+      "year": 2020,
+      "direction": "自然语言处理",
+      "subdirection": "检索增强生成",
+      "displayLevel": "精选",
+      "contributionTypes": ["系统架构", "知识增强"],
+      "highlighted": false,
+      "recommendationScore": 89,
+      "quickRead": {
+        "problem": "参数化语言模型难以及时更新知识，也不容易说明生成事实来自哪里。",
+        "finding": "把检索到的文档作为外部记忆，能提升知识密集任务的准确性与事实性。",
+        "approach": "联合可微检索器与生成器，让模型基于检索段落生成答案。"
+      },
+      "researchQuestion": "如何让生成模型在保留语言能力的同时，动态访问可更新且可追溯的外部知识？",
+      "method": "用稠密段落检索器选取 Wikipedia 文档，并让序列生成模型对潜在文档进行边缘化。",
+      "findings": "在开放域问答等知识密集任务上取得领先表现，并生成更具体、事实性更强的文本。",
+      "innovations": ["检索器与生成器的端到端结合", "参数记忆与非参数记忆融合"],
+      "significance": "确立了现代 RAG 系统的基本范式。",
+      "abstractExcerpt": "结合预训练参数记忆与可检索的非参数记忆，处理知识密集型语言任务。",
+      "links": {
+        "official": "https://arxiv.org/abs/2005.11401",
+        "pdf": "https://arxiv.org/pdf/2005.11401"
+      }
+    },
+    {
+      "id": "arxiv-2002.05709",
+      "title": "A Simple Framework for Contrastive Learning of Visual Representations",
+      "authors": [
+        { "name": "Ting Chen", "affiliations": ["Google Research"] },
+        { "name": "Simon Kornblith", "affiliations": ["Google Research"] },
+        { "name": "Mohammad Norouzi", "affiliations": ["Google Research"] },
+        { "name": "Geoffrey Hinton", "affiliations": ["Google Research", "University of Toronto"] }
+      ],
+      "venue": "ICML",
+      "year": 2020,
+      "direction": "计算机视觉",
+      "subdirection": "自监督学习",
+      "displayLevel": "精选",
+      "contributionTypes": ["对比学习", "训练方法"],
+      "highlighted": false,
+      "recommendationScore": 87,
+      "quickRead": {
+        "problem": "无标签图像表征学习包含许多复杂组件，哪些设计真正关键并不清楚。",
+        "finding": "强数据增强、非线性投影头与大批量训练就能得到非常有竞争力的表征。",
+        "approach": "把同一图像的两个增强视图视为正样本，其余图像视为负样本进行对比。"
+      },
+      "researchQuestion": "能否用一个足够简单的框架厘清并提升视觉对比学习的核心设计？",
+      "method": "组合随机增强、共享编码器、投影头和温度缩放的对比损失进行自监督训练。",
+      "findings": "线性评估结果接近监督模型，少量标签微调时也具有较强数据效率。",
+      "innovations": ["简化的视觉对比学习框架", "系统识别增强和投影头的作用"],
+      "significance": "让对比学习成为视觉自监督预训练的主流路线。",
+      "abstractExcerpt": "通过系统研究对比学习组件，提出简洁而有效的 SimCLR 框架。",
+      "links": {
+        "official": "https://arxiv.org/abs/2002.05709",
+        "pdf": "https://arxiv.org/pdf/2002.05709"
+      }
+    }
+  ]
+}

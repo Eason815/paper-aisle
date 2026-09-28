@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.npm-cache/
+.sites-runtime/
+*.local
+*.log
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
