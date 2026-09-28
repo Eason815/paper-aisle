@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paper-aisle.local/data/papers.schema.json",
+  "title": "Paper Aisle dataset",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "datasetId", "library", "papers"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "datasetId": { "type": "string", "minLength": 1 },
+    "library": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "updatedAt": { "type": "string", "minLength": 1 },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label"],
+            "properties": {
+              "label": { "type": "string", "minLength": 1 },
+              "url": { "type": "string", "format": "uri" }
+            }
+          }
+        }
+      }
+    },
+    "config": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "displayLevels": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "categoryColors": {
+          "type": "object",
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "papers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/paper" }
+    }
+  },
+  "$defs": {
+    "author": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "affiliations": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "links": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "official": { "type": "string", "format": "uri" },
+        "pdf": { "type": "string", "format": "uri" },
+        "review": { "type": "string", "format": "uri" },
+        "project": { "type": "string", "format": "uri" },
+        "code": { "type": "string", "format": "uri" }
+      }
+    },
+    "paper": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "authors": { "type": "array", "items": { "$ref": "#/$defs/author" } },
+        "venue": { "type": "string", "minLength": 1 },
+        "year": { "type": "integer", "minimum": 1000, "maximum": 9999 },
+        "direction": { "type": "string", "minLength": 1 },
+        "subdirection": { "type": "string", "minLength": 1 },
+        "displayLevel": { "type": "string", "minLength": 1 },
+        "contributionTypes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "highlighted": { "type": "boolean" },
+        "recommendationScore": { "type": "number" },
+        "quickRead": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "problem": { "type": "string", "minLength": 1 },
+            "finding": { "type": "string", "minLength": 1 },
+            "approach": { "type": "string", "minLength": 1 }
+          }
+        },
+        "researchQuestion": { "type": "string", "minLength": 1 },
+        "method": { "type": "string", "minLength": 1 },
+        "findings": { "type": "string", "minLength": 1 },
+        "innovations": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "significance": { "type": "string", "minLength": 1 },
+        "abstractExcerpt": { "type": "string", "minLength": 1 },
+        "links": { "$ref": "#/$defs/links" }
+      }
+    }
+  }
+}
