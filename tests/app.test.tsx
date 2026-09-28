@@ -8,7 +8,7 @@ function dataset(count = 2) {
     schemaVersion: 1,
     datasetId: "test-data",
     library: { name: "测试论文库", sources: [] },
-    config: { displayLevels: ["里程碑", "精选"] },
+    config: { directions: [] as string[], displayLevels: ["里程碑", "精选"] },
     papers: Array.from({ length: count }, (_, index) => ({
       id: `paper-${index}`,
       title: index === 0 ? "扩散模型论文" : `论文 ${index}`,
@@ -76,6 +76,21 @@ describe("Paper Aisle app", () => {
     expect(container.querySelectorAll(".paper-card")).toHaveLength(1);
     expect(screen.getByRole("radio", { name: /RL 1/ })).not.toBeChecked();
     expect(screen.getByRole("radio", { name: /LLM 1/ })).toBeChecked();
+  });
+
+  it("keeps supplementary filters collapsed and applies a selected year", async () => {
+    mockFetch(dataset(3));
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+    await screen.findByRole("heading", { name: "测试论文库" });
+
+    expect(screen.queryByRole("checkbox", { name: /2024 1/ })).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "展开年份" }));
+    await user.click(screen.getByRole("checkbox", { name: /2024 1/ }));
+
+    expect(container.querySelectorAll(".paper-card")).toHaveLength(1);
+    expect(screen.getByRole("checkbox", { name: /2024 1/ })).toBeChecked();
+    expect(screen.getByRole("button", { name: "年份：2024" })).toBeInTheDocument();
   });
 
   it("shows a retry action when JSON loading fails", async () => {

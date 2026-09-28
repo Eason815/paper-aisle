@@ -6,6 +6,7 @@ import {
   BookOpen,
   Bookmark,
   Check,
+  ChevronDown,
   Download,
   ExternalLink,
   GitCompare,
@@ -168,13 +169,44 @@ function CategoryStats({ papers, dataset }: { papers: Paper[]; dataset: Dataset 
   );
 }
 
-type CompactFacetDefinition = {
-  key: "directions" | "displayLevels";
+type SidebarFacetDefinition = {
+  key: "directions" | "displayLevels" | "years" | "venues" | "readingStatuses";
   label: string;
   hint?: string;
+  single?: boolean;
+  defaultOpen?: boolean;
   options: string[];
   paperValues: (paper: Paper, state: UserStateMap) => string[];
 };
+
+function FilterSection({
+  title,
+  hint,
+  defaultOpen = false,
+  children,
+}: {
+  title: string;
+  hint?: string;
+  defaultOpen?: boolean;
+  children: ReactNode;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <section className="filter-section">
+      <button
+        type="button"
+        className={`filter-section-toggle ${open ? "open" : ""}`}
+        aria-expanded={open}
+        aria-label={`${open ? "收起" : "展开"}${title}`}
+        onClick={() => setOpen((current) => !current)}
+      >
+        <span>{title}{hint && <small>（{hint}）</small>}</span>
+        <ChevronDown size={16} aria-hidden="true" />
+      </button>
+      {open && <div className="filter-section-body">{children}</div>}
+    </section>
+  );
+}
 
 function FilterPanel({
   dataset,
@@ -192,19 +224,41 @@ function FilterPanel({
   onReset: () => void;
 }) {
   const papers = dataset.papers;
-  const facets: CompactFacetDefinition[] = [
+  const facets: SidebarFacetDefinition[] = [
     {
       key: "directions",
       label: "核心方向",
       hint: "每篇只属于一个",
+      single: true,
+      defaultOpen: true,
       options: dataset.config.directions.length ? dataset.config.directions : uniqueSorted(papers.map((p) => p.direction)),
       paperValues: (p) => p.direction ? [p.direction] : [],
     },
     {
       key: "displayLevels",
       label: "展示等级",
+      single: true,
+      defaultOpen: true,
       options: dataset.config.displayLevels.length ? dataset.config.displayLevels : uniqueSorted(papers.map((p) => p.displayLevel)),
       paperValues: (p) => p.displayLevel ? [p.displayLevel] : [],
+    },
+    {
+      key: "years",
+      label: "年份",
+      options: uniqueSorted(papers.map((p) => p.year), true),
+      paperValues: (p) => p.year ? [String(p.year)] : [],
+    },
+    {
+      key: "venues",
+      label: "会议 / 来源",
+      options: uniqueSorted(papers.map((p) => p.venue)),
+      paperValues: (p) => p.venue ? [p.venue] : [],
+    },
+    {
+      key: "readingStatuses",
+      label: "阅读状态",
+      options: ["unread", "reading", "read"],
+      paperValues: (p, state) => [state[p.id]?.readingStatus ?? "unread"],
     },
   ];
 
@@ -214,54 +268,65 @@ function FilterPanel({
     onChange({ ...filters, [key]: next });
   };
 
+  const toggleMany = (key: "years" | "venues" | "readingStatuses", value: string) => {
+    const current = filters[key] as string[];
+    const next = current.includes(value) ? current.filter((item) => item !== value) : [...current, value];
+    onChange({ ...filters, [key]: next });
+  };
+
+  const renderFacet = (facet: SidebarFacetDefinition) => (
+    <FilterSection key={facet.key} title={facet.label} hint={facet.hint} defaultOpen={facet.defaultOpen}>
+      <div className={`facet-options ${facet.key === "directions" ? "direction-options" : ""}`}>
+        {facet.single && (
+          <label className={(filters[facet.key] as string[]).length === 0 ? "selected" : ""}>
+            <input
+              type="radio"
+              name={`filter-${facet.key}`}
+              checked={(filters[facet.key] as string[]).length === 0}
+              onChange={() => selectOne(facet.key as "directions" | "displayLevels")}
+            />
+            <span>全部</span>
+            <b>{searchable.filter((paper) => matchesFilters(paper, filters, userState, facet.key)).length}</b>
+          </label>
+        )}
+        {facet.options.map((option) => {
+          const count = searchable.filter((paper) =>
+            matchesFilters(paper, filters, userState, facet.key)
+            && facet.paperValues(paper, userState).includes(option),
+          ).length;
+          const selected = (filters[facet.key] as string[]).includes(option);
+          return (
+            <label key={option} className={`${selected ? "selected" : ""} ${count === 0 && !selected ? "disabled" : ""}`.trim()}>
+              <input
+                type={facet.single ? "radio" : "checkbox"}
+                name={facet.single ? `filter-${facet.key}` : undefined}
+                checked={selected}
+                disabled={count === 0 && !selected}
+                onChange={() => facet.single
+                  ? selectOne(facet.key as "directions" | "displayLevels", option)
+                  : toggleMany(facet.key as "years" | "venues" | "readingStatuses", option)}
+              />
+              <span>
+                {facet.key === "directions" && <i style={{ "--category": categoryColor(option, dataset.config.categoryColors) } as CSSProperties} />}
+                {facet.key === "readingStatuses" ? readingLabels[option as ReadingStatus] : option}
+              </span>
+              <b>{count}</b>
+            </label>
+          );
+        })}
+      </div>
+    </FilterSection>
+  );
+
   return (
     <div className="filter-panel">
       <div className="filter-heading">
         <span><SlidersHorizontal size={17} />筛选 / FILTERS</span>
         {activeFilterCount(filters) > 0 && <button onClick={onReset}>清空</button>}
       </div>
-      {facets.filter((facet) => facet.options.length).map((facet) => (
-        <fieldset key={facet.key}>
-          <legend>{facet.label}{facet.hint && <small>（{facet.hint}）</small>}</legend>
-          <div className={`facet-options ${facet.key === "directions" ? "direction-options" : ""}`}>
-            <label className={(filters[facet.key] as string[]).length === 0 ? "selected" : ""}>
-              <input
-                type="radio"
-                name={`filter-${facet.key}`}
-                checked={(filters[facet.key] as string[]).length === 0}
-                onChange={() => selectOne(facet.key)}
-              />
-              <span>全部</span>
-              <b>{searchable.filter((paper) => matchesFilters(paper, filters, userState, facet.key)).length}</b>
-            </label>
-            {facet.options.map((option) => {
-              const count = searchable.filter((paper) =>
-                matchesFilters(paper, filters, userState, facet.key)
-                && facet.paperValues(paper, userState).includes(option),
-              ).length;
-              const selected = (filters[facet.key] as string[]).includes(option);
-              return (
-                <label key={option} className={`${selected ? "selected" : ""} ${count === 0 && !selected ? "disabled" : ""}`.trim()}>
-                  <input
-                    type="radio"
-                    name={`filter-${facet.key}`}
-                    checked={selected}
-                    disabled={count === 0 && !selected}
-                    onChange={() => selectOne(facet.key, option)}
-                  />
-                  <span>
-                    {facet.key === "directions" && <i style={{ "--category": categoryColor(option, dataset.config.categoryColors) } as CSSProperties} />}
-                    {option}
-                  </span>
-                  <b>{count}</b>
-                </label>
-              );
-            })}
-          </div>
-        </fieldset>
-      ))}
-      <fieldset className="team-signals">
-        <legend>团队信号</legend>
+      {facets.filter((facet) => facet.defaultOpen && facet.options.length).map(renderFacet)}
+      <FilterSection title="团队信号" defaultOpen>
+        <div className="team-signals">
         <div className="filter-specials">
           <label>
             <input type="checkbox" checked={filters.highlighted} onChange={(event) => onChange({ ...filters, highlighted: event.target.checked })} />
@@ -276,7 +341,9 @@ function FilterPanel({
             <b>{papers.filter((paper) => userState[paper.id]?.favorite).length}</b>
           </label>
         </div>
-      </fieldset>
+        </div>
+      </FilterSection>
+      {facets.filter((facet) => !facet.defaultOpen && facet.options.length).map(renderFacet)}
     </div>
   );
 }
