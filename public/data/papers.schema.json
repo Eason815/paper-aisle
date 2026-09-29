@@ -38,9 +38,19 @@
           "type": "array",
           "items": { "type": "string", "minLength": 1 }
         },
-        "displayLevels": {
+        "presentationTypes": {
           "type": "array",
           "items": { "type": "string", "minLength": 1 }
+        },
+        "displayLevels": {
+          "deprecated": true,
+          "description": "兼容旧数据；新数据请使用 presentationTypes。",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "notableInstitutions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/notableInstitution" }
         },
         "categoryColors": {
           "type": "object",
@@ -77,6 +87,19 @@
         "code": { "type": "string", "format": "uri" }
       }
     },
+    "notableInstitution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "type": { "enum": ["company", "university", "research"] },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
     "paper": {
       "type": "object",
       "additionalProperties": false,
@@ -89,7 +112,13 @@
         "year": { "type": "integer", "minimum": 1000, "maximum": 9999 },
         "direction": { "type": "string", "minLength": 1 },
         "subdirection": { "type": "string", "minLength": 1 },
-        "displayLevel": { "type": "string", "minLength": 1 },
+        "presentationType": { "type": "string", "minLength": 1 },
+        "displayLevel": {
+          "deprecated": true,
+          "description": "兼容旧数据；新数据请使用 presentationType。",
+          "type": "string",
+          "minLength": 1
+        },
         "contributionTypes": {
           "type": "array",
           "items": { "type": "string", "minLength": 1 }

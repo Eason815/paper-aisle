@@ -19,6 +19,12 @@ const linksSchema = z.object({
   code: z.string().optional(),
 });
 
+const notableInstitutionSchema = z.object({
+  name: z.string().trim().min(1),
+  type: z.enum(["company", "university", "research"]),
+  aliases: z.array(z.string().trim().min(1)).default([]),
+});
+
 export const paperSchema = z.object({
   id: z.string().trim().min(1),
   title: z.string().trim().min(1),
@@ -27,6 +33,8 @@ export const paperSchema = z.object({
   year: z.number().int().min(1000).max(9999).optional(),
   direction: z.string().trim().min(1).optional(),
   subdirection: z.string().trim().min(1).optional(),
+  presentationType: z.string().trim().min(1).optional(),
+  /** @deprecated Use presentationType. Kept for v1 dataset compatibility. */
   displayLevel: z.string().trim().min(1).optional(),
   contributionTypes: z.array(z.string().trim().min(1)).optional(),
   highlighted: z.boolean().optional(),
@@ -57,14 +65,18 @@ const rootSchema = z.object({
   }),
   config: z.object({
     directions: z.array(z.string().trim().min(1)).default([]),
+    presentationTypes: z.array(z.string().trim().min(1)).default([]),
+    /** @deprecated Use presentationTypes. */
     displayLevels: z.array(z.string().trim().min(1)).default([]),
+    notableInstitutions: z.array(notableInstitutionSchema).default([]),
     categoryColors: z.record(z.string()).optional(),
-  }).default({ directions: [], displayLevels: [] }),
+  }).default({ directions: [], presentationTypes: [], displayLevels: [], notableInstitutions: [] }),
   papers: z.array(z.unknown()),
 });
 
 export type Paper = z.infer<typeof paperSchema>;
 export type DatasetSource = z.infer<typeof sourceSchema>;
+export type NotableInstitution = z.infer<typeof notableInstitutionSchema>;
 
 export interface Dataset {
   schemaVersion: 1;
@@ -77,7 +89,8 @@ export interface Dataset {
   };
   config: {
     directions: string[];
-    displayLevels: string[];
+    presentationTypes: string[];
+    notableInstitutions: NotableInstitution[];
     categoryColors?: Record<string, string>;
   };
   papers: Paper[];
@@ -102,7 +115,11 @@ function sanitizePaper(paper: Paper): Paper {
   const entries = Object.entries(paper.links ?? {})
     .map(([key, value]) => [key, validHttpUrl(value)] as const)
     .filter((entry): entry is readonly [string, string] => Boolean(entry[1]));
-  return { ...paper, links: entries.length ? Object.fromEntries(entries) : undefined };
+  return {
+    ...paper,
+    presentationType: paper.presentationType ?? paper.displayLevel,
+    links: entries.length ? Object.fromEntries(entries) : undefined,
+  };
 }
 
 export function parseDataset(input: unknown): ParsedDataset {
@@ -129,6 +146,12 @@ export function parseDataset(input: unknown): ParsedDataset {
     papers.push(sanitizePaper(parsed.data));
   });
 
+  const usesLegacyPresentationFields = root.data.config.displayLevels.length > 0
+    || papers.some((paper) => Boolean(paper.displayLevel));
+  if (usesLegacyPresentationFields) {
+    warnings.push("检测到旧版 displayLevel/displayLevels 字段；已兼容读取，建议迁移为 presentationType/presentationTypes。");
+  }
+
   const sources = root.data.library.sources
     ?.map((source) => ({ ...source, url: validHttpUrl(source.url) }))
     .filter((source) => source.label);
@@ -138,7 +161,14 @@ export function parseDataset(input: unknown): ParsedDataset {
       schemaVersion: 1,
       datasetId: root.data.datasetId,
       library: { ...root.data.library, sources },
-      config: root.data.config,
+      config: {
+        directions: root.data.config.directions,
+        presentationTypes: root.data.config.presentationTypes.length
+          ? root.data.config.presentationTypes
+          : root.data.config.displayLevels,
+        notableInstitutions: root.data.config.notableInstitutions,
+        categoryColors: root.data.config.categoryColors,
+      },
       papers,
     },
     warnings,
@@ -162,7 +192,7 @@ export type FacetKey =
   | "subdirections"
   | "years"
   | "venues"
-  | "displayLevels"
+  | "presentationTypes"
   | "contributionTypes"
   | "readingStatuses";
 
@@ -171,18 +201,19 @@ export interface Filters {
   subdirections: string[];
   years: string[];
   venues: string[];
-  displayLevels: string[];
+  presentationTypes: string[];
   contributionTypes: string[];
   readingStatuses: ReadingStatus[];
-  highlighted: boolean;
+  notableTeam: boolean;
   favorites: boolean;
+  hasCode: boolean;
 }
 
 export type SortKey =
   | "recommended"
   | "relevance"
-  | "displayLevel"
-  | "highlighted"
+  | "presentationType"
+  | "notableTeam"
   | "recentFavorite"
   | "title"
   | "year";
@@ -192,9 +223,10 @@ export const emptyFilters: Filters = {
   subdirections: [],
   years: [],
   venues: [],
-  displayLevels: [],
+  presentationTypes: [],
   contributionTypes: [],
   readingStatuses: [],
-  highlighted: false,
+  notableTeam: false,
   favorites: false,
+  hasCode: false,
 };

@@ -4,15 +4,28 @@ export function storageKey(datasetId: string): string {
   return `paper-aisle:${datasetId}:user-state:v1`;
 }
 
-export function loadUserState(datasetId: string): UserStateMap {
+function parseStoredState(value: string | null): UserStateMap | null {
+  if (!value) return null;
   try {
-    const value = localStorage.getItem(storageKey(datasetId));
-    if (!value) return {};
     const parsed = JSON.parse(value);
-    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : null;
   } catch {
-    return {};
+    return null;
   }
+}
+
+export function loadUserState(datasetId: string, legacyDatasetIds: string[] = []): UserStateMap {
+  const current = parseStoredState(localStorage.getItem(storageKey(datasetId)));
+  if (current) return current;
+
+  for (const legacyDatasetId of legacyDatasetIds) {
+    const legacy = parseStoredState(localStorage.getItem(storageKey(legacyDatasetId)));
+    if (legacy) {
+      localStorage.setItem(storageKey(datasetId), JSON.stringify(legacy));
+      return legacy;
+    }
+  }
+  return {};
 }
 
 export function saveUserState(datasetId: string, state: UserStateMap): void {

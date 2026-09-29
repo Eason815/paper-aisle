@@ -1,12 +1,15 @@
 import * as Dialog from "@radix-ui/react-dialog";
+import * as Select from "@radix-ui/react-select";
 import Fuse from "fuse.js";
 import {
   AlertTriangle,
   ArrowRight,
   BookOpen,
   Bookmark,
+  Building2,
   Check,
   ChevronDown,
+  Code2,
   Download,
   ExternalLink,
   GitCompare,
@@ -16,7 +19,6 @@ import {
   RotateCw,
   Search,
   SlidersHorizontal,
-  Sparkles,
   Tag,
   X,
 } from "lucide-react";
@@ -49,7 +51,9 @@ import {
   authorsOf,
   categoryColor,
   institutionsOf,
+  hasNotableTeam,
   matchesFilters,
+  notableInstitutionsOf,
   readingLabels,
   sortPapers,
   uniqueSorted,
@@ -67,12 +71,38 @@ const linkLabels: Record<string, string> = {
 const sortOptions: Array<{ value: SortKey; label: string }> = [
   { value: "recommended", label: "推荐排序" },
   { value: "relevance", label: "相关度" },
-  { value: "displayLevel", label: "展示等级" },
-  { value: "highlighted", label: "重点论文优先" },
+  { value: "presentationType", label: "展示形式" },
+  { value: "notableTeam", label: "大厂 / 顶校优先" },
   { value: "recentFavorite", label: "最近收藏" },
   { value: "title", label: "标题 A–Z" },
   { value: "year", label: "年份从新到旧" },
 ];
+
+function SortSelect({ value, onChange }: { value: SortKey; onChange: (value: SortKey) => void }) {
+  return (
+    <div className="sort-box">
+      <span>排序</span>
+      <Select.Root value={value} onValueChange={(next) => onChange(next as SortKey)}>
+        <Select.Trigger className="sort-trigger" aria-label="排序方式">
+          <Select.Value />
+          <Select.Icon><ChevronDown size={17} aria-hidden="true" /></Select.Icon>
+        </Select.Trigger>
+        <Select.Portal>
+          <Select.Content className="sort-content" position="popper" sideOffset={6} align="end">
+            <Select.Viewport>
+              {sortOptions.map((option) => (
+                <Select.Item className="sort-item" key={option.value} value={option.value}>
+                  <Select.ItemIndicator><Check size={15} aria-hidden="true" /></Select.ItemIndicator>
+                  <Select.ItemText>{option.label}</Select.ItemText>
+                </Select.Item>
+              ))}
+            </Select.Viewport>
+          </Select.Content>
+        </Select.Portal>
+      </Select.Root>
+    </div>
+  );
+}
 
 function usePaperData() {
   const [dataset, setDataset] = useState<Dataset | null>(null);
@@ -170,7 +200,7 @@ function CategoryStats({ papers, dataset }: { papers: Paper[]; dataset: Dataset 
 }
 
 type SidebarFacetDefinition = {
-  key: "directions" | "displayLevels" | "years" | "venues" | "readingStatuses";
+  key: "directions" | "presentationTypes" | "years" | "venues" | "readingStatuses";
   label: string;
   hint?: string;
   single?: boolean;
@@ -235,12 +265,12 @@ function FilterPanel({
       paperValues: (p) => p.direction ? [p.direction] : [],
     },
     {
-      key: "displayLevels",
-      label: "展示等级",
+      key: "presentationTypes",
+      label: "展示形式",
       single: true,
       defaultOpen: true,
-      options: dataset.config.displayLevels.length ? dataset.config.displayLevels : uniqueSorted(papers.map((p) => p.displayLevel)),
-      paperValues: (p) => p.displayLevel ? [p.displayLevel] : [],
+      options: dataset.config.presentationTypes.length ? dataset.config.presentationTypes : uniqueSorted(papers.map((p) => p.presentationType)),
+      paperValues: (p) => p.presentationType ? [p.presentationType] : [],
     },
     {
       key: "years",
@@ -262,7 +292,7 @@ function FilterPanel({
     },
   ];
 
-  const selectOne = (key: "directions" | "displayLevels", value?: string) => {
+  const selectOne = (key: "directions" | "presentationTypes", value?: string) => {
     const current = filters[key] as string[];
     const next = value && current[0] !== value ? [value] : [];
     onChange({ ...filters, [key]: next });
@@ -274,6 +304,13 @@ function FilterPanel({
     onChange({ ...filters, [key]: next });
   };
 
+  const specialCount = (key: "notableTeam" | "favorites" | "hasCode", predicate: (paper: Paper) => boolean) => searchable.filter((paper) =>
+    matchesFilters(paper, filters, userState, key, dataset.config.notableInstitutions) && predicate(paper),
+  ).length;
+  const notableTeamCount = specialCount("notableTeam", (paper) => hasNotableTeam(paper, dataset.config.notableInstitutions));
+  const favoriteCount = specialCount("favorites", (paper) => Boolean(userState[paper.id]?.favorite));
+  const codeCount = specialCount("hasCode", (paper) => Boolean(paper.links?.code));
+
   const renderFacet = (facet: SidebarFacetDefinition) => (
     <FilterSection key={facet.key} title={facet.label} hint={facet.hint} defaultOpen={facet.defaultOpen}>
       <div className={`facet-options ${facet.key === "directions" ? "direction-options" : ""}`}>
@@ -283,15 +320,15 @@ function FilterPanel({
               type="radio"
               name={`filter-${facet.key}`}
               checked={(filters[facet.key] as string[]).length === 0}
-              onChange={() => selectOne(facet.key as "directions" | "displayLevels")}
+              onChange={() => selectOne(facet.key as "directions" | "presentationTypes")}
             />
             <span>全部</span>
-            <b>{searchable.filter((paper) => matchesFilters(paper, filters, userState, facet.key)).length}</b>
+            <b>{searchable.filter((paper) => matchesFilters(paper, filters, userState, facet.key, dataset.config.notableInstitutions)).length}</b>
           </label>
         )}
         {facet.options.map((option) => {
           const count = searchable.filter((paper) =>
-            matchesFilters(paper, filters, userState, facet.key)
+            matchesFilters(paper, filters, userState, facet.key, dataset.config.notableInstitutions)
             && facet.paperValues(paper, userState).includes(option),
           ).length;
           const selected = (filters[facet.key] as string[]).includes(option);
@@ -303,7 +340,7 @@ function FilterPanel({
                 checked={selected}
                 disabled={count === 0 && !selected}
                 onChange={() => facet.single
-                  ? selectOne(facet.key as "directions" | "displayLevels", option)
+                  ? selectOne(facet.key as "directions" | "presentationTypes", option)
                   : toggleMany(facet.key as "years" | "venues" | "readingStatuses", option)}
               />
               <span>
@@ -325,20 +362,26 @@ function FilterPanel({
         {activeFilterCount(filters) > 0 && <button onClick={onReset}>清空</button>}
       </div>
       {facets.filter((facet) => facet.defaultOpen && facet.options.length).map(renderFacet)}
-      <FilterSection title="团队信号" defaultOpen>
-        <div className="team-signals">
+      <FilterSection title="关注信号" defaultOpen>
+        <div className="attention-signals">
         <div className="filter-specials">
           <label>
-            <input type="checkbox" checked={filters.highlighted} onChange={(event) => onChange({ ...filters, highlighted: event.target.checked })} />
-            <Sparkles size={16} />
-            <span>重点论文<small>人工标记的重点条目</small></span>
-            <b>{papers.filter((paper) => paper.highlighted).length}</b>
+            <input type="checkbox" checked={filters.notableTeam} disabled={notableTeamCount === 0 && !filters.notableTeam} onChange={(event) => onChange({ ...filters, notableTeam: event.target.checked })} />
+            <Building2 size={16} />
+            <span>大厂 / 顶校团队<small>按数据集机构名单匹配</small></span>
+            <b>{notableTeamCount}</b>
           </label>
           <label>
-            <input type="checkbox" checked={filters.favorites} onChange={(event) => onChange({ ...filters, favorites: event.target.checked })} />
+            <input type="checkbox" checked={filters.favorites} disabled={favoriteCount === 0 && !filters.favorites} onChange={(event) => onChange({ ...filters, favorites: event.target.checked })} />
             <Heart size={16} />
             <span>只看我的收藏<small>当前收藏 {papers.filter((paper) => userState[paper.id]?.favorite).length} 篇</small></span>
-            <b>{papers.filter((paper) => userState[paper.id]?.favorite).length}</b>
+            <b>{favoriteCount}</b>
+          </label>
+          <label>
+            <input type="checkbox" checked={filters.hasCode} disabled={codeCount === 0 && !filters.hasCode} onChange={(event) => onChange({ ...filters, hasCode: event.target.checked })} />
+            <Code2 size={16} />
+            <span>有公开代码<small>包含有效代码仓库链接</small></span>
+            <b>{codeCount}</b>
           </label>
         </div>
         </div>
@@ -355,7 +398,7 @@ function FilterChips({ filters, onChange, onReset }: { filters: Filters; onChang
     subdirections: "子方向",
     years: "年份",
     venues: "会议",
-    displayLevels: "等级",
+    presentationTypes: "展示",
     contributionTypes: "贡献",
     readingStatuses: "状态",
   };
@@ -366,13 +409,15 @@ function FilterChips({ filters, onChange, onReset }: { filters: Filters; onChang
       label: `${facetLabels[key]}：${key === "readingStatuses" ? readingLabels[value as ReadingStatus] : value}`,
     }));
   });
-  if (filters.highlighted) chips.push({ key: "directions", value: "__highlighted", label: "重点论文" });
+  if (filters.notableTeam) chips.push({ key: "directions", value: "__notableTeam", label: "大厂 / 顶校团队" });
   if (filters.favorites) chips.push({ key: "directions", value: "__favorites", label: "我的收藏" });
+  if (filters.hasCode) chips.push({ key: "directions", value: "__hasCode", label: "有公开代码" });
   if (!chips.length) return null;
 
   const remove = (chip: typeof chips[number]) => {
-    if (chip.value === "__highlighted") return onChange({ ...filters, highlighted: false });
+    if (chip.value === "__notableTeam") return onChange({ ...filters, notableTeam: false });
     if (chip.value === "__favorites") return onChange({ ...filters, favorites: false });
+    if (chip.value === "__hasCode") return onChange({ ...filters, hasCode: false });
     onChange({ ...filters, [chip.key]: (filters[chip.key] as string[]).filter((item) => item !== chip.value) });
   };
 
@@ -421,13 +466,15 @@ function PaperCard({
   const authors = paper.authors ?? [];
   const institutions = institutionsOf(paper);
   const color = categoryColor(paper.direction ?? "未分类", dataset.config.categoryColors);
+  const readingStatus = state.readingStatus ?? "unread";
+  const notableInstitutions = notableInstitutionsOf(paper, dataset.config.notableInstitutions);
   return (
     <article className="paper-card" style={{ "--category": color } as CSSProperties}>
       <div className="card-stripe" aria-hidden="true" />
       <div className="card-content">
         <div className="paper-tags">
-          {paper.displayLevel && <span className="level-tag">{paper.displayLevel}</span>}
-          {paper.highlighted && <span className="focus-tag"><Sparkles size={13} />重点</span>}
+          {paper.presentationType && <span className="level-tag">{paper.presentationType}</span>}
+          {notableInstitutions.length > 0 && <span className="focus-tag" title={notableInstitutions.map((item) => item.name).join("、")}><Building2 size={13} />大厂 / 顶校</span>}
           {paper.direction && <span className="category-tag">{paper.direction}</span>}
         </div>
         <button className="paper-title" onClick={onOpen}><h2>{paper.title}</h2></button>
@@ -443,8 +490,8 @@ function PaperCard({
       <div className="ticket-edge" aria-hidden="true" />
       <div className="card-actions">
         <button className="button dark card-open" onClick={onOpen}>快速查看<ArrowRight size={17} /></button>
-        <button className="icon-button" aria-label={`将 ${paper.title} 标记为${readingLabels[state.readingStatus === "unread" || !state.readingStatus ? "reading" : state.readingStatus === "reading" ? "read" : "unread"]}`} onClick={onStatus}>
-          <BookOpen size={17} /><span>{readingLabels[state.readingStatus ?? "unread"]}</span>
+        <button className={`icon-button status-button status-${readingStatus}`} aria-label={`将 ${paper.title} 标记为${readingLabels[readingStatus === "unread" ? "reading" : readingStatus === "reading" ? "read" : "unread"]}`} onClick={onStatus}>
+          <BookOpen size={17} /><span>{readingLabels[readingStatus]}</span>
         </button>
         <button className={`icon-button ${state.favorite ? "active favorite" : ""}`} aria-label={state.favorite ? `取消收藏 ${paper.title}` : `收藏 ${paper.title}`} aria-pressed={Boolean(state.favorite)} onClick={onFavorite}>
           <Heart size={17} fill={state.favorite ? "currentColor" : "none"} /><span>收藏</span>
@@ -515,6 +562,7 @@ function DetailDrawer({
   const [tagInput, setTagInput] = useState("");
   if (!paper) return null;
   const color = categoryColor(paper.direction ?? "未分类", dataset.config.categoryColors);
+  const notableInstitutions = notableInstitutionsOf(paper, dataset.config.notableInstitutions);
   const contentSections = [
     ["研究问题", paper.researchQuestion],
     ["方法", paper.method],
@@ -535,12 +583,12 @@ function DetailDrawer({
       <div className="drawer-body" style={{ "--category": color } as CSSProperties}>
         <div className="drawer-ticket">
           <span>{paper.id}</span>
-          {paper.displayLevel && <b>{paper.displayLevel}</b>}
+          {paper.presentationType && <b>{paper.presentationType}</b>}
         </div>
         <div className="paper-tags">
           {paper.direction && <span className="category-tag">{paper.direction}</span>}
           {paper.subdirection && <span>{paper.subdirection}</span>}
-          {paper.highlighted && <span className="focus-tag"><Sparkles size={13} />重点</span>}
+          {notableInstitutions.length > 0 && <span className="focus-tag" title={notableInstitutions.map((item) => item.name).join("、")}><Building2 size={13} />大厂 / 顶校</span>}
         </div>
         <h2 className="drawer-title">{paper.title}</h2>
         {paper.authors?.length && (
@@ -711,7 +759,8 @@ function App() {
 
   useEffect(() => {
     if (!dataset) return;
-    setUserState(loadUserState(dataset.datasetId));
+    const legacyDatasetIds = dataset.datasetId === "paper-aisle-main-v1" ? ["paper-aisle-demo-v1"] : [];
+    setUserState(loadUserState(dataset.datasetId, legacyDatasetIds));
     setStateReady(true);
   }, [dataset]);
 
@@ -785,8 +834,21 @@ function App() {
   const searchablePapers = useMemo(() => query.trim() ? searchResults.map((result) => result.item) : papers, [papers, query, searchResults]);
   const relevance = useMemo(() => new Map(searchResults.map((result) => [result.item.id, result.score ?? 1])), [searchResults]);
   const effectiveSort = sort === "relevance" && !query.trim() ? "recommended" : sort;
-  const filteredPapers = useMemo(() => searchablePapers.filter((paper) => matchesFilters(paper, filters, userState)), [searchablePapers, filters, userState]);
-  const sortedPapers = useMemo(() => sortPapers(filteredPapers, effectiveSort, dataset?.config.displayLevels ?? [], userState, relevance), [filteredPapers, effectiveSort, dataset, userState, relevance]);
+  const filteredPapers = useMemo(() => searchablePapers.filter((paper) => matchesFilters(
+    paper,
+    filters,
+    userState,
+    undefined,
+    dataset?.config.notableInstitutions ?? [],
+  )), [searchablePapers, filters, userState, dataset]);
+  const sortedPapers = useMemo(() => sortPapers(
+    filteredPapers,
+    effectiveSort,
+    dataset?.config.presentationTypes ?? [],
+    userState,
+    relevance,
+    dataset?.config.notableInstitutions ?? [],
+  ), [filteredPapers, effectiveSort, dataset, userState, relevance]);
   const visiblePapers = sortedPapers.slice(0, visibleCount);
   const favoritePapers = useMemo(() => papers.filter((paper) => userState[paper.id]?.favorite).sort((a, b) => (userState[b.id]?.favoritedAt ?? 0) - (userState[a.id]?.favoritedAt ?? 0)), [papers, userState]);
   const comparePapers = compareIds.map((id) => papers.find((paper) => paper.id === id)).filter((paper): paper is Paper => Boolean(paper));
@@ -889,7 +951,7 @@ function App() {
         <section className="toolbar" aria-label="搜索和排序">
           <label className="search-box"><Search size={22} /><span className="sr-only">搜索论文</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索标题、作者、机构、会议、年份、方向或速读内容…" /></label>
           <button className="mobile-filter-button" onClick={() => setFilterOpen(true)}><SlidersHorizontal size={18} />筛选{activeFilterCount(filters) > 0 && <b>{activeFilterCount(filters)}</b>}</button>
-          <label className="sort-box"><span>排序</span><select value={sort} onChange={(event) => setSort(event.target.value as SortKey)}>{sortOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label>
+          <SortSelect value={sort} onChange={setSort} />
         </section>
         {sort === "relevance" && !query.trim() && <p className="sort-hint">输入搜索词后按相关度排序；当前使用推荐顺序。</p>}
         <FilterChips filters={filters} onChange={setFilters} onReset={() => setFilters(emptyFilters)} />

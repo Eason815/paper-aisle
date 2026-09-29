@@ -1,17 +1,43 @@
 {
   "schemaVersion": 1,
-  "datasetId": "paper-aisle-demo-v1",
+  "datasetId": "paper-aisle-main-v1",
   "library": {
-    "name": "Paper Aisle 演示论文库",
-    "description": "围绕 Agent、强化学习与大语言模型的个人研究货架，用于展示检索、筛选、收藏、对比与速读能力。替换此 JSON 后，页面会随数据自动更新。",
-    "updatedAt": "2026-09-28",
+    "name": "Paper Aisle 论文库",
+    "description": "围绕 Agent、强化学习与大语言模型整理的个人论文调研库，支持检索、筛选、收藏、对比与速读。",
+    "updatedAt": "2026-09-29",
     "sources": [
       { "label": "arXiv 开放论文页面", "url": "https://arxiv.org/" }
     ]
   },
   "config": {
     "directions": ["Agent", "RL", "LLM"],
-    "displayLevels": ["里程碑", "精选", "延伸阅读"],
+    "presentationTypes": ["Oral", "Spotlight", "Highlight", "Poster"],
+    "notableInstitutions": [
+      { "name": "OpenAI", "type": "company", "aliases": [] },
+      { "name": "Google", "type": "company", "aliases": ["Google Brain", "Google Research", "Google DeepMind", "DeepMind", "Google AI Language"] },
+      { "name": "Meta", "type": "company", "aliases": ["Meta AI", "Meta AI Research", "Facebook AI Research", "FAIR"] },
+      { "name": "Microsoft", "type": "company", "aliases": ["Microsoft Research"] },
+      { "name": "NVIDIA", "type": "company", "aliases": ["NVIDIA Research"] },
+      { "name": "Anthropic", "type": "company", "aliases": [] },
+      { "name": "Apple", "type": "company", "aliases": ["Apple Machine Learning Research"] },
+      { "name": "Amazon", "type": "company", "aliases": ["Amazon Web Services", "AWS AI Labs"] },
+      { "name": "Alibaba", "type": "company", "aliases": ["Alibaba Group", "DAMO Academy"] },
+      { "name": "Tencent", "type": "company", "aliases": ["Tencent AI Lab"] },
+      { "name": "ByteDance", "type": "company", "aliases": ["ByteDance Research"] },
+      { "name": "Baidu", "type": "company", "aliases": ["Baidu Research"] },
+      { "name": "Stanford University", "type": "university", "aliases": ["Stanford"] },
+      { "name": "Massachusetts Institute of Technology", "type": "university", "aliases": ["MIT", "MIT CSAIL"] },
+      { "name": "Carnegie Mellon University", "type": "university", "aliases": ["CMU"] },
+      { "name": "UC Berkeley", "type": "university", "aliases": ["University of California, Berkeley"] },
+      { "name": "Tsinghua University", "type": "university", "aliases": ["Tsinghua"] },
+      { "name": "Peking University", "type": "university", "aliases": ["PKU"] },
+      { "name": "University of Toronto", "type": "university", "aliases": [] },
+      { "name": "ETH Zürich", "type": "university", "aliases": ["ETH Zurich"] },
+      { "name": "University of Oxford", "type": "university", "aliases": ["Oxford University"] },
+      { "name": "University of Cambridge", "type": "university", "aliases": ["Cambridge University"] },
+      { "name": "University of Illinois Urbana-Champaign", "type": "university", "aliases": ["University of Illinois at Urbana-Champaign", "UIUC"] },
+      { "name": "University of Washington", "type": "university", "aliases": [] }
+    ],
     "categoryColors": {
       "Agent": "oklch(84% 0.12 160)",
       "RL": "oklch(83% 0.14 25)",
@@ -36,9 +62,7 @@
       "year": 2017,
       "direction": "LLM",
       "subdirection": "序列建模",
-      "displayLevel": "里程碑",
       "contributionTypes": ["模型架构", "效率改进"],
-      "highlighted": true,
       "recommendationScore": 100,
       "quickRead": {
         "problem": "循环网络让长序列训练难以充分并行，远距离依赖也不易建模。",
@@ -69,9 +93,7 @@
       "year": 2019,
       "direction": "LLM",
       "subdirection": "预训练语言模型",
-      "displayLevel": "里程碑",
       "contributionTypes": ["预训练方法", "模型架构"],
-      "highlighted": true,
       "recommendationScore": 97,
       "quickRead": {
         "problem": "早期语言模型通常只从单一方向读取上下文，难以形成真正的双向表示。",
@@ -102,9 +124,8 @@
       "year": 2016,
       "direction": "Agent",
       "subdirection": "图像识别",
-      "displayLevel": "里程碑",
+      "presentationType": "Oral",
       "contributionTypes": ["模型架构", "优化方法"],
-      "highlighted": true,
       "recommendationScore": 96,
       "quickRead": {
         "problem": "网络越深越难优化，简单堆叠层数甚至会导致训练误差上升。",
@@ -137,9 +158,8 @@
       "year": 2020,
       "direction": "Agent",
       "subdirection": "三维视觉",
-      "displayLevel": "里程碑",
+      "presentationType": "Oral",
       "contributionTypes": ["场景表示", "渲染方法"],
-      "highlighted": true,
       "recommendationScore": 95,
       "quickRead": {
         "problem": "从有限照片合成连续新视角时，传统三维表示难以兼顾细节和真实感。",
@@ -172,9 +192,7 @@
       "year": 2017,
       "direction": "RL",
       "subdirection": "策略优化",
-      "displayLevel": "里程碑",
       "contributionTypes": ["优化算法", "强化学习"],
-      "highlighted": true,
       "recommendationScore": 94,
       "quickRead": {
         "problem": "策略梯度方法需要在更新幅度、训练稳定性和实现复杂度之间取舍。",
@@ -207,9 +225,8 @@
       "year": 2023,
       "direction": "Agent",
       "subdirection": "图像分割",
-      "displayLevel": "精选",
+      "presentationType": "Oral",
       "contributionTypes": ["基础模型", "数据集"],
-      "highlighted": true,
       "recommendationScore": 91,
       "quickRead": {
         "problem": "传统分割模型通常针对固定任务训练，换领域时需要重新标注和适配。",
@@ -243,9 +260,7 @@
       "year": 2021,
       "direction": "LLM",
       "subdirection": "视觉语言预训练",
-      "displayLevel": "里程碑",
       "contributionTypes": ["预训练方法", "对比学习"],
-      "highlighted": true,
       "recommendationScore": 93,
       "quickRead": {
         "problem": "依赖固定类别标注的视觉模型难以直接迁移到开放词汇任务。",
@@ -277,9 +292,7 @@
       "year": 2022,
       "direction": "LLM",
       "subdirection": "参数高效微调",
-      "displayLevel": "精选",
       "contributionTypes": ["效率改进", "微调方法"],
-      "highlighted": true,
       "recommendationScore": 92,
       "quickRead": {
         "problem": "为每个任务完整微调并保存大型模型，训练和存储成本都很高。",
@@ -312,9 +325,7 @@
       "year": 2024,
       "direction": "Agent",
       "subdirection": "自监督学习",
-      "displayLevel": "精选",
       "contributionTypes": ["预训练方法", "数据处理"],
-      "highlighted": false,
       "recommendationScore": 88,
       "quickRead": {
         "problem": "自监督视觉特征往往依赖复杂任务专用流程，跨任务泛化仍不稳定。",
@@ -347,9 +358,7 @@
       "year": 2022,
       "direction": "LLM",
       "subdirection": "高效注意力",
-      "displayLevel": "精选",
       "contributionTypes": ["系统优化", "效率改进"],
-      "highlighted": true,
       "recommendationScore": 90,
       "quickRead": {
         "problem": "标准注意力频繁读写 GPU 高带宽内存，长序列训练既慢又占显存。",
@@ -382,9 +391,7 @@
       "year": 2020,
       "direction": "LLM",
       "subdirection": "检索增强生成",
-      "displayLevel": "精选",
       "contributionTypes": ["系统架构", "知识增强"],
-      "highlighted": false,
       "recommendationScore": 89,
       "quickRead": {
         "problem": "参数化语言模型难以及时更新知识，也不容易说明生成事实来自哪里。",
@@ -415,9 +422,7 @@
       "year": 2018,
       "direction": "RL",
       "subdirection": "离策略强化学习",
-      "displayLevel": "精选",
       "contributionTypes": ["强化学习", "连续控制"],
-      "highlighted": false,
       "recommendationScore": 89,
       "quickRead": {
         "problem": "连续控制中的深度强化学习往往样本消耗大、训练不稳定且对超参数敏感。",

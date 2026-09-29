@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { bibtexFor, markdownFor } from "../src/export";
-import { patchPaperState, storageKey } from "../src/storage";
+import { loadUserState, patchPaperState, storageKey } from "../src/storage";
 import { emptyFilters, parseDataset, type Paper } from "../src/types";
-import { categoryColor, matchesFilters, sortPapers } from "../src/utils";
+import { categoryColor, hasNotableTeam, matchesFilters, sortPapers } from "../src/utils";
 
 const paperA: Paper = {
   id: "a",
@@ -10,7 +10,7 @@ const paperA: Paper = {
   year: 2020,
   direction: "视觉",
   venue: "A",
-  displayLevel: "精选",
+  presentationType: "Poster",
   contributionTypes: ["方法", "系统"],
   recommendationScore: 2,
   authors: [{ name: "Ada Lovelace", affiliations: ["Lab A"] }],
@@ -21,8 +21,7 @@ const paperB: Paper = {
   year: 2024,
   direction: "语言",
   venue: "B",
-  displayLevel: "里程碑",
-  highlighted: true,
+  presentationType: "Oral",
   recommendationScore: 8,
 };
 
@@ -32,7 +31,7 @@ describe("dataset parsing", () => {
       schemaVersion: 1,
       datasetId: "demo",
       library: { name: "Demo" },
-      config: { displayLevels: [] },
+      config: { presentationTypes: [] },
       papers: [
         { id: "a", title: "Paper", links: { official: "javascript:alert(1)", pdf: "https://example.com/a.pdf" } },
         { id: "a", title: "Duplicate" },
@@ -47,6 +46,19 @@ describe("dataset parsing", () => {
   it("rejects invalid root data", () => {
     expect(() => parseDataset({ papers: [] })).toThrow();
   });
+
+  it("maps legacy display level fields to presentation types with a warning", () => {
+    const result = parseDataset({
+      schemaVersion: 1,
+      datasetId: "legacy",
+      library: { name: "Legacy" },
+      config: { displayLevels: ["Oral"] },
+      papers: [{ id: "a", title: "Paper", displayLevel: "Oral" }],
+    });
+    expect(result.dataset.config.presentationTypes).toEqual(["Oral"]);
+    expect(result.dataset.papers[0].presentationType).toBe("Oral");
+    expect(result.warnings.some((warning) => warning.includes("旧版"))).toBe(true);
+  });
 });
 
 describe("filtering and sorting", () => {
@@ -56,9 +68,9 @@ describe("filtering and sorting", () => {
     expect(matchesFilters(paperB, filters, {})).toBe(true);
   });
 
-  it("sorts recommendation and configured display level deterministically", () => {
-    expect(sortPapers([paperA, paperB], "recommended", ["里程碑", "精选"], {}, new Map())[0].id).toBe("b");
-    expect(sortPapers([paperA, paperB], "displayLevel", ["里程碑", "精选"], {}, new Map())[0].id).toBe("b");
+  it("sorts recommendation and configured presentation type deterministically", () => {
+    expect(sortPapers([paperA, paperB], "recommended", ["Oral", "Poster"], {}, new Map())[0].id).toBe("b");
+    expect(sortPapers([paperA, paperB], "presentationType", ["Oral", "Poster"], {}, new Map())[0].id).toBe("b");
   });
 });
 
@@ -67,6 +79,13 @@ describe("local state and export", () => {
     expect(storageKey("one")).toBe("paper-aisle:one:user-state:v1");
     expect(storageKey("two")).not.toBe(storageKey("one"));
     expect(patchPaperState({}, "a", { readingStatus: "read" }).a.readingStatus).toBe("read");
+  });
+
+  it("migrates personal state from a legacy dataset id without deleting the source", () => {
+    localStorage.setItem(storageKey("legacy"), JSON.stringify({ a: { favorite: true } }));
+    expect(loadUserState("official", ["legacy"]).a.favorite).toBe(true);
+    expect(localStorage.getItem(storageKey("legacy"))).not.toBeNull();
+    expect(localStorage.getItem(storageKey("official"))).not.toBeNull();
   });
 
   it("includes status, tags, and notes in both export formats", () => {
@@ -87,3 +106,10 @@ describe("stable colors", () => {
   });
 });
 
+describe("institution signals", () => {
+  it("matches configured institution aliases", () => {
+    const paper = { ...paperA, authors: [{ name: "Ada", affiliations: ["Google Brain"] }] };
+    expect(hasNotableTeam(paper, [{ name: "Google", type: "company", aliases: ["Google Brain"] }])).toBe(true);
+    expect(hasNotableTeam(paper, [{ name: "OpenAI", type: "company", aliases: [] }])).toBe(false);
+  });
+});

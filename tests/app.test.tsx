@@ -8,18 +8,19 @@ function dataset(count = 2) {
     schemaVersion: 1,
     datasetId: "test-data",
     library: { name: "测试论文库", sources: [] },
-    config: { directions: [] as string[], displayLevels: ["里程碑", "精选"] },
+    config: { directions: [] as string[], presentationTypes: ["Oral", "Poster"], notableInstitutions: [] },
     papers: Array.from({ length: count }, (_, index) => ({
       id: `paper-${index}`,
       title: index === 0 ? "扩散模型论文" : `论文 ${index}`,
       year: 2024 - (index % 4),
       direction: index % 2 ? "语言" : "视觉",
-      displayLevel: index % 2 ? "精选" : "里程碑",
+      presentationType: index % 2 ? "Poster" : "Oral",
       recommendationScore: count - index,
       quickRead: { problem: "问题", finding: "发现", approach: "做法" },
       researchQuestion: "完整研究问题",
       method: "完整方法",
       findings: "完整发现",
+      links: undefined as { code: string } | undefined,
     })),
   };
 }
@@ -91,6 +92,33 @@ describe("Paper Aisle app", () => {
     expect(container.querySelectorAll(".paper-card")).toHaveLength(1);
     expect(screen.getByRole("checkbox", { name: /2024 1/ })).toBeChecked();
     expect(screen.getByRole("button", { name: "年份：2024" })).toBeInTheDocument();
+  });
+
+  it("shows and cycles the reading status directly on a paper card", async () => {
+    mockFetch(dataset(1));
+    const user = userEvent.setup();
+    render(<App />);
+    await screen.findByRole("heading", { name: "测试论文库" });
+
+    const unread = screen.getByRole("button", { name: /标记为在读/ });
+    expect(unread).toHaveTextContent("未读");
+    await user.click(unread);
+    expect(screen.getByRole("button", { name: /标记为已读/ })).toHaveTextContent("在读");
+    await user.click(screen.getByRole("button", { name: /标记为已读/ }));
+    expect(screen.getByRole("button", { name: /标记为未读/ })).toHaveTextContent("已读");
+  });
+
+  it("filters papers with a valid public code link", async () => {
+    const data = dataset(3);
+    data.papers[0].links = { code: "https://example.com/code" };
+    mockFetch(data);
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+    await screen.findByRole("heading", { name: "测试论文库" });
+
+    await user.click(screen.getByRole("checkbox", { name: /有公开代码/ }));
+    expect(container.querySelectorAll(".paper-card")).toHaveLength(1);
+    expect(screen.getByRole("button", { name: "有公开代码" })).toBeInTheDocument();
   });
 
   it("shows a retry action when JSON loading fails", async () => {
