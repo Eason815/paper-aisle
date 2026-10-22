@@ -73,12 +73,13 @@ main { width: min(1900px, 100%); margin: auto; }
 .search-box input::placeholder { color: #75817e; }
 .sort-box { min-width: 15rem; min-height: 56px; display: flex; align-items: center; gap: .7rem; padding: 0 .85rem; background: var(--paper); border: 1px solid var(--line); }
 .sort-box > span { font-size: .72rem; font-weight: 800; letter-spacing: .08em; color: var(--ink-soft); }
-.sort-trigger { min-width: 10.5rem; min-height: 42px; display: inline-flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .45rem .55rem; border: 0; background: transparent; color: var(--ink); font-weight: 800; text-align: left; }
+.sort-trigger { min-width: 10.5rem; min-height: 42px; display: inline-flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .45rem .55rem; border: 0; background: transparent; color: var(--ink); font-weight: 800; text-align: left; white-space: nowrap; }
 .sort-trigger:hover { background: var(--paper-warm); }
 .sort-trigger[data-state="open"] svg { transform: rotate(180deg); }
 .sort-trigger svg { transition: transform .18s ease; }
-.sort-content { z-index: 150; min-width: var(--radix-select-trigger-width); overflow: hidden; padding: .35rem; background: var(--paper); border: 1px solid var(--line-dark); box-shadow: 5px 5px 0 rgba(8, 46, 50, .24); }
-.sort-item { min-height: 40px; display: grid; grid-template-columns: 20px 1fr; align-items: center; gap: .4rem; padding: .45rem .65rem; color: var(--ink); font-size: .86rem; font-weight: 700; outline: 0; cursor: pointer; }
+.sort-content { z-index: 150; min-width: var(--radix-select-trigger-width); max-width: calc(100vw - 1rem); overflow: hidden; padding: .35rem; background: var(--paper); border: 1px solid var(--line-dark); box-shadow: 5px 5px 0 rgba(8, 46, 50, .24); }
+.sort-item { position: relative; min-height: 40px; display: flex; align-items: center; padding: .45rem .65rem .45rem 2rem; color: var(--ink); font-size: .86rem; font-weight: 700; line-height: 1.35; white-space: nowrap; outline: 0; cursor: pointer; }
+.sort-item > span:first-child { position: absolute; left: .55rem; display: inline-flex; align-items: center; }
 .sort-item[data-highlighted] { color: var(--paper); background: var(--ink); }
 .sort-item[data-state="checked"] { background: var(--mint); color: var(--ink); }
 .sort-item[data-highlighted][data-state="checked"] { background: var(--ink); color: var(--paper); }
