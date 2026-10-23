@@ -1,0 +1,72 @@
+{
+  "acl-2026.acl-long.1": {
+    "headline": "把不同工具组织起来，让 Agent 完成跨领域的复杂任务。",
+    "kind": "method",
+    "diagram": {
+      "layout": "flow",
+      "title": "工具卡、规划器与执行器，各自做什么？",
+      "caption": "AI 概念示意，基于官方摘要组织角色分工；不是原论文算法图，也不表示精确执行时序。",
+      "nodes": [
+        {"id":"cards","title":"工具卡","description":"把每个工具的功能写成统一描述，便于系统理解有哪些可用能力。摘要强调工具可扩展，不要求为了接入工具额外训练模型。"},
+        {"id":"planner","title":"规划器","description":"同时考虑任务层面与具体调用层面的计划，协调不同工具来处理多步骤推理；具体如何选择和调整计划，需要进一步阅读方法章节。"},
+        {"id":"executor","title":"执行器","description":"负责实际使用工具，让计划转化为操作。作者在多类任务上测试这套框架；摘要不提供足够信息来核查各对照的调用预算。"}
+      ]
+    }
+  },
+  "acl-2026.acl-long.27": {
+    "headline": "过去的经验未必总有用：记忆也可能让 Agent 反复犯错。",
+    "kind": "analysis",
+    "diagram": {
+      "layout": "study",
+      "title": "怎样观察“记忆帮了忙，还是带偏了”？",
+      "caption": "AI 概念示意，基于摘要概括研究变量与观察现象；不是新提出的 Agent 算法流程。",
+      "nodes": [
+        {"id":"control","title":"改变记忆增删","description":"研究者系统改变记忆添加和删除方式，观察存储的执行经验怎样影响 Agent 后续表现。这是一项行为分析，不是把更多记忆当作必然改进。"},
+        {"id":"behavior","title":"观察经验沿用","description":"论文报告：当新任务输入与检索到的旧经验相似时，Agent 的输出也容易相似。相似经验可能帮助处理任务，也可能把旧错误带入新任务。"},
+        {"id":"risk","title":"识别传播与误导","description":"摘要指出错误传播和不匹配的经验重放：一些看似成功的记录也可能没有帮助甚至产生误导。结论适用的具体任务和模型仍需查看实验。"}
+      ]
+    }
+  },
+  "iclr-2026-002a6bef26174b590e4eab95b63feb1b": {
+    "headline": "界面任务变长后，Agent 怎样发现操作失误并继续完成任务？",
+    "kind": "method"
+  },
+  "iclr-2026-f9155a06ba1b20e40c38bf8541db456f": {
+    "headline": "让 Agent 主动整理对话历史，减少无关上下文的干扰。",
+    "kind": "method"
+  },
+  "iclr-2026-df20e06b04dfc499a1a698796abb0856": {
+    "headline": "规划失败以后，用成功和失败经验修正原本记错的知识。",
+    "kind": "method"
+  },
+  "openreview-ORVJCJczoG": {
+    "headline": "用户说不清、工具反馈不完美时，Agent 还可靠吗？",
+    "kind": "benchmark"
+  },
+  "openreview-YX4rgoI8pB": {
+    "headline": "并非每一步思考和观察都要保留：学习何时省略冗余内容。",
+    "kind": "method"
+  },
+  "openreview-Iee7eL6QV0": {
+    "headline": "会完成任务还不够：Agent 也要知道什么时候应该停手。",
+    "kind": "benchmark",
+    "diagram": {
+      "layout": "paired",
+      "title": "同类任务，两种正确的行动选择",
+      "caption": "AI 概念示意，基于摘要解释成对评测；下列是任务结构，不是论文的具体实验样本。",
+      "nodes": [
+        {"id":"pair","title":"构造一对任务","description":"以相似任务为基础，控制改变指令、工具或环境状态，分别形成“应执行”和“应停止”的条件；这样可以一起检查行动与克制能力。"},
+        {"id":"act","title":"条件允许 → 执行","description":"在应该行动的一侧，Agent 需要完成任务。只会拒绝并不能在成对评测中得到完整的正确结果。"},
+        {"id":"abstain","title":"出现停止条件 → 停止","description":"在出现歧义、冲突或其他停止条件的一侧，需要及时避免行动。作者特别报告“先执行不可逆操作、之后才拒绝”的失败方式。"}
+      ]
+    }
+  },
+  "openreview-yPSKli19Mm": {
+    "headline": "没有现成判对器，怎样从真实工具交互轨迹中训练 Agent？",
+    "kind": "method"
+  },
+  "openreview-P9qqypDzuC": {
+    "headline": "多个 Agent 合作时，重要约束可能在传话和信息汇合中丢失。",
+    "kind": "benchmark"
+  }
+}

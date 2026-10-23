@@ -25,6 +25,40 @@ const notableInstitutionSchema = z.object({
   aliases: z.array(z.string().trim().min(1)).default([]),
 });
 
+const readingGuideSchema = z.object({
+  headline: z.string().trim().min(1),
+  kind: z.enum(["method", "analysis", "benchmark"]),
+  sourceLevel: z.enum(["abstract", "fulltext"]),
+  diagram: z.object({
+    layout: z.enum(["flow", "study", "paired"]),
+    title: z.string().trim().min(1),
+    caption: z.string().trim().min(1),
+    nodes: z.array(z.object({
+      id: z.string().trim().min(1),
+      title: z.string().trim().min(1),
+      description: z.string().trim().min(1),
+    })).min(2).max(6),
+  }).optional(),
+  sources: z.array(z.object({
+    label: z.string().trim().min(1),
+    url: z.string().url(),
+    locator: z.string().trim().min(1),
+  })).min(1),
+});
+
+const collectionSchema = z.object({
+  id: z.string().trim().min(1),
+  name: z.string().trim().min(1),
+  description: z.string().optional(),
+  paperIds: z.array(z.string().trim().min(1)),
+});
+
+const questionSchema = z.object({
+  id: z.string().trim().min(1),
+  name: z.string().trim().min(1),
+  question: z.string().trim().min(1),
+});
+
 export const paperSchema = z.object({
   id: z.string().trim().min(1),
   title: z.string().trim().min(1),
@@ -33,6 +67,9 @@ export const paperSchema = z.object({
   year: z.number().int().min(1000).max(9999).optional(),
   direction: z.string().trim().min(1).optional(),
   subdirection: z.string().trim().min(1).optional(),
+  questionId: z.string().trim().min(1).optional(),
+  scenarios: z.array(z.string().trim().min(1)).optional(),
+  readingGuide: readingGuideSchema.optional(),
   presentationType: z.string().trim().min(1).optional(),
   /** @deprecated Use presentationType. Kept for v1 dataset compatibility. */
   displayLevel: z.string().trim().min(1).optional(),
@@ -70,13 +107,19 @@ const rootSchema = z.object({
     displayLevels: z.array(z.string().trim().min(1)).default([]),
     notableInstitutions: z.array(notableInstitutionSchema).default([]),
     categoryColors: z.record(z.string()).optional(),
+    defaultCollectionId: z.string().trim().min(1).optional(),
   }).default({ directions: [], presentationTypes: [], displayLevels: [], notableInstitutions: [] }),
+  collections: z.array(collectionSchema).default([]),
+  questionCatalog: z.array(questionSchema).default([]),
   papers: z.array(z.unknown()),
 });
 
 export type Paper = z.infer<typeof paperSchema>;
 export type DatasetSource = z.infer<typeof sourceSchema>;
 export type NotableInstitution = z.infer<typeof notableInstitutionSchema>;
+export type PaperCollection = z.infer<typeof collectionSchema>;
+export type ResearchQuestion = z.infer<typeof questionSchema>;
+export type ReadingGuide = z.infer<typeof readingGuideSchema>;
 
 export interface Dataset {
   schemaVersion: 1;
@@ -92,7 +135,10 @@ export interface Dataset {
     presentationTypes: string[];
     notableInstitutions: NotableInstitution[];
     categoryColors?: Record<string, string>;
+    defaultCollectionId?: string;
   };
+  collections: PaperCollection[];
+  questionCatalog: ResearchQuestion[];
   papers: Paper[];
 }
 
@@ -112,6 +158,7 @@ function validHttpUrl(value?: string): string | undefined {
 }
 
 function sanitizePaper(paper: Paper): Paper {
+  const guideSources = paper.readingGuide?.sources.filter((source) => validHttpUrl(source.url));
   const entries = Object.entries(paper.links ?? {})
     .map(([key, value]) => [key, validHttpUrl(value)] as const)
     .filter((entry): entry is readonly [string, string] => Boolean(entry[1]));
@@ -119,6 +166,10 @@ function sanitizePaper(paper: Paper): Paper {
     ...paper,
     presentationType: paper.presentationType ?? paper.displayLevel,
     links: entries.length ? Object.fromEntries(entries) : undefined,
+    readingGuide: paper.readingGuide && guideSources?.length ? {
+      ...paper.readingGuide,
+      sources: guideSources,
+    } : undefined,
   };
 }
 
@@ -168,7 +219,10 @@ export function parseDataset(input: unknown): ParsedDataset {
           : root.data.config.displayLevels,
         notableInstitutions: root.data.config.notableInstitutions,
         categoryColors: root.data.config.categoryColors,
+        defaultCollectionId: root.data.config.defaultCollectionId,
       },
+      collections: root.data.collections,
+      questionCatalog: root.data.questionCatalog,
       papers,
     },
     warnings,
@@ -188,6 +242,7 @@ export interface PaperUserState {
 export type UserStateMap = Record<string, PaperUserState>;
 
 export type FacetKey =
+  | "questions"
   | "directions"
   | "subdirections"
   | "years"
@@ -197,6 +252,7 @@ export type FacetKey =
   | "readingStatuses";
 
 export interface Filters {
+  questions: string[];
   directions: string[];
   subdirections: string[];
   years: string[];
@@ -219,6 +275,7 @@ export type SortKey =
   | "year";
 
 export const emptyFilters: Filters = {
+  questions: [],
   directions: [],
   subdirections: [],
   years: [],

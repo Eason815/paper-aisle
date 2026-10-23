@@ -3,6 +3,7 @@ import * as Select from "@radix-ui/react-select";
 import Fuse from "fuse.js";
 import {
   AlertTriangle,
+  ArrowLeft,
   ArrowRight,
   BookOpen,
   Bookmark,
@@ -35,6 +36,8 @@ import {
 import { loadDataset } from "./data";
 import { bibtexFor, downloadText, exportFilename, markdownFor } from "./export";
 import { loadUserState, patchPaperState, saveUserState } from "./storage";
+import { ReadingDiagram } from "./ReadingDiagram";
+import { PersonalRecordsDialog } from "./PersonalRecordsDialog";
 import {
   emptyFilters,
   type Dataset,
@@ -199,8 +202,23 @@ function CategoryStats({ papers, dataset }: { papers: Paper[]; dataset: Dataset 
   );
 }
 
+function CollectionPicker({ dataset, selected, onSelect }: { dataset: Dataset; selected: string | null; onSelect: (id: string | null) => void }) {
+  if (!dataset.collections.length) return null;
+  const collection = dataset.collections.find((item) => item.id === selected);
+  return (
+    <section className="collection-picker" aria-label="阅读范围">
+      <div className="collection-title"><span className="eyebrow">YOUR RESEARCH SHELF</span><h2>今天，从这一组开始</h2></div>
+      <div className="collection-options" role="group" aria-label="选择论文集合">
+        {dataset.collections.map((item) => <button key={item.id} className={selected === item.id ? "selected" : ""} aria-pressed={selected === item.id} onClick={() => onSelect(item.id)}>{item.name}<b>{dataset.papers.filter((paper) => item.paperIds.includes(paper.id)).length}</b></button>)}
+        <button className={selected === null ? "selected" : ""} aria-pressed={selected === null} onClick={() => onSelect(null)}>全库<b>{dataset.papers.length}</b></button>
+      </div>
+      <p>{collection?.description ?? "浏览完整论文库；你已经留下的阅读记录会一直保留。"}</p>
+    </section>
+  );
+}
+
 type SidebarFacetDefinition = {
-  key: "directions" | "presentationTypes" | "years" | "venues" | "readingStatuses";
+  key: "directions" | "presentationTypes" | "years" | "venues" | "readingStatuses" | "questions";
   label: string;
   hint?: string;
   single?: boolean;
@@ -240,6 +258,7 @@ function FilterSection({
 
 function FilterPanel({
   dataset,
+  scopePapers,
   searchable,
   filters,
   userState,
@@ -247,13 +266,14 @@ function FilterPanel({
   onReset,
 }: {
   dataset: Dataset;
+  scopePapers: Paper[];
   searchable: Paper[];
   filters: Filters;
   userState: UserStateMap;
   onChange: (next: Filters) => void;
   onReset: () => void;
 }) {
-  const papers = dataset.papers;
+  const papers = scopePapers;
   const facets: SidebarFacetDefinition[] = [
     {
       key: "directions",
@@ -271,6 +291,12 @@ function FilterPanel({
       defaultOpen: true,
       options: dataset.config.presentationTypes.length ? dataset.config.presentationTypes : uniqueSorted(papers.map((p) => p.presentationType)),
       paperValues: (p) => p.presentationType ? [p.presentationType] : [],
+    },
+    {
+      key: "questions",
+      label: "研究问题",
+      options: dataset.questionCatalog.filter((question) => papers.some((paper) => paper.questionId === question.id)).map((question) => question.id),
+      paperValues: (p) => p.questionId ? [p.questionId] : [],
     },
     {
       key: "years",
@@ -298,7 +324,7 @@ function FilterPanel({
     onChange({ ...filters, [key]: next });
   };
 
-  const toggleMany = (key: "years" | "venues" | "readingStatuses", value: string) => {
+  const toggleMany = (key: "years" | "venues" | "readingStatuses" | "questions", value: string) => {
     const current = filters[key] as string[];
     const next = current.includes(value) ? current.filter((item) => item !== value) : [...current, value];
     onChange({ ...filters, [key]: next });
@@ -341,11 +367,11 @@ function FilterPanel({
                 disabled={count === 0 && !selected}
                 onChange={() => facet.single
                   ? selectOne(facet.key as "directions" | "presentationTypes", option)
-                  : toggleMany(facet.key as "years" | "venues" | "readingStatuses", option)}
+                  : toggleMany(facet.key as "years" | "venues" | "readingStatuses" | "questions", option)}
               />
               <span>
                 {facet.key === "directions" && <i style={{ "--category": categoryColor(option, dataset.config.categoryColors) } as CSSProperties} />}
-                {facet.key === "readingStatuses" ? readingLabels[option as ReadingStatus] : option}
+                {facet.key === "readingStatuses" ? readingLabels[option as ReadingStatus] : facet.key === "questions" ? dataset.questionCatalog.find((question) => question.id === option)?.name ?? option : option}
               </span>
               <b>{count}</b>
             </label>
@@ -394,6 +420,7 @@ function FilterPanel({
 function FilterChips({ filters, onChange, onReset }: { filters: Filters; onChange: (filters: Filters) => void; onReset: () => void }) {
   const chips: Array<{ key: FacetKey; value: string; label: string }> = [];
   const facetLabels: Record<FacetKey, string> = {
+    questions: "研究问题",
     directions: "方向",
     subdirections: "子方向",
     years: "年份",
@@ -476,8 +503,10 @@ function PaperCard({
           {paper.presentationType && <span className="level-tag">{paper.presentationType}</span>}
           {notableInstitutions.length > 0 && <span className="focus-tag" title={notableInstitutions.map((item) => item.name).join("、")}><Building2 size={13} />大厂 / 顶校</span>}
           {paper.direction && <span className="category-tag">{paper.direction}</span>}
+          {paper.readingGuide?.diagram && <span className="guide-tag">图解导读</span>}
         </div>
         <button className="paper-title" onClick={onOpen}><h2>{paper.title}</h2></button>
+        {paper.readingGuide?.headline && <p className="card-guide-headline">{paper.readingGuide.headline}</p>}
         {authors.length > 0 && <p className="authors" title={authorsOf(paper)}>{authors.slice(0, 4).map((a) => a.name).join("、")}{authors.length > 4 ? ` 等 ${authors.length} 人` : ""}</p>}
         {institutions.length > 0 && <p className="institutions" title={institutions.join("、")}>{institutions.slice(0, 2).join(" · ")}{institutions.length > 2 ? ` +${institutions.length - 2}` : ""}</p>}
         <div className="meta-line">
@@ -519,11 +548,12 @@ function ModalFrame({
   className?: string;
   children: ReactNode;
 }) {
+  const openerRef = useRef<HTMLElement | null>(null);
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="dialog-overlay" />
-        <Dialog.Content className={`dialog-content ${className}`} aria-describedby={undefined}>
+        <Dialog.Content className={`dialog-content ${className}`} aria-describedby={undefined} onOpenAutoFocus={() => { openerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null; }} onCloseAutoFocus={(event) => { event.preventDefault(); if (openerRef.current?.isConnected) openerRef.current.focus(); }}>
           <div className="dialog-topbar">
             <div>
               <Dialog.Title>{title}</Dialog.Title>
@@ -548,6 +578,11 @@ function DetailDrawer({
   onOpenChange,
   onPatch,
   onCompare,
+  readerIndex,
+  readerCount,
+  onPrevious,
+  onNext,
+  saveError,
 }: {
   paper: Paper | null;
   dataset: Dataset;
@@ -558,15 +593,26 @@ function DetailDrawer({
   onOpenChange: (open: boolean) => void;
   onPatch: (patch: Partial<PaperUserState>) => void;
   onCompare: () => void;
+  readerIndex: number;
+  readerCount: number;
+  onPrevious: () => void;
+  onNext: () => void;
+  saveError: string;
 }) {
   const [tagInput, setTagInput] = useState("");
+  const bodyRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    setTagInput("");
+    bodyRef.current?.scrollTo?.({ top: 0 });
+  }, [paper?.id]);
   if (!paper) return null;
   const color = categoryColor(paper.direction ?? "未分类", dataset.config.categoryColors);
   const notableInstitutions = notableInstitutionsOf(paper, dataset.config.notableInstitutions);
   const contentSections = [
-    ["研究问题", paper.researchQuestion],
-    ["方法", paper.method],
-    ["主要发现", paper.findings],
+    ["研究问题", paper.researchQuestion ?? paper.quickRead?.problem],
+    ["问题背景", paper.researchQuestion ? paper.quickRead?.problem : undefined],
+    ["方法", paper.method ?? paper.quickRead?.approach],
+    ["主要发现", paper.findings ?? paper.quickRead?.finding],
     ["研究意义", paper.significance],
   ].filter((row): row is [string, string] => Boolean(row[1]));
   const links = Object.entries(paper.links ?? {});
@@ -580,7 +626,16 @@ function DetailDrawer({
 
   return (
     <ModalFrame open={open} onOpenChange={onOpenChange} title="论文详情" description={paper.title} className="detail-drawer">
-      <div className="drawer-body" style={{ "--category": color } as CSSProperties}>
+      <div className="reader-navigation" aria-label="连续阅读">
+        <button className="button outline" disabled={readerIndex <= 0} onClick={onPrevious} aria-label="上一篇论文"><ArrowLeft size={16} />上一篇</button>
+        <span aria-live="polite">本次阅读 <b>{readerIndex + 1}</b> / {readerCount}</span>
+        <button className="button outline" disabled={readerIndex < 0 || readerIndex >= readerCount - 1} onClick={onNext} aria-label="下一篇论文">下一篇<ArrowRight size={16} /></button>
+      </div>
+      <div ref={bodyRef} className="drawer-body" style={{ "--category": color } as CSSProperties} onKeyDown={(event) => {
+        if (event.ctrlKey || event.metaKey || event.altKey || event.shiftKey || (event.target as HTMLElement).closest('input,textarea,select,[contenteditable="true"],[role="combobox"]')) return;
+        if (event.key === "j" && readerIndex < readerCount - 1) { event.preventDefault(); onNext(); }
+        if (event.key === "k" && readerIndex > 0) { event.preventDefault(); onPrevious(); }
+      }}>
         <div className="drawer-ticket">
           <span>{paper.id}</span>
           {paper.presentationType && <b>{paper.presentationType}</b>}
@@ -591,14 +646,10 @@ function DetailDrawer({
           {notableInstitutions.length > 0 && <span className="focus-tag" title={notableInstitutions.map((item) => item.name).join("、")}><Building2 size={13} />大厂 / 顶校</span>}
         </div>
         <h2 className="drawer-title">{paper.title}</h2>
-        {paper.authors?.length && (
-          <div className="full-team">
-            {paper.authors.map((author) => (
-              <p key={`${author.name}-${author.affiliations?.join("-")}`}><strong>{author.name}</strong>{author.affiliations?.length ? <span>{author.affiliations.join(" · ")}</span> : null}</p>
-            ))}
-          </div>
-        )}
+        {paper.readingGuide && <><p className="drawer-guide-headline">{paper.readingGuide.headline}</p><span className="source-level-label"><BookOpen size={13} />{paper.readingGuide.sourceLevel === "abstract" ? "AI 摘要导读" : "AI 相关章节导读"}</span></>}
         {(paper.venue || paper.year) && <p className="drawer-venue">{[paper.venue, paper.year].filter(Boolean).join(" · ")}</p>}
+        {paper.scenarios?.length ? <p className="scenario-line">阅读场景 · {paper.scenarios.join(" / ")}</p> : null}
+        {paper.readingGuide?.diagram && <ReadingDiagram key={paper.id} guide={paper.readingGuide} />}
 
         {paper.abstractExcerpt && <blockquote><span>摘要摘录 / ABSTRACT SIGNAL</span>{paper.abstractExcerpt}</blockquote>}
         {contentSections.map(([label, value]) => (
@@ -610,6 +661,8 @@ function DetailDrawer({
             {links.map(([key, href]) => <a key={key} href={href} target="_blank" rel="noreferrer">{linkLabels[key] ?? key}<ExternalLink size={15} /></a>)}
           </div>
         )}
+        {paper.readingGuide && <details className="reading-sources" key={`${paper.id}-sources`}><summary>查看导读来源与材料范围</summary><p>{paper.readingGuide.sourceLevel === "abstract" ? "本导读依据摘要整理；实验设置、数值和全文细节尚未核读。" : "本导读依据实际读取的相关章节整理，不代表通读或复现。"}</p>{paper.readingGuide.sources.map((source) => <p key={`${source.url}-${source.locator}`}><a href={source.url} target="_blank" rel="noreferrer">{source.label}<ExternalLink size={12} /></a><small>{source.locator}</small></p>)}</details>}
+        {paper.authors?.length ? <details className="reading-sources" key={`${paper.id}-team`}><summary>完整作者与机构 · {paper.authors.length} 人</summary><div className="full-team">{paper.authors.map((author) => <p key={`${author.name}-${author.affiliations?.join("-")}`}><strong>{author.name}</strong>{author.affiliations?.length ? <span>{author.affiliations.join(" · ")}</span> : null}</p>)}</div></details> : null}
 
         <section className="personal-section">
           <p className="mini-label">个人研究小票 / MY NOTES</p>
@@ -634,9 +687,13 @@ function DetailDrawer({
             </div>
           </div>
           <label className="note-field">
-            <span>个人便签 <small aria-live="polite">{saved ? <><Check size={13} />已保存</> : "保存中…"}</small></span>
+            <span>个人便签 <small aria-live="polite">{saveError || (saved ? <><Check size={13} />已保存</> : "保存中…")}</small></span>
             <textarea value={state.note ?? ""} onChange={(event) => onPatch({ note: event.target.value })} placeholder="记录复现实验、可借鉴方法或下一步问题…" rows={6} />
           </label>
+          <button className="note-template" onClick={() => {
+            const template = "我的理解：\n\n与其他工作的区别：\n\n疑问：";
+            onPatch({ note: state.note?.trim() ? `${state.note}\n\n${template}` : template });
+          }}>插入三行阅读模板</button>
         </section>
       </div>
     </ModalFrame>
@@ -691,6 +748,7 @@ function FavoritesDialog({
 function CompareDialog({ open, onOpenChange, papers }: { open: boolean; onOpenChange: (open: boolean) => void; papers: Paper[] }) {
   const allRows: Array<[string, (paper: Paper) => string | undefined]> = [
     ["研究问题", (paper) => paper.researchQuestion ?? paper.quickRead?.problem],
+    ["任务 / 场景", (paper) => paper.scenarios?.join("、")],
     ["方法", (paper) => paper.method ?? paper.quickRead?.approach],
     ["主要发现", (paper) => paper.findings ?? paper.quickRead?.finding],
     ["研究意义", (paper) => paper.significance],
@@ -746,13 +804,17 @@ function App() {
   const [sort, setSort] = useState<SortKey>("recommended");
   const [filters, setFilters] = useState<Filters>(emptyFilters);
   const [userState, setUserState] = useState<UserStateMap>({});
-  const [stateReady, setStateReady] = useState(false);
+  const [stateDatasetId, setStateDatasetId] = useState<string | null>(null);
   const [saved, setSaved] = useState(true);
+  const [saveError, setSaveError] = useState("");
+  const [collectionId, setCollectionId] = useState<string | null>(null);
+  const [readerIds, setReaderIds] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [favoritesOpen, setFavoritesOpen] = useState(false);
   const [compareOpen, setCompareOpen] = useState(false);
+  const [recordsOpen, setRecordsOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [notice, setNotice] = useState<string | null>(null);
   const loadMoreRef = useRef<HTMLDivElement>(null);
@@ -760,19 +822,33 @@ function App() {
   useEffect(() => {
     if (!dataset) return;
     const legacyDatasetIds = dataset.datasetId === "paper-aisle-main-v1" ? ["paper-aisle-demo-v1"] : [];
-    setUserState(loadUserState(dataset.datasetId, legacyDatasetIds));
-    setStateReady(true);
+    try { setUserState(loadUserState(dataset.datasetId, legacyDatasetIds)); }
+    catch { setNotice("浏览器暂时无法读取个人记录，请保留已有备份。"); setUserState({}); }
+    setStateDatasetId(dataset.datasetId);
+    const defaultId = dataset.config.defaultCollectionId;
+    setCollectionId(defaultId && dataset.collections.some((collection) => collection.id === defaultId) ? defaultId : null);
   }, [dataset]);
 
   useEffect(() => {
-    if (!dataset || !stateReady) return;
+    if (!dataset || stateDatasetId !== dataset.datasetId) return;
     setSaved(false);
     const timeout = window.setTimeout(() => {
-      saveUserState(dataset.datasetId, userState);
-      setSaved(true);
+      try { saveUserState(dataset.datasetId, userState); setSaved(true); setSaveError(""); }
+      catch { setSaveError("未保存，请导出备份"); }
     }, 450);
     return () => window.clearTimeout(timeout);
-  }, [dataset, stateReady, userState]);
+  }, [dataset, stateDatasetId, userState]);
+
+  const flushState = useCallback(() => {
+    if (!dataset || stateDatasetId !== dataset.datasetId) return;
+    try { saveUserState(dataset.datasetId, userState); setSaved(true); setSaveError(""); }
+    catch { setSaveError("未保存，请导出备份"); }
+  }, [dataset, stateDatasetId, userState]);
+
+  useEffect(() => {
+    window.addEventListener("pagehide", flushState);
+    return () => window.removeEventListener("pagehide", flushState);
+  }, [flushState]);
 
   useEffect(() => {
     if (!notice) return;
@@ -811,9 +887,14 @@ function App() {
   }, []);
 
   const papers = dataset?.papers ?? [];
-  const fuse = useMemo(() => new Fuse(papers, {
+  const collection = dataset?.collections.find((item) => item.id === collectionId);
+  const scopePapers = useMemo(() => collection ? papers.filter((paper) => collection.paperIds.includes(paper.id)) : papers, [papers, collection]);
+  const scopeName = collection?.name ?? "全库";
+  const fuse = useMemo(() => new Fuse(scopePapers, {
     keys: [
       { name: "title", weight: 0.36 },
+      { name: "readingGuide.headline", weight: 0.14 },
+      { name: "scenarios", weight: 0.06 },
       { name: "authors.name", weight: 0.14 },
       { name: "authors.affiliations", weight: 0.12 },
       { name: "venue", weight: 0.08 },
@@ -828,10 +909,10 @@ function App() {
     ignoreLocation: true,
     threshold: 0.42,
     minMatchCharLength: 1,
-  }), [papers]);
+  }), [scopePapers]);
 
   const searchResults = useMemo(() => query.trim() ? fuse.search(query.trim()) : [], [fuse, query]);
-  const searchablePapers = useMemo(() => query.trim() ? searchResults.map((result) => result.item) : papers, [papers, query, searchResults]);
+  const searchablePapers = useMemo(() => query.trim() ? searchResults.map((result) => result.item) : scopePapers, [scopePapers, query, searchResults]);
   const relevance = useMemo(() => new Map(searchResults.map((result) => [result.item.id, result.score ?? 1])), [searchResults]);
   const effectiveSort = sort === "relevance" && !query.trim() ? "recommended" : sort;
   const filteredPapers = useMemo(() => searchablePapers.filter((paper) => matchesFilters(
@@ -853,8 +934,14 @@ function App() {
   const favoritePapers = useMemo(() => papers.filter((paper) => userState[paper.id]?.favorite).sort((a, b) => (userState[b.id]?.favoritedAt ?? 0) - (userState[a.id]?.favoritedAt ?? 0)), [papers, userState]);
   const comparePapers = compareIds.map((id) => papers.find((paper) => paper.id === id)).filter((paper): paper is Paper => Boolean(paper));
   const selectedPaper = papers.find((paper) => paper.id === selectedId) ?? null;
+  const readerIndex = readerIds.indexOf(selectedId ?? "");
+  const openPaper = (paperId: string, ids: string[]) => { setReaderIds(ids); setSelectedId(paperId); };
+  const navigatePaper = (offset: number) => {
+    const next = readerIds[readerIndex + offset];
+    if (next) { flushState(); setSelectedId(next); }
+  };
 
-  useEffect(() => setVisibleCount(PAGE_SIZE), [query, filters, sort]);
+  useEffect(() => setVisibleCount(PAGE_SIZE), [query, filters, sort, collectionId]);
   useEffect(() => {
     const target = loadMoreRef.current;
     if (!target || visibleCount >= sortedPapers.length) return;
@@ -927,13 +1014,13 @@ function App() {
       <header className="site-header">
         <Logo />
         <nav aria-label="当前页面"><span className="active">全部论文</span></nav>
-        <button className="favorites-button" onClick={() => setFavoritesOpen(true)}><Heart size={17} />我的收藏<b>{favoritePapers.length}</b></button>
+        <div className="header-actions"><button className="records-button" onClick={() => setRecordsOpen(true)}><Download size={16} /><span>阅读记录</span></button><button className="favorites-button" onClick={() => setFavoritesOpen(true)}><Heart size={17} /><span>我的收藏</span><b>{favoritePapers.length}</b></button></div>
       </header>
 
       <main>
         <section className="library-intro">
           <div>
-            <p className="eyebrow">DATASET · {dataset.datasetId}</p>
+            <p className="eyebrow">PERSONAL RESEARCH LIBRARY</p>
             <h1>{dataset.library.name}</h1>
             {dataset.library.description && <p>{dataset.library.description}</p>}
           </div>
@@ -946,6 +1033,8 @@ function App() {
           {dataset.library.sources?.length ? <div className="source-line"><span>数据来源</span>{dataset.library.sources.map((source) => source.url ? <a key={source.label} href={source.url} target="_blank" rel="noreferrer">{source.label}<ExternalLink size={13} /></a> : <em key={source.label}>{source.label}</em>)}</div> : null}
         </section>
 
+        <CollectionPicker dataset={dataset} selected={collectionId} onSelect={(id) => { setCollectionId(id); setFilters(emptyFilters); setQuery(""); }} />
+
         {warnings.length > 0 && <details className="data-warning"><summary><AlertTriangle size={16} />{warnings.length} 条数据警告</summary><ul>{warnings.map((warning) => <li key={warning}>{warning}</li>)}</ul></details>}
 
         <section className="toolbar" aria-label="搜索和排序">
@@ -957,16 +1046,16 @@ function App() {
         <FilterChips filters={filters} onChange={setFilters} onReset={() => setFilters(emptyFilters)} />
 
         <div className="workspace">
-          <aside className="desktop-filters"><FilterPanel dataset={dataset} searchable={searchablePapers} filters={filters} userState={userState} onChange={setFilters} onReset={() => setFilters(emptyFilters)} /></aside>
+          <aside className="desktop-filters"><FilterPanel dataset={dataset} scopePapers={scopePapers} searchable={searchablePapers} filters={filters} userState={userState} onChange={setFilters} onReset={() => setFilters(emptyFilters)} /></aside>
           <section className="paper-results" aria-labelledby="results-title">
             <div className="results-heading">
-              <h2 id="results-title">全部论文</h2>
+              <h2 id="results-title">{scopeName === "全库" ? "全部论文" : scopeName}</h2>
               <p>找到 <b>{sortedPapers.length}</b> 篇{query.trim() && <>与“{query.trim()}”相关的论文</>}</p>
             </div>
             {visiblePapers.length ? (
               <>
                 <div className="paper-grid">
-                  {visiblePapers.map((paper) => <PaperCard key={paper.id} paper={paper} dataset={dataset} state={userState[paper.id] ?? {}} comparing={compareIds.includes(paper.id)} onOpen={() => setSelectedId(paper.id)} onFavorite={() => toggleFavorite(paper.id)} onStatus={() => cycleStatus(paper.id)} onCompare={() => toggleCompare(paper.id)} />)}
+                  {visiblePapers.map((paper) => <PaperCard key={paper.id} paper={paper} dataset={dataset} state={userState[paper.id] ?? {}} comparing={compareIds.includes(paper.id)} onOpen={() => openPaper(paper.id, sortedPapers.map((item) => item.id))} onFavorite={() => toggleFavorite(paper.id)} onStatus={() => cycleStatus(paper.id)} onCompare={() => toggleCompare(paper.id)} />)}
                 </div>
                 {visibleCount < sortedPapers.length && <div className="load-more" ref={loadMoreRef}><button className="button outline" onClick={() => setVisibleCount((count) => Math.min(count + PAGE_SIZE, sortedPapers.length))}>加载更多论文</button><span>已展示 {visiblePapers.length} / {sortedPapers.length}</span></div>}
               </>
@@ -975,9 +1064,10 @@ function App() {
         </div>
       </main>
 
-      <ModalFrame open={filterOpen} onOpenChange={setFilterOpen} title="筛选论文" description={`${activeFilterCount(filters)} 个条件`} className="mobile-filter-dialog"><FilterPanel dataset={dataset} searchable={searchablePapers} filters={filters} userState={userState} onChange={setFilters} onReset={() => setFilters(emptyFilters)} /></ModalFrame>
-      <DetailDrawer paper={selectedPaper} dataset={dataset} open={Boolean(selectedPaper)} state={selectedPaper ? userState[selectedPaper.id] ?? {} : {}} comparing={selectedPaper ? compareIds.includes(selectedPaper.id) : false} saved={saved} onOpenChange={(open) => { if (!open) setSelectedId(null); }} onPatch={(patch) => selectedPaper && patchState(selectedPaper.id, patch)} onCompare={() => selectedPaper && toggleCompare(selectedPaper.id)} />
-      <FavoritesDialog open={favoritesOpen} onOpenChange={setFavoritesOpen} papers={favoritePapers} dataset={dataset} userState={userState} onOpenPaper={(paper) => { setFavoritesOpen(false); setSelectedId(paper.id); }} />
+      <ModalFrame open={filterOpen} onOpenChange={setFilterOpen} title="筛选论文" description={`${activeFilterCount(filters)} 个条件`} className="mobile-filter-dialog"><FilterPanel dataset={dataset} scopePapers={scopePapers} searchable={searchablePapers} filters={filters} userState={userState} onChange={setFilters} onReset={() => setFilters(emptyFilters)} /></ModalFrame>
+      <DetailDrawer paper={selectedPaper} dataset={dataset} open={Boolean(selectedPaper)} state={selectedPaper ? userState[selectedPaper.id] ?? {} : {}} comparing={selectedPaper ? compareIds.includes(selectedPaper.id) : false} saved={saved} saveError={saveError} readerIndex={readerIndex} readerCount={readerIds.length} onPrevious={() => navigatePaper(-1)} onNext={() => navigatePaper(1)} onOpenChange={(open) => { if (!open) { flushState(); setSelectedId(null); } }} onPatch={(patch) => selectedPaper && patchState(selectedPaper.id, patch)} onCompare={() => selectedPaper && toggleCompare(selectedPaper.id)} />
+      <FavoritesDialog open={favoritesOpen} onOpenChange={setFavoritesOpen} papers={favoritePapers} dataset={dataset} userState={userState} onOpenPaper={(paper) => { setFavoritesOpen(false); openPaper(paper.id, favoritePapers.map((item) => item.id)); }} />
+      <PersonalRecordsDialog open={recordsOpen} onOpenChange={setRecordsOpen} dataset={dataset} scopePapers={scopePapers} scopeName={scopeName} state={userState} onRestore={(next) => { saveUserState(dataset.datasetId, next); setUserState(next); setSaved(true); setSaveError(""); }} />
       <CompareDialog open={compareOpen} onOpenChange={setCompareOpen} papers={comparePapers} />
       <ComparisonTray papers={comparePapers} onRemove={toggleCompare} onOpen={() => setCompareOpen(true)} />
       <div className="toast" role="status" aria-live="polite">{notice}</div>

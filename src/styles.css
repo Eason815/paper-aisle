@@ -330,3 +330,104 @@ main { width: min(1900px, 100%); margin: auto; }
 @media (forced-colors: active) {
   .brand-mark i, .card-stripe, .category-stats i { forced-color-adjust: none; }
 }
+
+/* Research collections and guided reading */
+.header-actions { justify-self: end; display: flex; align-items: center; gap: .6rem; }
+.records-button { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; min-height: 44px; border: 1px solid var(--line); padding: .55rem .75rem; color: var(--ink); background: var(--paper); font-weight: 700; }
+.collection-picker { margin: 1.3rem clamp(1rem, 3vw, 3rem) 0; padding: 1.15rem 1.3rem; display: grid; grid-template-columns: 1fr auto; gap: .6rem 1rem; background: var(--paper); border: 1px solid var(--line-dark); box-shadow: 4px 4px 0 rgba(8, 46, 50, .14); }
+.collection-title .eyebrow { font-size: .66rem; }
+.collection-title h2 { margin: .3rem 0 0; font-family: "Noto Serif SC", Georgia, serif; font-size: 1.2rem; }
+.collection-options { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.collection-options button { min-height: 44px; display: flex; align-items: center; gap: .65rem; border: 1px solid var(--line); padding: .5rem .8rem; background: var(--paper-warm); color: var(--ink); font-weight: 700; }
+.collection-options button b { font-family: ui-monospace, monospace; font-weight: 500; opacity: .75; }
+.collection-options button.selected { color: var(--paper); border-color: var(--ink); background: var(--ink); }
+.collection-options button:hover { border-color: var(--ink); }
+.collection-picker > p { grid-column: 1 / -1; margin: 0; color: var(--ink-soft); font-size: .8rem; line-height: 1.65; }
+.card-guide-headline { margin: .65rem 0 0; padding-left: .65rem; border-left: 2px solid var(--category); color: var(--ink-soft); font-size: .85rem; font-weight: 600; line-height: 1.65; }
+.paper-tags .guide-tag { background: var(--paper-warm); color: var(--ink-soft); border-style: dashed; }
+.facet-options label:focus-within, .filter-specials label:focus-within { outline: 3px solid var(--coral); outline-offset: 2px; }
+.filter-specials label:has(input:disabled) { opacity: .5; cursor: not-allowed; }
+.reader-navigation { flex: 0 0 auto; display: flex; justify-content: space-between; align-items: center; gap: .5rem; padding: .65rem 1rem; background: var(--paper-warm); border-bottom: 1px solid var(--line); }
+.reader-navigation .button { min-height: 36px; padding: .35rem .65rem; font-size: .8rem; }
+.reader-navigation > span { font-size: .78rem; color: var(--ink-soft); white-space: nowrap; }
+.reader-navigation b { color: var(--ink); }
+.detail-drawer .drawer-title { font-size: clamp(1.4rem, 2.1vw, 1.85rem); line-height: 1.35; }
+.drawer-body { scroll-behavior: auto; }
+.drawer-guide-headline { margin: .8rem 0; font-size: 1rem; line-height: 1.65; font-weight: 650; }
+.source-level-label { display: inline-flex; align-items: center; gap: .35rem; color: var(--ink-soft); border: 1px solid var(--line); background: var(--paper-warm); padding: .22rem .45rem; font-size: .7rem; }
+.scenario-line { margin: .4rem 0 1.1rem; color: var(--ink-soft); font-size: .76rem; line-height: 1.6; }
+.reading-diagram { margin: 1.25rem 0; padding: 1rem; border: 1px solid var(--line-dark); background: #edf5ed; box-shadow: 4px 4px 0 rgba(8, 46, 50, .13); }
+.diagram-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .4rem; font-size: .72rem; }
+.diagram-heading > span { display: flex; align-items: center; gap: .35rem; font-weight: 800; }
+.diagram-heading > small { color: var(--ink-soft); }
+.reading-diagram h3 { margin: .75rem 0 1rem; font-family: "Noto Serif SC", Georgia, serif; font-size: 1.08rem; line-height: 1.5; }
+.diagram-nodes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.diagram-node-wrap { position: relative; min-width: 0; }
+.diagram-node { position: relative; width: 100%; min-height: 92px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: .45rem; padding: .7rem; background: var(--paper); border: 1px solid var(--line-dark); color: var(--ink); text-align: left; }
+.diagram-node > span { font-family: ui-monospace, monospace; font-size: .7rem; opacity: .65; }
+.diagram-node strong { font-size: .86rem; line-height: 1.45; }
+.diagram-node > svg { position: absolute; right: .4rem; top: .45rem; }
+.diagram-node.selected { background: var(--ink); color: var(--paper); box-shadow: 3px 3px 0 var(--yellow); }
+.diagram-arrow { position: absolute; right: -.95rem; top: 40%; }
+.diagram-explanation { margin-top: .9rem; min-height: 7.5rem; padding: .8rem; border-left: 3px solid var(--ink); background: rgba(255, 253, 247, .85); }
+.diagram-explanation > strong { font-size: .82rem; }
+.diagram-explanation p { margin: .4rem 0 0; color: var(--ink-soft); font-size: .83rem; line-height: 1.85; }
+.diagram-caption { margin: .8rem 0 0; color: var(--ink-soft); font-size: .68rem; line-height: 1.7; }
+.diagram-study { background: #f2edf9; }
+.diagram-paired { background: #f8f1db; }
+.diagram-paired .diagram-nodes { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+.diagram-paired .diagram-node-wrap:first-child { grid-column: 1 / -1; width: 70%; justify-self: center; }
+.diagram-paired .diagram-node { min-height: 75px; }
+.reading-sources { margin: 1rem 0; padding: .75rem 0; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: .82rem; line-height: 1.75; }
+.reading-sources summary { color: var(--ink); font-weight: 700; cursor: pointer; }
+.reading-sources p { margin: .6rem 0 0; }
+.reading-sources a { display: inline-flex; gap: .3rem; align-items: center; text-underline-offset: 3px; }
+.reading-sources small { display: block; }
+.note-template { margin-top: .6rem; min-height: 36px; padding: .4rem .6rem; border: 1px dashed var(--line-dark); background: transparent; color: var(--ink-soft); font-size: .76rem; }
+.records-intro { display: flex; align-items: flex-start; gap: .8rem; padding: 1rem; background: var(--paper-warm); border: 1px solid var(--line); }
+.records-intro > svg { flex: 0 0 auto; }
+.records-intro h3 { margin: 0 0 .4rem; font-family: "Noto Serif SC", Georgia, serif; }
+.records-intro p, .records-section > p { margin: 0; color: var(--ink-soft); line-height: 1.8; font-size: .85rem; }
+.records-section { margin-top: 1.3rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.records-section h3 { margin: 0 0 .5rem; font-size: 1rem; }
+.records-section .button { margin-top: .75rem; }
+.restore-preview { margin-top: 1rem; padding: 1rem; border: 1px solid var(--ink); background: #f4f7ed; }
+.restore-preview h4 { margin: 0; }
+.restore-preview dl { display: grid; gap: .4rem; font-size: .82rem; }
+.restore-preview dl > div { display: grid; grid-template-columns: 6rem 1fr; }
+.restore-preview dd { margin: 0; overflow-wrap: anywhere; }
+.restore-preview fieldset { display: grid; gap: .5rem; margin-top: .8rem; padding: .7rem; border: 1px solid var(--line); font-size: .82rem; }
+.restore-preview label { display: flex; gap: .4rem; align-items: baseline; }
+.restore-preview details { margin-top: .8rem; font-size: .82rem; }
+.restore-preview summary { cursor: pointer; font-weight: 700; }
+.restore-preview > .button + .button { margin-left: .5rem; }
+.restore-conflict { display: grid; gap: .3rem; margin-top: .6rem; padding: .65rem; background: var(--paper); border: 1px solid var(--line); overflow-wrap: anywhere; }
+.restore-conflict small { color: var(--ink-soft); }
+.restore-conflict p { margin: 0; white-space: pre-wrap; line-height: 1.6; }
+.records-error { padding: .75rem; border: 1px solid #a9392b; background: #fff0e8; color: #953224; line-height: 1.65; }
+.records-feedback { color: #225c46; font-size: .85rem; line-height: 1.65; }
+
+@media (max-width: 900px) {
+  .collection-picker { grid-template-columns: 1fr; }
+  .collection-options { margin-top: .25rem; }
+}
+@media (max-width: 700px) {
+  .site-header { gap: .5rem; }
+  .brand { gap: .4rem; }
+  .brand strong { font-size: .8rem; letter-spacing: .1em; white-space: nowrap; }
+  .header-actions { gap: .4rem; }
+  .records-button { padding: .5rem; font-size: .76rem; }
+  .favorites-button > span { display: none; }
+  .collection-picker { margin-inline: .75rem; padding: 1rem; }
+  .collection-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .collection-options button { justify-content: center; gap: .3rem; padding: .45rem .35rem; font-size: .76rem; }
+  .reader-navigation { padding: .6rem .75rem; }
+  .reader-navigation .button { font-size: .76rem; }
+  .reading-diagram { padding: .8rem; }
+  .diagram-nodes { gap: .65rem; }
+  .diagram-node { min-height: 95px; padding: .55rem .4rem; }
+  .diagram-node strong { font-size: .76rem; }
+  .diagram-arrow { right: -.65rem; width: 11px; }
+  .diagram-explanation { min-height: 0; }
+  .reading-diagram h3 { font-size: 1rem; }
+}

@@ -5,11 +5,13 @@ function safeName(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "paper-aisle";
 }
 
-export function markdownFor(papers: Paper[], userState: UserStateMap, libraryName: string): string {
-  const lines = [`# ${libraryName} · 我的收藏`, ""];
+export function markdownFor(papers: Paper[], userState: UserStateMap, libraryName: string, scope = "我的收藏"): string {
+  const lines = [`# ${libraryName} · ${scope}`, ""];
   papers.forEach((paper) => {
     const state = userState[paper.id] ?? {};
     lines.push(`## ${paper.title}`, "");
+    lines.push(`- 论文 ID：${paper.id}`);
+    if (paper.subdirection) lines.push(`- 研究问题：${paper.subdirection}`);
     if (paper.authors?.length) lines.push(`- 作者：${authorsOf(paper)}`);
     if (paper.venue || paper.year) lines.push(`- 出处：${[paper.venue, paper.year].filter(Boolean).join(" · ")}`);
     lines.push(`- 阅读状态：${readingLabels[state.readingStatus ?? "unread"]}`);

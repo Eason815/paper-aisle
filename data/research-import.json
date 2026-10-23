@@ -1,0 +1,20 @@
+{
+  "updatedAt": "2026-10-23",
+  "defaultCollectionId": "agent-stage01-batch-001",
+  "legacyCollection": {
+    "id": "background-reading",
+    "name": "基础阅读",
+    "description": "保留的基础论文与历史阅读材料；收藏、便签和阅读状态继续关联原论文。"
+  },
+  "batches": [
+    {
+      "path": "data/batches/batch-001.research.json",
+      "guidesPath": "data/guides/batch-001.json",
+      "collection": {
+        "id": "agent-stage01-batch-001",
+        "name": "本轮调研",
+        "description": "从工具使用、记忆、规划与评测开始认识 Agent 研究。先看导读和图解，再比较同一问题的不同路线。"
+      }
+    }
+  ]
+}

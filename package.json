@@ -10,7 +10,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck:test": "tsc -p tsconfig.test.json --noEmit",
-    "check": "npm run build && npm run typecheck:test && npm test"
+    "check": "npm run build && npm run typecheck:test && npm test",
+    "data:preview": "node scripts/import-research.mjs",
+    "data:import": "node scripts/import-research.mjs --write"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.6",

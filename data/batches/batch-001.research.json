@@ -1,0 +1,314 @@
+{
+  "schemaVersion": 1,
+  "batchId": "batch-001",
+  "createdAt": "2026-10-22T14:18:51+08:00",
+  "scope": {
+    "year": 2026,
+    "venues": ["ACL", "ICLR", "ICML", "NeurIPS"],
+    "description": "Stage 01 首批10篇试做。沿用所提供脚本的10个种子，实际阅读全部10篇官方摘要，覆盖工具、规划、记忆、训练、恢复、协作、评测与安全问题。它是有目的选取的待核读阅读池，不是随机样本或热点排行。",
+    "limitations": [
+      "所有记录均为candidate，humanConfirmed与humanChecked均为false；人工确认纳入为0。",
+      "ACL两篇和ICLR三篇的主会论文集身份已核实；ICML两篇、NeurIPS三篇的单篇会议页面可读，但OpenReview论坛或API受403/浏览器验证限制，具体轨道暂为unknown。",
+      "本批仅作摘要级速读，未核读方法、实验设置、表格或全文；不报告未经核查的具体提升数值。",
+      "2395条标题命中队列中实际处理9条，其余2386条未作摘要初筛；另从ICLR完整目录快照补查关键词未命中的Sculptor一篇。",
+      "沿用上游预先挑选的种子，不按机构、引用或展示形式重新排名；没有额外声称完成相关工作追溯或全量搜索。",
+      "全部论文的逐作者机构映射尚未核实，均省略机构；代码仅在来源明确给出代码仓库链接时记录。",
+      "现有网站12篇旧论文保留，不属于本批2026研究池；本批不覆盖网站JSON、不修改个人状态、不推送部署。"
+    ]
+  },
+  "questionCatalog": [
+    {"id":"Q01","name":"规划与长程执行","question":"Agent如何拆解长任务，并在环境变化后调整计划？"},
+    {"id":"Q02","name":"工具使用","question":"Agent如何选择工具、生成有效参数并处理工具调用失败？"},
+    {"id":"Q03","name":"记忆与状态","question":"Agent如何保存、检索和更新信息，避免使用无关或过时记忆？"},
+    {"id":"Q04","name":"Agent训练与RL","question":"如何从交互轨迹和延迟奖励中学习有效行动？"},
+    {"id":"Q05","name":"反思与恢复","question":"Agent如何发现错误，并利用反馈改善后续行动？"},
+    {"id":"Q06","name":"多智能体协作","question":"什么条件下协作有效，如何控制通信与协调成本？"},
+    {"id":"Q07","name":"评测与可靠性","question":"如何判断Agent真正完成任务，并测量结果的稳定性？"},
+    {"id":"Q08","name":"效率与安全","question":"如何控制执行成本、合理停止，并减少不安全行动？"}
+  ],
+  "records": [
+    {
+      "paper": {
+        "id":"acl-2026.acl-long.1",
+        "title":"OctoTools: A Multi-Agent Framework with Extensible Tools for Complex Reasoning",
+        "authors":[{"name":"Pan Lu"},{"name":"Bowen Chen"},{"name":"Sheng Liu"},{"name":"Rahul Thapa"},{"name":"Joseph Boen"},{"name":"James Zou"}],
+        "venue":"ACL","year":2026,"direction":"Agent","subdirection":"Q02｜可扩展工具调用",
+        "researchQuestion":"在不额外训练模型的情况下，Agent如何协调不同类型工具，完成跨领域、多步骤的推理任务？",
+        "links":{"official":"https://aclanthology.org/2026.acl-long.1/","pdf":"https://aclanthology.org/2026.acl-long.1.pdf","project":"https://octotools.github.io/"}
+      },
+      "review": {
+        "decision":"candidate","suggestedDecision":"included","mainQuestionId":"Q02","secondaryQuestionIds":["Q01","Q06"],
+        "scenarios":["视觉推理","知识问答","跨领域工具使用"],
+        "reason":"核心贡献直接涉及LLM Agent的工具表示、规划和执行。选作工具使用的入门方法例子，并与本批只评测可靠性的工作区分；选择依据是问题与机制可解释，不是机构或展示形式。",
+        "openQuestions":["摘要未交代各对照的模型、调用预算和具体计算方式，需核读实验后再判断比较是否公平。","不同领域的工具选择及执行失败如何处理，需要查看方法与失败案例。","逐作者机构和会议展示形式未核实，未填入。"]
+      },
+      "verification":{"sourceLevel":"abstract","track":"main","trackLabel":"ACL 2026 Volume 1: Long Papers","trackVerified":true,"humanConfirmed":false,"readSections":["ACL Anthology单篇页：标题、完整作者、Abstract、Volume、Year与来源链接"]},
+      "evidence":[
+        {"id":"E-ACL1-META","url":"https://aclanthology.org/2026.acl-long.1/","retrievedAt":"2026-10-22T14:14:44+08:00","locator":"标题与作者栏；Volume、Year、Anthology ID；PDF链接；Abstract末尾项目链接","supports":["paper.id","paper.title","paper.authors","paper.venue","paper.year","paper.links","verification.track","verification.trackVerified"],"claimType":"fact"},
+        {"id":"E-ACL1-ABS","url":"https://aclanthology.org/2026.acl-long.1/","retrievedAt":"2026-10-22T14:14:44+08:00","locator":"Abstract","supports":["aiSummary.problem","aiSummary.finding","aiSummary.approach"],"claimType":"author_claim"},
+        {"id":"E-ACL1-REVIEW","url":"https://aclanthology.org/2026.acl-long.1/","retrievedAt":"2026-10-22T14:14:44+08:00","locator":"Abstract；基于摘要所作暂定分类，不是人工纳入确认","supports":["paper.direction","paper.subdirection","paper.researchQuestion","review"],"claimType":"judgment"}
+      ],
+      "aiSummary": {
+        "problem":"复杂任务往往需要查知识、看图和计算，但已有工具方案常限于特定领域、工具种类，或需要额外训练，难以灵活组合完成多步任务。",
+        "finding":"论文报告：在包括视觉推理、知识问答和工具任务的测试中，OctoTools比直接使用GPT-4o及若干工具框架取得更高准确率；具体预算和提升幅度仍待核读实验。",
+        "approach":"把各工具的用途写成统一的“工具卡”，由规划器安排任务和具体调用，再交给执行器使用工具；多个角色配合完成跨领域推理，无须额外训练。",
+        "basis":{"problem":["E-ACL1-ABS"],"finding":["E-ACL1-ABS"],"approach":["E-ACL1-ABS"]},"generatedAt":"2026-10-22T14:18:51+08:00","generator":"Codex / GPT-6","humanChecked":false
+      }
+    },
+    {
+      "paper": {
+        "id":"acl-2026.acl-long.27",
+        "title":"How Memory Management Impacts LLM Agents: An Empirical Study of Experience-Following Behavior",
+        "authors":[{"name":"Zidi Xiong"},{"name":"Yuping Lin"},{"name":"Wenya Xie"},{"name":"Pengfei He"},{"name":"Zirui Liu"},{"name":"Jiliang Tang"},{"name":"Himabindu Lakkaraju"},{"name":"Zhen Xiang"}],
+        "venue":"ACL","year":2026,"direction":"Agent","subdirection":"Q03｜经验记忆的质量控制",
+        "researchQuestion":"Agent不断积累经验时，哪些记忆应该添加或删除，才能避免错误传播和看似成功的经验误导后续行动？",
+        "links":{"official":"https://aclanthology.org/2026.acl-long.27/","pdf":"https://aclanthology.org/2026.acl-long.27.pdf"}
+      },
+      "review": {
+        "decision":"candidate","suggestedDecision":"included","mainQuestionId":"Q03","secondaryQuestionIds":["Q05","Q07"],
+        "scenarios":["具有经验记忆的LLM Agent"],
+        "reason":"直接分析Agent的记忆增删及长期行为，不是显存或KV缓存优化。选入以保留对“积累经验总有好处”的边界分析，与本批方法构建类论文形成对照。",
+        "openQuestions":["摘要未列明任务、模型和记忆检索设置，需要核读实验以界定结论适用范围。","所谓看似正确但有误导性的经验，是如何定义、构造和度量的？","把后续任务反馈用于评价旧记忆时，是否引入额外成本或信息条件？","逐作者机构、展示形式和代码仓库未核实。"]
+      },
+      "verification":{"sourceLevel":"abstract","track":"main","trackLabel":"ACL 2026 Volume 1: Long Papers","trackVerified":true,"humanConfirmed":false,"readSections":["ACL Anthology单篇页：标题、完整作者、Abstract、Volume、Year与PDF链接"]},
+      "evidence":[
+        {"id":"E-ACL27-META","url":"https://aclanthology.org/2026.acl-long.27/","retrievedAt":"2026-10-22T14:14:44+08:00","locator":"标题与作者栏；Volume、Year、Anthology ID；PDF链接","supports":["paper.id","paper.title","paper.authors","paper.venue","paper.year","paper.links","verification.track","verification.trackVerified"],"claimType":"fact"},
+        {"id":"E-ACL27-ABS","url":"https://aclanthology.org/2026.acl-long.27/","retrievedAt":"2026-10-22T14:14:44+08:00","locator":"Abstract","supports":["aiSummary.problem","aiSummary.finding","aiSummary.approach"],"claimType":"author_claim"},
+        {"id":"E-ACL27-REVIEW","url":"https://aclanthology.org/2026.acl-long.27/","retrievedAt":"2026-10-22T14:14:44+08:00","locator":"Abstract；暂定问题归类与阅读价值判断","supports":["paper.direction","paper.subdirection","paper.researchQuestion","review"],"claimType":"judgment"}
+      ],
+      "aiSummary": {
+        "problem":"Agent会检索过去的执行经验来完成新任务，但保存过的经验并不一定有帮助；若反复照搬错误或不适用的经验，长期表现可能反而变差。",
+        "finding":"论文报告：在其受控实验中，输入相似的旧经验容易诱发相似输出，带来错误传播；一些看似成功的执行记录也可能误导新任务。",
+        "approach":"系统改变记忆的添加与删除方式，观察Agent怎样沿用经验，并用后续任务的反馈评价已存经验质量，为保留或清理记忆提供依据。",
+        "basis":{"problem":["E-ACL27-ABS"],"finding":["E-ACL27-ABS"],"approach":["E-ACL27-ABS"]},"generatedAt":"2026-10-22T14:18:51+08:00","generator":"Codex / GPT-6","humanChecked":false
+      }
+    },
+    {
+      "paper": {
+        "id":"iclr-2026-002a6bef26174b590e4eab95b63feb1b",
+        "title":"LongHorizonUI: A Unified Framework for Robust long-horizon Task Automation of GUI Agent",
+        "authors":[{"name":"Bin Kang"},{"name":"Shaoguo Wen"},{"name":"YIFEI BI"},{"name":"Shunlong Wu"},{"name":"Xinbin Yuan"},{"name":"Rui Shao"},{"name":"Junle Wang"},{"name":"Zhuotao Tian"}],
+        "venue":"ICLR","year":2026,"direction":"Agent","subdirection":"Q01｜长程界面任务执行",
+        "researchQuestion":"图形界面不断变化时，Agent如何持续识别状态、校验行动并从失败中恢复，以完成长步骤任务？",
+        "links":{"official":"https://proceedings.iclr.cc/paper_files/paper/2026/hash/002a6bef26174b590e4eab95b63feb1b-Abstract-Conference.html","pdf":"https://proceedings.iclr.cc/paper_files/paper/2026/file/002a6bef26174b590e4eab95b63feb1b-Paper-Conference.pdf"}
+      },
+      "review": {
+        "decision":"candidate","suggestedDecision":"included","mainQuestionId":"Q01","secondaryQuestionIds":["Q05","Q07"],"scenarios":["图形界面操作","游戏","复杂通用应用"],
+        "reason":"核心对象是多模态LLM驱动的GUI Agent，直接处理长程交互可靠性。选作观察—校验—执行恢复的综合路线，不把多个模块本身当作创新充分的证据。",
+        "openQuestions":["各模块分别贡献多少、额外工具与调用预算是多少，需要查看消融和设置。","LongGUIBench与公开基准的任务分布、成功判定和泛化范围待核读。","摘要仅称代码和模型将公开，未找到来源给出的仓库地址，故不填代码链接。","逐作者机构和展示形式未核实。"]
+      },
+      "verification":{"sourceLevel":"abstract","track":"main","trackLabel":"ICLR 2026 Proceedings — Conference","trackVerified":true,"humanConfirmed":false,"readSections":["ICLR Proceedings单篇页：标题、完整作者、Abstract、Conference标识、出版日期与PDF链接"]},
+      "evidence":[
+        {"id":"E-LHUI-META","url":"https://proceedings.iclr.cc/paper_files/paper/2026/hash/002a6bef26174b590e4eab95b63feb1b-Abstract-Conference.html","retrievedAt":"2026-10-22T14:14:44+08:00","locator":"论文页标题、作者、ICLR 2026 Conference标识；citation_publication_date与Paper链接","supports":["paper.id","paper.title","paper.authors","paper.venue","paper.year","paper.links","verification.track","verification.trackVerified"],"claimType":"fact"},
+        {"id":"E-LHUI-ABS","url":"https://proceedings.iclr.cc/paper_files/paper/2026/hash/002a6bef26174b590e4eab95b63feb1b-Abstract-Conference.html","retrievedAt":"2026-10-22T14:14:44+08:00","locator":"Abstract","supports":["aiSummary.problem","aiSummary.finding","aiSummary.approach"],"claimType":"author_claim"},
+        {"id":"E-LHUI-REVIEW","url":"https://proceedings.iclr.cc/paper_files/paper/2026/hash/002a6bef26174b590e4eab95b63feb1b-Abstract-Conference.html","retrievedAt":"2026-10-22T14:14:44+08:00","locator":"Abstract；暂定问题归类与阅读价值判断","supports":["paper.direction","paper.subdirection","paper.researchQuestion","review"],"claimType":"judgment"}
+      ],
+      "aiSummary": {
+        "problem":"多模态Agent能完成一些短界面任务，但任务步骤变多、界面动态变化后，状态识别和行动错误容易累积，持续完成任务仍不可靠。",
+        "finding":"论文报告：在其长程界面基准LongGUIBench上，这套框架改善了长步骤任务表现，并在所测其他公开基准上保持竞争力；具体收益仍待核读实验。",
+        "approach":"用元素检测和文字识别强化界面状态，再分层校验推理与行动；执行中监测进度，必要时补偿操作或回退，让长任务能从局部错误中继续。",
+        "basis":{"problem":["E-LHUI-ABS"],"finding":["E-LHUI-ABS"],"approach":["E-LHUI-ABS"]},"generatedAt":"2026-10-22T14:18:51+08:00","generator":"Codex / GPT-6","humanChecked":false
+      }
+    },
+    {
+      "paper": {
+        "id":"iclr-2026-f9155a06ba1b20e40c38bf8541db456f",
+        "title":"Sculptor: Empowering LLMs with Cognitive Agency via Active Context Management",
+        "authors":[{"name":"Mo Li"},{"name":"L.H. Xu"},{"name":"Qitai Tan"},{"name":"Long Ma"},{"name":"Hongyong Song"},{"name":"Ting Cao"},{"name":"Yunxin Liu"}],
+        "venue":"ICLR","year":2026,"direction":"Agent","subdirection":"Q03｜主动上下文管理",
+        "researchQuestion":"Agent能否主动整理自己的对话历史和工作记忆，减轻早先无关内容对当前推理的干扰？",
+        "links":{"official":"https://proceedings.iclr.cc/paper_files/paper/2026/hash/f9155a06ba1b20e40c38bf8541db456f-Abstract-Conference.html","pdf":"https://proceedings.iclr.cc/paper_files/paper/2026/file/f9155a06ba1b20e40c38bf8541db456f-Paper-Conference.pdf"}
+      },
+      "review": {
+        "decision":"candidate","suggestedDecision":"included","mainQuestionId":"Q03","secondaryQuestionIds":["Q04","Q08"],"scenarios":["长上下文交互","对话历史管理"],
+        "reason":"完整目录补查所得，标题未命中上游关键词。摘要明确描述通过工具修改自身历史的Agent及其训练，具有直接行动机制；同时保留它偏长上下文基准、尚需核查对外部任务Agent适用性的边界。",
+        "openQuestions":["实际评测中有多少外部环境交互任务，而不只是一般长上下文问答？","隐藏、恢复和检索上下文是否损失关键状态，相关成本如何计算？","动态上下文强化学习的训练与非训练版本收益需要分别核查。","作者L.H. Xu按来源原样保留，未猜测全名；全部逐作者机构、展示形式和代码链接未核实。"]
+      },
+      "verification":{"sourceLevel":"abstract","track":"main","trackLabel":"ICLR 2026 Proceedings — Conference","trackVerified":true,"humanConfirmed":false,"readSections":["ICLR Proceedings单篇页：标题、完整作者、Abstract、Conference标识、出版日期与PDF链接"]},
+      "evidence":[
+        {"id":"E-SCULPTOR-META","url":"https://proceedings.iclr.cc/paper_files/paper/2026/hash/f9155a06ba1b20e40c38bf8541db456f-Abstract-Conference.html","retrievedAt":"2026-10-22T14:14:45+08:00","locator":"论文页标题、作者、ICLR 2026 Conference标识；citation_publication_date与Paper链接","supports":["paper.id","paper.title","paper.authors","paper.venue","paper.year","paper.links","verification.track","verification.trackVerified"],"claimType":"fact"},
+        {"id":"E-SCULPTOR-ABS","url":"https://proceedings.iclr.cc/paper_files/paper/2026/hash/f9155a06ba1b20e40c38bf8541db456f-Abstract-Conference.html","retrievedAt":"2026-10-22T14:14:45+08:00","locator":"Abstract","supports":["aiSummary.problem","aiSummary.finding","aiSummary.approach"],"claimType":"author_claim"},
+        {"id":"E-SCULPTOR-REVIEW","url":"https://proceedings.iclr.cc/paper_files/paper/2026/hash/f9155a06ba1b20e40c38bf8541db456f-Abstract-Conference.html","retrievedAt":"2026-10-22T14:14:45+08:00","locator":"Abstract；暂定相关性边界和问题归类","supports":["paper.direction","paper.subdirection","paper.researchQuestion","review"],"claimType":"judgment"}
+      ],
+      "aiSummary": {
+        "problem":"上下文更长不一定让Agent记得更准；早先无关的信息可能干扰当前推理和回忆，单纯扩大上下文窗口未必能处理这种问题。",
+        "finding":"论文报告：在所测长上下文基准上，主动整理上下文的框架无需专门训练也能改善表现，并进一步探索用强化学习训练这种整理行为。",
+        "approach":"给Agent提供切分、摘要、隐藏、恢复和搜索历史的工具，让它主动整理工作记忆；再用适配动态上下文的强化学习，学习如何修改自己的对话历史。",
+        "basis":{"problem":["E-SCULPTOR-ABS"],"finding":["E-SCULPTOR-ABS"],"approach":["E-SCULPTOR-ABS"]},"generatedAt":"2026-10-22T14:18:51+08:00","generator":"Codex / GPT-6","humanChecked":false
+      }
+    },
+    {
+      "paper": {
+        "id":"iclr-2026-df20e06b04dfc499a1a698796abb0856",
+        "title":"Experience-based Knowledge Correction for Robust Planning in Minecraft",
+        "authors":[{"name":"Seungjoon Lee"},{"name":"Suhwan Kim"},{"name":"Minhyeon Oh"},{"name":"Youngsik Yoon"},{"name":"Jungseul Ok"}],
+        "venue":"ICLR","year":2026,"direction":"Agent","subdirection":"Q05｜通过经验纠正规划知识",
+        "researchQuestion":"只有稀疏成败反馈时，Agent如何发现并修正错误的任务依赖与行动知识，而不是不断重复失败计划？",
+        "links":{"official":"https://proceedings.iclr.cc/paper_files/paper/2026/hash/df20e06b04dfc499a1a698796abb0856-Abstract-Conference.html","pdf":"https://proceedings.iclr.cc/paper_files/paper/2026/file/df20e06b04dfc499a1a698796abb0856-Paper-Conference.pdf"}
+      },
+      "review": {
+        "decision":"candidate","suggestedDecision":"included","mainQuestionId":"Q05","secondaryQuestionIds":["Q01","Q03"],"scenarios":["Minecraft","开放世界长程规划"],
+        "reason":"虽然使用Minecraft具身场景，但核心机制是LLM Agent依据交互成败修正错误知识，直接关联通用Agent的规划与恢复；不是因机器人或游戏标签自动纳入。选择它展示结构化纠错路线，跨场景迁移尚未证实。",
+        "openQuestions":["依赖图更新和行动记忆如何处理偶然失败、错误归因及环境变化？","与更大模型Agent比较时，工具、任务知识和调用预算是否一致？","主归Q05强调纠错机制；若核读后发现主要贡献是规划表示，可由用户确认是否改归Q01。","逐作者机构、展示形式和代码链接未核实。"]
+      },
+      "verification":{"sourceLevel":"abstract","track":"main","trackLabel":"ICLR 2026 Proceedings — Conference","trackVerified":true,"humanConfirmed":false,"readSections":["ICLR Proceedings单篇页：标题、完整作者、Abstract、Conference标识、出版日期与PDF链接"]},
+      "evidence":[
+        {"id":"E-XENON-META","url":"https://proceedings.iclr.cc/paper_files/paper/2026/hash/df20e06b04dfc499a1a698796abb0856-Abstract-Conference.html","retrievedAt":"2026-10-22T14:14:45+08:00","locator":"论文页标题、作者、ICLR 2026 Conference标识；citation_publication_date与Paper链接","supports":["paper.id","paper.title","paper.authors","paper.venue","paper.year","paper.links","verification.track","verification.trackVerified"],"claimType":"fact"},
+        {"id":"E-XENON-ABS","url":"https://proceedings.iclr.cc/paper_files/paper/2026/hash/df20e06b04dfc499a1a698796abb0856-Abstract-Conference.html","retrievedAt":"2026-10-22T14:14:45+08:00","locator":"Abstract","supports":["aiSummary.problem","aiSummary.finding","aiSummary.approach"],"claimType":"author_claim"},
+        {"id":"E-XENON-REVIEW","url":"https://proceedings.iclr.cc/paper_files/paper/2026/hash/df20e06b04dfc499a1a698796abb0856-Abstract-Conference.html","retrievedAt":"2026-10-22T14:14:45+08:00","locator":"Abstract；具身工作与通用Agent问题联系的暂定判断","supports":["paper.direction","paper.subdirection","paper.researchQuestion","review"],"claimType":"judgment"}
+      ],
+      "aiSummary": {
+        "problem":"LLM可能一开始就记错物品依赖或行动规则；在Minecraft这类长任务中，仅告诉它失败了，也未必能让它纠正这些错误知识。",
+        "finding":"论文报告：在所测Minecraft基准上，XENON改善了知识学习和长程规划，能在错误先验与稀疏成败反馈条件下继续纠错；其他场景的适用性仍待验证。",
+        "approach":"用成功经验更新“先拿到什么才能做什么”的依赖图，用失败经验修正行动知识；把知识纠错写成明确的更新机制，帮助Agent重新规划。",
+        "basis":{"problem":["E-XENON-ABS"],"finding":["E-XENON-ABS"],"approach":["E-XENON-ABS"]},"generatedAt":"2026-10-22T14:18:51+08:00","generator":"Codex / GPT-6","humanChecked":false
+      }
+    },
+    {
+      "paper": {
+        "id":"openreview-ORVJCJczoG",
+        "title":"AgentNoiseBench: Benchmarking Robustness of Tool-Using LLM Agents Under Noisy Condition",
+        "authors":[{"name":"Ruipeng Wang"},{"name":"Yuxin Chen"},{"name":"Yukai Wang"},{"name":"Chang Wu"},{"name":"Junfeng Fang"},{"name":"Xiaodong Cai"},{"name":"Qi GU"},{"name":"Hui Su"},{"name":"An Zhang"},{"name":"Xiang Wang"},{"name":"Xunliang Cai"},{"name":"Tat-Seng Chua"}],
+        "venue":"ICML","year":2026,"direction":"Agent","subdirection":"Q07｜噪声环境下的鲁棒评测","presentationType":"Poster",
+        "researchQuestion":"用户输入或工具反馈不够干净时，如何在保持任务可解的前提下测量工具Agent的可靠性？",
+        "links":{"official":"https://icml.cc/virtual/2026/poster/64355","review":"https://openreview.net/forum?id=ORVJCJczoG"}
+      },
+      "review": {
+        "decision":"candidate","suggestedDecision":"defer","mainQuestionId":"Q07","secondaryQuestionIds":["Q02","Q08"],"scenarios":["带噪用户交互","带噪工具调用"],
+        "reason":"相关性明确，属于工具Agent在非理想环境中的评测路线，可用于纠正只看干净基准成功率的视角。因主会或独立轨道尚未核实，暂缓正式纳入，不将论文质量判为不足。",
+        "openQuestions":["需核实ICML 2026具体发表轨道；Poster页面本身不能证明主会研究论文身份。","噪声注入如何验证不改变任务可解性，强度如何与现实环境对应？","摘要原文存在语句残缺，未根据猜测补成具体下降结果；各模型与任务效应需核读。","OpenReview论坛遭浏览器验证，API返回403；机构、PDF与代码链接未取得可用来源，省略。"]
+      },
+      "verification":{"sourceLevel":"abstract","track":"unknown","trackLabel":"ICML 2026官方Poster页面；主会/独立轨道待核实","trackVerified":false,"humanConfirmed":false,"readSections":["ICML单篇页：标题、完整作者、Abstract、Poster标识与OpenReview链接；未把导航菜单当作轨道证据"]},
+      "evidence":[
+        {"id":"E-NOISE-META","url":"https://icml.cc/virtual/2026/poster/64355","retrievedAt":"2026-10-22T14:14:46+08:00","locator":"ICML 2026单篇标题、作者与Poster栏；OpenReview链接所载forum id","supports":["paper.id","paper.title","paper.authors","paper.venue","paper.year","paper.presentationType","paper.links"],"claimType":"fact"},
+        {"id":"E-NOISE-ABS","url":"https://icml.cc/virtual/2026/poster/64355","retrievedAt":"2026-10-22T14:14:46+08:00","locator":"Abstract；未使用Lay Summary替代缺失的实验细节","supports":["aiSummary.problem","aiSummary.finding","aiSummary.approach"],"claimType":"author_claim"},
+        {"id":"E-NOISE-REVIEW","url":"https://icml.cc/virtual/2026/poster/64355","retrievedAt":"2026-10-22T14:14:46+08:00","locator":"Abstract；暂定相关性、问题归类与延后纳入判断","supports":["paper.direction","paper.subdirection","paper.researchQuestion","review"],"claimType":"judgment"}
+      ],
+      "aiSummary": {
+        "problem":"许多Agent基准默认指令清楚、工具反馈正常，但实际交互会出现含糊输入或不完美反馈，干净环境中的表现未必反映这些条件下的可靠性。",
+        "finding":"论文报告：在加入不同用户噪声和工具噪声的测试中，所测Agent表现持续变化，显示它们对环境扰动较敏感；摘要不足以判断具体下降幅度。",
+        "approach":"把噪声分为用户侧和工具侧，向已有Agent基准注入可控扰动，同时保持任务仍可完成，再比较不同模型在这些条件下的表现。",
+        "basis":{"problem":["E-NOISE-ABS"],"finding":["E-NOISE-ABS"],"approach":["E-NOISE-ABS"]},"generatedAt":"2026-10-22T14:18:51+08:00","generator":"Codex / GPT-6","humanChecked":false
+      }
+    },
+    {
+      "paper": {
+        "id":"openreview-YX4rgoI8pB",
+        "title":"Agent-Omit: Adaptive Context Omission for Efficient LLM Agents",
+        "authors":[{"name":"Yansong Ning"},{"name":"Jun Fang"},{"name":"Naiqiang Tan"},{"name":"Hao Liu"}],
+        "venue":"ICML","year":2026,"direction":"Agent","subdirection":"Q08｜自适应省略冗余上下文","presentationType":"Poster",
+        "researchQuestion":"多轮交互中，Agent怎样按需省略不再有用的思考与观察，在节省成本的同时保留完成任务所需的信息？",
+        "links":{"official":"https://icml.cc/virtual/2026/poster/63271","review":"https://openreview.net/forum?id=YX4rgoI8pB","code":"https://github.com/usail-hkust/Agent-Omit"}
+      },
+      "review": {
+        "decision":"candidate","suggestedDecision":"defer","mainQuestionId":"Q08","secondaryQuestionIds":["Q03","Q04"],"scenarios":["多轮Agent环境交互"],
+        "reason":"直接针对Agent交互轨迹中思考与观察的保留策略及训练，区别于普通KV缓存压缩。选入用于与Sculptor比较上下文管理的效率目标；具体发表轨道待核实，因此暂缓正式纳入。",
+        "openQuestions":["需核实ICML 2026正式轨道；不由Poster或会议导航推断main。","成本具体按输入token、输出token、时延还是调用次数计算？","省略信息后在长程任务中是否出现延迟失败，比较是否控制基础模型与预算？","代码地址有官方摘要依据，但本批未打开或运行仓库，不声称可复现；逐作者机构与PDF未核实。"]
+      },
+      "verification":{"sourceLevel":"abstract","track":"unknown","trackLabel":"ICML 2026官方Poster页面；主会/独立轨道待核实","trackVerified":false,"humanConfirmed":false,"readSections":["ICML单篇页：标题、完整作者、Abstract、Poster标识、OpenReview与代码链接；未把导航菜单当作轨道证据"]},
+      "evidence":[
+        {"id":"E-OMIT-META","url":"https://icml.cc/virtual/2026/poster/63271","retrievedAt":"2026-10-22T14:14:46+08:00","locator":"ICML 2026标题、作者与Poster栏；OpenReview链接；Abstract末尾代码仓库地址","supports":["paper.id","paper.title","paper.authors","paper.venue","paper.year","paper.presentationType","paper.links"],"claimType":"fact"},
+        {"id":"E-OMIT-ABS","url":"https://icml.cc/virtual/2026/poster/63271","retrievedAt":"2026-10-22T14:14:46+08:00","locator":"Abstract；不依据Lay Summary补充具体实验结果","supports":["aiSummary.problem","aiSummary.finding","aiSummary.approach"],"claimType":"author_claim"},
+        {"id":"E-OMIT-REVIEW","url":"https://icml.cc/virtual/2026/poster/63271","retrievedAt":"2026-10-22T14:14:46+08:00","locator":"Abstract；暂定相关性、问题归类与延后纳入判断","supports":["paper.direction","paper.subdirection","paper.researchQuestion","review"],"claimType":"judgment"}
+      ],
+      "aiSummary": {
+        "problem":"Agent多轮执行会积累思考与工具观察，但每一轮的信息价值不同；把整个历史都同等保留，可能浪费计算，也限制执行效率。",
+        "finding":"论文报告：在其Agent基准测试中，训练后的Agent-Omit在保持任务表现的同时改善了效果与效率的取舍；具体成本口径和公平性仍待核读。",
+        "approach":"先用少量单轮和多轮示例教Agent怎样省略，再用强化学习及专门的省略奖励，鼓励它按当前任务需要跳过冗余思考与观察。",
+        "basis":{"problem":["E-OMIT-ABS"],"finding":["E-OMIT-ABS"],"approach":["E-OMIT-ABS"]},"generatedAt":"2026-10-22T14:18:51+08:00","generator":"Codex / GPT-6","humanChecked":false
+      }
+    },
+    {
+      "paper": {
+        "id":"openreview-Iee7eL6QV0",
+        "title":"AgentAbstain: Do LLM Agents Know When Not to Act?",
+        "authors":[{"name":"Xun Liu"},{"name":"Yi Evie Zhang"},{"name":"Vira Kasprova"},{"name":"Parisa Rabbani"},{"name":"Pardissadat Zahraei"},{"name":"Tianyu Zhang"},{"name":"Ali Ebrahimpour-Boroojeny"},{"name":"Varun Chandrasekaran"}],
+        "venue":"NeurIPS","year":2026,"direction":"Agent","subdirection":"Q08｜行动前的拒绝与停止","presentationType":"Oral",
+        "researchQuestion":"遇到歧义、冲突约束或工具失败时，怎样判断Agent是否会在造成不可逆后果前停止行动？",
+        "links":{"official":"https://neurips.cc/virtual/2026/poster/139558","review":"https://openreview.net/forum?id=Iee7eL6QV0"}
+      },
+      "review": {
+        "decision":"candidate","suggestedDecision":"defer","mainQuestionId":"Q08","secondaryQuestionIds":["Q07","Q05"],"scenarios":["可执行沙箱工具任务","存在不可逆操作的Agent交互"],
+        "reason":"直接研究Agent何时不应执行动作，提供与普通成功率不同的评测目标。选择依据是安全边界及成对任务设计，非Oral标签；主会或独立评测轨道未核实，暂缓正式纳入。",
+        "openQuestions":["具体属于NeurIPS主会还是独立评测/数据轨道？需正式录用或论文集证据。","成对任务如何确定必须行动与必须拒绝，自动生成和语义裁判如何核查？","核读时需区分行动之前的停止与先执行再拒绝，不能只看最终回复。","官方Poster页明确链接Oral presentation，因此记录Oral；这仍不作为主会证明。机构、PDF与代码链接未核实。"]
+      },
+      "verification":{"sourceLevel":"abstract","track":"unknown","trackLabel":"NeurIPS 2026官方页面；具体主会/评测数据轨道待核实","trackVerified":false,"humanConfirmed":false,"readSections":["NeurIPS单篇页：标题、完整作者、Abstract、Oral presentation链接与OpenReview链接；未读取评审或全文"]},
+      "evidence":[
+        {"id":"E-ABSTAIN-META","url":"https://neurips.cc/virtual/2026/poster/139558","retrievedAt":"2026-10-22T14:14:48+08:00","locator":"NeurIPS 2026标题与作者栏；Oral presentation链接/virtual/2026/oral/139559；OpenReview链接","supports":["paper.id","paper.title","paper.authors","paper.venue","paper.year","paper.presentationType","paper.links"],"claimType":"fact"},
+        {"id":"E-ABSTAIN-ABS","url":"https://neurips.cc/virtual/2026/poster/139558","retrievedAt":"2026-10-22T14:14:48+08:00","locator":"Abstract","supports":["aiSummary.problem","aiSummary.finding","aiSummary.approach"],"claimType":"author_claim"},
+        {"id":"E-ABSTAIN-REVIEW","url":"https://neurips.cc/virtual/2026/poster/139558","retrievedAt":"2026-10-22T14:14:48+08:00","locator":"Abstract；暂定问题归类与延后纳入判断","supports":["paper.direction","paper.subdirection","paper.researchQuestion","review"],"claimType":"judgment"}
+      ],
+      "aiSummary": {
+        "problem":"只测任务成功率，看不出Agent在指令含糊、约束冲突或工具出错时会不会及时停手；它可能先做了不可逆操作，之后才说不能继续。",
+        "finding":"论文报告：在其成对沙箱任务中，完成任务的能力与知道何时不应行动并不等同，并观察到一些Agent先执行、后拒绝的失败方式。",
+        "approach":"给同类任务构造“应该行动”和“应该停止”的配对版本，控制改变指令、工具或环境状态；再自动生成并校验任务，分别检查两边是否判断正确。",
+        "basis":{"problem":["E-ABSTAIN-ABS"],"finding":["E-ABSTAIN-ABS"],"approach":["E-ABSTAIN-ABS"]},"generatedAt":"2026-10-22T14:18:51+08:00","generator":"Codex / GPT-6","humanChecked":false
+      }
+    },
+    {
+      "paper": {
+        "id":"openreview-yPSKli19Mm",
+        "title":"AgentBrew: Offline Tool-Use Agent Learning from Raw Real-World Trajectories",
+        "authors":[{"name":"Zhiyi Lyu"},{"name":"Yewen Li"},{"name":"Longtao Zheng"},{"name":"shengtian yang"},{"name":"Lang Feng"},{"name":"Lei Feng"},{"name":"Peng Jiang"},{"name":"Kun Gai"},{"name":"Qingpeng Cai"},{"name":"Bo An"}],
+        "venue":"NeurIPS","year":2026,"direction":"Agent","subdirection":"Q04｜原始交互轨迹的离线训练","presentationType":"Poster",
+        "researchQuestion":"真实工具环境缺少任务验证器且交互预算有限时，如何从一次收集的嘈杂轨迹中提取有效的Agent训练信号？",
+        "links":{"official":"https://neurips.cc/virtual/2026/poster/148366","review":"https://openreview.net/forum?id=yPSKli19Mm"}
+      },
+      "review": {
+        "decision":"candidate","suggestedDecision":"defer","mainQuestionId":"Q04","secondaryQuestionIds":["Q02","Q08"],"scenarios":["GitHub工具应用","Notion工具应用","PostgreSQL工具应用"],
+        "reason":"直接处理真实工具Agent的交互数据、动作信用分配与离线学习，提供不同于大量在线试错的训练路线。摘要相关性明确，但发表轨道暂未核实，延后正式纳入。",
+        "openQuestions":["需核实NeurIPS 2026具体发表轨道与录用状态。","所谓无需任务验证器在回溯指令推断和训练中依赖什么模型或其他监督？","离线动作权重如何估计，原始轨迹收集成本和对照数据预算是否相同？","机构、PDF与代码链接未核实；作者大小写按会议页面保留，未擅自扩充。"]
+      },
+      "verification":{"sourceLevel":"abstract","track":"unknown","trackLabel":"NeurIPS 2026官方Poster页面；具体轨道待核实","trackVerified":false,"humanConfirmed":false,"readSections":["NeurIPS单篇页：标题、完整作者、Abstract、Poster标识与OpenReview链接；未读取评审或全文"]},
+      "evidence":[
+        {"id":"E-BREW-META","url":"https://neurips.cc/virtual/2026/poster/148366","retrievedAt":"2026-10-22T14:14:49+08:00","locator":"NeurIPS 2026标题、完整作者、Poster栏与OpenReview链接所载forum id","supports":["paper.id","paper.title","paper.authors","paper.venue","paper.year","paper.presentationType","paper.links"],"claimType":"fact"},
+        {"id":"E-BREW-ABS","url":"https://neurips.cc/virtual/2026/poster/148366","retrievedAt":"2026-10-22T14:14:49+08:00","locator":"Abstract","supports":["aiSummary.problem","aiSummary.finding","aiSummary.approach"],"claimType":"author_claim"},
+        {"id":"E-BREW-REVIEW","url":"https://neurips.cc/virtual/2026/poster/148366","retrievedAt":"2026-10-22T14:14:49+08:00","locator":"Abstract；暂定问题归类与延后纳入判断","supports":["paper.direction","paper.subdirection","paper.researchQuestion","review"],"claimType":"judgment"}
+      ],
+      "aiSummary": {
+        "problem":"真实工具应用常没有现成任务、自动判对器或忠实模拟器，反复在线试错又很贵，因而难以训练适应该环境的Agent。",
+        "finding":"论文报告：在所测GitHub、Notion和PostgreSQL应用中，从原始轨迹离线学习能改善工具任务表现，并利用一些筛选式训练会丢弃的轨迹。",
+        "approach":"先从实际结果反推每条轨迹适合的任务指令，再估计各动作对该指令提供了多少信息，用这些信息权重训练策略，强调有用动作、弱化无效动作。",
+        "basis":{"problem":["E-BREW-ABS"],"finding":["E-BREW-ABS"],"approach":["E-BREW-ABS"]},"generatedAt":"2026-10-22T14:18:51+08:00","generator":"Codex / GPT-6","humanChecked":false
+      }
+    },
+    {
+      "paper": {
+        "id":"openreview-P9qqypDzuC",
+        "title":"AgentCollabBench: Diagnosing When Good Agents Make Bad Collaborators",
+        "authors":[{"name":"Aritra Mazumder"},{"name":"Shubhashis Roy Dipta"},{"name":"Nusrat Jahan Lia"},{"name":"Tanzila Khan"},{"name":"Kainat R Hossain"},{"name":"Nehaa Shri"},{"name":"Humayra Tasnim"},{"name":"Gour G Shawon"},{"name":"Shubhrangshu Debsarkar"},{"name":"Sumaiya A Rani"},{"name":"Al Jami Islam Anik"},{"name":"Debjoty Mitra"},{"name":"Al Nafeu Khan"}],
+        "venue":"NeurIPS","year":2026,"direction":"Agent","subdirection":"Q06｜协作过程的信息失真","presentationType":"Poster",
+        "researchQuestion":"多个Agent传递和汇合信息时，哪些通信结构会让约束丢失或错误扩散，而最终答案检查又难以发现？",
+        "links":{"official":"https://neurips.cc/virtual/2026/poster/139450","review":"https://openreview.net/forum?id=P9qqypDzuC","project":"https://www.aritramazumder.com/agentcollabbench/"}
+      },
+      "review": {
+        "decision":"candidate","suggestedDecision":"defer","mainQuestionId":"Q06","secondaryQuestionIds":["Q07","Q08"],"scenarios":["软件工程","开发运维","数据工程","多Agent通信"],
+        "reason":"直接分析LLM多Agent协作的过程失效，不仅比较最终任务分数。选入以保留协作代价和反向证据的视角；并不据此断言协作普遍无效，正式轨道仍需核实。",
+        "openQuestions":["需核实属于NeurIPS主会、独立评测数据轨道还是其他范围。","通信拓扑影响能否与上下文长度、调用预算和角色分工影响区分？","过程风险标签、人类校验和最终任务成功之间如何对应？","项目地址来自会议页，但本批未读取项目站或仓库；机构、PDF与代码链接未核实。"]
+      },
+      "verification":{"sourceLevel":"abstract","track":"unknown","trackLabel":"NeurIPS 2026官方Poster页面；具体主会/评测数据轨道待核实","trackVerified":false,"humanConfirmed":false,"readSections":["NeurIPS单篇页：标题、完整作者、Abstract、Poster标识、Project Page与OpenReview链接；未读取评审或全文"]},
+      "evidence":[
+        {"id":"E-COLLAB-META","url":"https://neurips.cc/virtual/2026/poster/139450","retrievedAt":"2026-10-22T14:14:50+08:00","locator":"NeurIPS 2026标题、完整作者、Poster栏、Project Page与OpenReview链接所载forum id","supports":["paper.id","paper.title","paper.authors","paper.venue","paper.year","paper.presentationType","paper.links"],"claimType":"fact"},
+        {"id":"E-COLLAB-ABS","url":"https://neurips.cc/virtual/2026/poster/139450","retrievedAt":"2026-10-22T14:14:50+08:00","locator":"Abstract","supports":["aiSummary.problem","aiSummary.finding","aiSummary.approach"],"claimType":"author_claim"},
+        {"id":"E-COLLAB-REVIEW","url":"https://neurips.cc/virtual/2026/poster/139450","retrievedAt":"2026-10-22T14:14:50+08:00","locator":"Abstract；暂定问题归类与延后纳入判断","supports":["paper.direction","paper.subdirection","paper.researchQuestion","review"],"claimType":"judgment"}
+      ],
+      "aiSummary": {
+        "problem":"多Agent传递信息时可能悄悄丢失约束、扩散错误或泄漏别的任务内容；即便最终输出看似正确，只看结果的评测也可能发现不了过程损坏。",
+        "finding":"论文报告：在所测工程任务与通信结构中，模型存在不同过程风险；多分支信息汇合时可能丢掉少数分支携带的约束，较强模型也不能自动避免。",
+        "approach":"设计分别追踪指令保持、错误信念传播、跨任务泄漏和标记信息传递的诊断任务，改变Agent通信结构，观察信息在多步协作中怎样保存或失真。",
+        "basis":{"problem":["E-COLLAB-ABS"],"finding":["E-COLLAB-ABS"],"approach":["E-COLLAB-ABS"]},"generatedAt":"2026-10-22T14:18:51+08:00","generator":"Codex / GPT-6","humanChecked":false
+      }
+    }
+  ],
+  "processingLog": [
+    {"action":"读取规则和输入","status":"completed","details":"已读取主提示词、使用说明、工作流、筛选规则、research-batch.schema.json、实际网站papers.schema.json及现有12篇的id/title/venue/year。规则与契约快照保存在contracts；遵循首批10篇，不执行网站合并任务。"},
+    {"action":"选材范围与候选分母","status":"completed","details":"沿用fetch_seed_evidence.py预选10个2026种子：ACL2、ICLR3、ICML2、NeurIPS3。原2395条标题线索中命中9条，剩余2386条未作摘要初筛；Sculptor从ICLR完整目录补查，不属于2395条分母。未额外搜索其他论文或读取相关工作，不声称全量扫描。"},
+    {"action":"获取与读取原始材料","status":"completed","details":"10个官方单篇页面均实际获取并保存HTML压缩快照、时间和SHA256；实际读取10份摘要、标题和完整作者栏。摘要可读10；相关10、不相关0、摘要信息不足0。此相关性计数只描述所选10篇，不外推2395条。"},
+    {"action":"修复本批摘要解析","status":"completed","details":"上游通用脚本将ACL的og:description引文误作摘要，且ICLR空p.paper-abstract导致漏提取。本批从acl-abstract或Abstract后的非空元素重新解析；10份均与实际摘要核对。修正仅在当前批次脚本和产物进行，未修改外部原脚本。"},
+    {"action":"轨道核验","status":"partial","details":"ACL2篇的Volume 1: Long Papers与ICLR3篇的Conference论文集身份已核实。ICML2、NeurIPS3的OpenReview API均返回403，论坛页面亦有浏览器验证/不可访问；不跨越访问验证，5篇保留unknown和trackVerified=false。建议included5、defer5，均保留candidate。"},
+    {"action":"选取偏差与缺口","status":"partial","details":"本批沿用上游种子，选择用于学习不同机制、分析与评测，不是均匀随机或按自然频率取样。包含记忆负面效应与协作过程风险，但没有系统搜齐负结果、简单基线及所有团队。未按机构或Oral排名；未核读全文、预算公平或复现。"},
+    {"action":"去重与旧样本处理","status":"completed","details":"新10篇与现有12篇按标题、官方标识与来源链接核对，无相同工作命中；新id来自Anthology id、ICLR论文集hash或来源公开的OpenReview forum id。旧12篇原样保留作既有阅读库，不混入本批2026统计；不修改网站文件、datasetId、浏览器状态或部署。"},
+    {"action":"人工确认与趋势","status":"completed","details":"10篇humanConfirmed=false、aiSummary.humanChecked=false、review.decision=candidate；未写role或confirmedAt，未生成推荐分数；人工纳入0，不输出Sample Share、领域热点排名或跨年升温结论。"},
+    {"action":"自动校验与可读预览","status":"completed","details":"已使用jsonschema 4.25.1的Draft202012Validator和FormatChecker运行契约校验，并核对10个唯一论文ID、30个全批唯一证据ID、各段basis、原始快照SHA256、完整作者顺序、年份、来源链接及旧库重复；0个Schema错误。可读预览从调研JSON生成；实际机器结果保存在batch-001.validation.json。"}
+  ]
+}

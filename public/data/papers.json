@@ -4,65 +4,284 @@
   "library": {
     "name": "Paper Aisle 论文库",
     "description": "围绕 Agent、强化学习与大语言模型整理的个人论文调研库，支持检索、筛选、收藏、对比与速读。",
-    "updatedAt": "2026-09-29",
+    "updatedAt": "2026-10-23",
     "sources": [
-      { "label": "arXiv 开放论文页面", "url": "https://arxiv.org/" }
+      {
+        "label": "arXiv 开放论文页面",
+        "url": "https://arxiv.org/"
+      },
+      {
+        "label": "ACL 官方论文页",
+        "url": "https://aclanthology.org/"
+      },
+      {
+        "label": "ICLR 官方论文页",
+        "url": "https://proceedings.iclr.cc/"
+      },
+      {
+        "label": "ICML 官方论文页",
+        "url": "https://icml.cc/"
+      },
+      {
+        "label": "NeurIPS 官方论文页",
+        "url": "https://neurips.cc/"
+      }
     ]
   },
   "config": {
-    "directions": ["Agent", "RL", "LLM"],
-    "presentationTypes": ["Oral", "Spotlight", "Highlight", "Poster"],
+    "directions": [
+      "Agent",
+      "RL",
+      "LLM"
+    ],
+    "presentationTypes": [
+      "Oral",
+      "Spotlight",
+      "Highlight",
+      "Poster"
+    ],
     "notableInstitutions": [
-      { "name": "OpenAI", "type": "company", "aliases": [] },
-      { "name": "Google", "type": "company", "aliases": ["Google Brain", "Google Research", "Google DeepMind", "DeepMind", "Google AI Language"] },
-      { "name": "Meta", "type": "company", "aliases": ["Meta AI", "Meta AI Research", "Facebook AI Research", "FAIR"] },
-      { "name": "Microsoft", "type": "company", "aliases": ["Microsoft Research"] },
-      { "name": "NVIDIA", "type": "company", "aliases": ["NVIDIA Research"] },
-      { "name": "Anthropic", "type": "company", "aliases": [] },
-      { "name": "Apple", "type": "company", "aliases": ["Apple Machine Learning Research"] },
-      { "name": "Amazon", "type": "company", "aliases": ["Amazon Web Services", "AWS AI Labs"] },
-      { "name": "Alibaba", "type": "company", "aliases": ["Alibaba Group", "DAMO Academy"] },
-      { "name": "Tencent", "type": "company", "aliases": ["Tencent AI Lab"] },
-      { "name": "ByteDance", "type": "company", "aliases": ["ByteDance Research"] },
-      { "name": "Baidu", "type": "company", "aliases": ["Baidu Research"] },
-      { "name": "Stanford University", "type": "university", "aliases": ["Stanford"] },
-      { "name": "Massachusetts Institute of Technology", "type": "university", "aliases": ["MIT", "MIT CSAIL"] },
-      { "name": "Carnegie Mellon University", "type": "university", "aliases": ["CMU"] },
-      { "name": "UC Berkeley", "type": "university", "aliases": ["University of California, Berkeley"] },
-      { "name": "Tsinghua University", "type": "university", "aliases": ["Tsinghua"] },
-      { "name": "Peking University", "type": "university", "aliases": ["PKU"] },
-      { "name": "University of Toronto", "type": "university", "aliases": [] },
-      { "name": "ETH Zürich", "type": "university", "aliases": ["ETH Zurich"] },
-      { "name": "University of Oxford", "type": "university", "aliases": ["Oxford University"] },
-      { "name": "University of Cambridge", "type": "university", "aliases": ["Cambridge University"] },
-      { "name": "University of Illinois Urbana-Champaign", "type": "university", "aliases": ["University of Illinois at Urbana-Champaign", "UIUC"] },
-      { "name": "University of Washington", "type": "university", "aliases": [] }
+      {
+        "name": "OpenAI",
+        "type": "company",
+        "aliases": []
+      },
+      {
+        "name": "Google",
+        "type": "company",
+        "aliases": [
+          "Google Brain",
+          "Google Research",
+          "Google DeepMind",
+          "DeepMind",
+          "Google AI Language"
+        ]
+      },
+      {
+        "name": "Meta",
+        "type": "company",
+        "aliases": [
+          "Meta AI",
+          "Meta AI Research",
+          "Facebook AI Research",
+          "FAIR"
+        ]
+      },
+      {
+        "name": "Microsoft",
+        "type": "company",
+        "aliases": [
+          "Microsoft Research"
+        ]
+      },
+      {
+        "name": "NVIDIA",
+        "type": "company",
+        "aliases": [
+          "NVIDIA Research"
+        ]
+      },
+      {
+        "name": "Anthropic",
+        "type": "company",
+        "aliases": []
+      },
+      {
+        "name": "Apple",
+        "type": "company",
+        "aliases": [
+          "Apple Machine Learning Research"
+        ]
+      },
+      {
+        "name": "Amazon",
+        "type": "company",
+        "aliases": [
+          "Amazon Web Services",
+          "AWS AI Labs"
+        ]
+      },
+      {
+        "name": "Alibaba",
+        "type": "company",
+        "aliases": [
+          "Alibaba Group",
+          "DAMO Academy"
+        ]
+      },
+      {
+        "name": "Tencent",
+        "type": "company",
+        "aliases": [
+          "Tencent AI Lab"
+        ]
+      },
+      {
+        "name": "ByteDance",
+        "type": "company",
+        "aliases": [
+          "ByteDance Research"
+        ]
+      },
+      {
+        "name": "Baidu",
+        "type": "company",
+        "aliases": [
+          "Baidu Research"
+        ]
+      },
+      {
+        "name": "Stanford University",
+        "type": "university",
+        "aliases": [
+          "Stanford"
+        ]
+      },
+      {
+        "name": "Massachusetts Institute of Technology",
+        "type": "university",
+        "aliases": [
+          "MIT",
+          "MIT CSAIL"
+        ]
+      },
+      {
+        "name": "Carnegie Mellon University",
+        "type": "university",
+        "aliases": [
+          "CMU"
+        ]
+      },
+      {
+        "name": "UC Berkeley",
+        "type": "university",
+        "aliases": [
+          "University of California, Berkeley"
+        ]
+      },
+      {
+        "name": "Tsinghua University",
+        "type": "university",
+        "aliases": [
+          "Tsinghua"
+        ]
+      },
+      {
+        "name": "Peking University",
+        "type": "university",
+        "aliases": [
+          "PKU"
+        ]
+      },
+      {
+        "name": "University of Toronto",
+        "type": "university",
+        "aliases": []
+      },
+      {
+        "name": "ETH Zürich",
+        "type": "university",
+        "aliases": [
+          "ETH Zurich"
+        ]
+      },
+      {
+        "name": "University of Oxford",
+        "type": "university",
+        "aliases": [
+          "Oxford University"
+        ]
+      },
+      {
+        "name": "University of Cambridge",
+        "type": "university",
+        "aliases": [
+          "Cambridge University"
+        ]
+      },
+      {
+        "name": "University of Illinois Urbana-Champaign",
+        "type": "university",
+        "aliases": [
+          "University of Illinois at Urbana-Champaign",
+          "UIUC"
+        ]
+      },
+      {
+        "name": "University of Washington",
+        "type": "university",
+        "aliases": []
+      }
     ],
     "categoryColors": {
       "Agent": "oklch(84% 0.12 160)",
       "RL": "oklch(83% 0.14 25)",
       "LLM": "oklch(82% 0.12 230)"
-    }
+    },
+    "defaultCollectionId": "agent-stage01-batch-001"
   },
   "papers": [
     {
       "id": "arxiv-1706.03762",
       "title": "Attention Is All You Need",
       "authors": [
-        { "name": "Ashish Vaswani", "affiliations": ["Google Brain"] },
-        { "name": "Noam Shazeer", "affiliations": ["Google Brain"] },
-        { "name": "Niki Parmar", "affiliations": ["Google Research"] },
-        { "name": "Jakob Uszkoreit", "affiliations": ["Google Research"] },
-        { "name": "Llion Jones", "affiliations": ["Google Research"] },
-        { "name": "Aidan N. Gomez", "affiliations": ["University of Toronto"] },
-        { "name": "Lukasz Kaiser", "affiliations": ["Google Brain"] },
-        { "name": "Illia Polosukhin", "affiliations": ["Google Research"] }
+        {
+          "name": "Ashish Vaswani",
+          "affiliations": [
+            "Google Brain"
+          ]
+        },
+        {
+          "name": "Noam Shazeer",
+          "affiliations": [
+            "Google Brain"
+          ]
+        },
+        {
+          "name": "Niki Parmar",
+          "affiliations": [
+            "Google Research"
+          ]
+        },
+        {
+          "name": "Jakob Uszkoreit",
+          "affiliations": [
+            "Google Research"
+          ]
+        },
+        {
+          "name": "Llion Jones",
+          "affiliations": [
+            "Google Research"
+          ]
+        },
+        {
+          "name": "Aidan N. Gomez",
+          "affiliations": [
+            "University of Toronto"
+          ]
+        },
+        {
+          "name": "Lukasz Kaiser",
+          "affiliations": [
+            "Google Brain"
+          ]
+        },
+        {
+          "name": "Illia Polosukhin",
+          "affiliations": [
+            "Google Research"
+          ]
+        }
       ],
       "venue": "NeurIPS",
       "year": 2017,
       "direction": "LLM",
       "subdirection": "序列建模",
-      "contributionTypes": ["模型架构", "效率改进"],
+      "contributionTypes": [
+        "模型架构",
+        "效率改进"
+      ],
       "recommendationScore": 100,
       "quickRead": {
         "problem": "循环网络让长序列训练难以充分并行，远距离依赖也不易建模。",
@@ -72,7 +291,11 @@
       "researchQuestion": "序列到序列建模是否可以完全放弃循环和卷积，只依赖注意力机制？",
       "method": "提出 Transformer，以缩放点积注意力和多头注意力构造编码器与解码器，并用位置编码保留词序。",
       "findings": "在 WMT 2014 英德和英法翻译任务上取得当时领先结果，训练成本低于此前主流架构。",
-      "innovations": ["完全基于注意力的序列建模架构", "多头注意力", "可并行的全局依赖建模"],
+      "innovations": [
+        "完全基于注意力的序列建模架构",
+        "多头注意力",
+        "可并行的全局依赖建模"
+      ],
       "significance": "奠定了现代大语言模型及大量视觉、语音模型的基础架构。",
       "abstractExcerpt": "提出完全依赖注意力机制、无需循环和卷积的 Transformer 架构。",
       "links": {
@@ -84,16 +307,39 @@
       "id": "arxiv-1810.04805",
       "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
       "authors": [
-        { "name": "Jacob Devlin", "affiliations": ["Google AI Language"] },
-        { "name": "Ming-Wei Chang", "affiliations": ["Google AI Language"] },
-        { "name": "Kenton Lee", "affiliations": ["Google AI Language"] },
-        { "name": "Kristina Toutanova", "affiliations": ["Google AI Language"] }
+        {
+          "name": "Jacob Devlin",
+          "affiliations": [
+            "Google AI Language"
+          ]
+        },
+        {
+          "name": "Ming-Wei Chang",
+          "affiliations": [
+            "Google AI Language"
+          ]
+        },
+        {
+          "name": "Kenton Lee",
+          "affiliations": [
+            "Google AI Language"
+          ]
+        },
+        {
+          "name": "Kristina Toutanova",
+          "affiliations": [
+            "Google AI Language"
+          ]
+        }
       ],
       "venue": "NAACL",
       "year": 2019,
       "direction": "LLM",
       "subdirection": "预训练语言模型",
-      "contributionTypes": ["预训练方法", "模型架构"],
+      "contributionTypes": [
+        "预训练方法",
+        "模型架构"
+      ],
       "recommendationScore": 97,
       "quickRead": {
         "problem": "早期语言模型通常只从单一方向读取上下文，难以形成真正的双向表示。",
@@ -103,7 +349,10 @@
       "researchQuestion": "如何学习可被多种自然语言理解任务复用的深层双向表示？",
       "method": "随机遮盖输入词并预测原词，同时训练句间关系目标，再对下游任务进行端到端微调。",
       "findings": "在 GLUE、MultiNLI 与 SQuAD 等十一项任务上刷新当时的最佳结果。",
-      "innovations": ["深层双向预训练", "统一的预训练—微调范式"],
+      "innovations": [
+        "深层双向预训练",
+        "统一的预训练—微调范式"
+      ],
       "significance": "推动了通用预训练语言模型成为自然语言处理的标准工作流。",
       "abstractExcerpt": "BERT 通过同时利用左右上下文学习深层双向语言表示。",
       "links": {
@@ -115,17 +364,40 @@
       "id": "arxiv-1512.03385",
       "title": "Deep Residual Learning for Image Recognition",
       "authors": [
-        { "name": "Kaiming He", "affiliations": ["Microsoft Research"] },
-        { "name": "Xiangyu Zhang", "affiliations": ["Microsoft Research"] },
-        { "name": "Shaoqing Ren", "affiliations": ["Microsoft Research"] },
-        { "name": "Jian Sun", "affiliations": ["Microsoft Research"] }
+        {
+          "name": "Kaiming He",
+          "affiliations": [
+            "Microsoft Research"
+          ]
+        },
+        {
+          "name": "Xiangyu Zhang",
+          "affiliations": [
+            "Microsoft Research"
+          ]
+        },
+        {
+          "name": "Shaoqing Ren",
+          "affiliations": [
+            "Microsoft Research"
+          ]
+        },
+        {
+          "name": "Jian Sun",
+          "affiliations": [
+            "Microsoft Research"
+          ]
+        }
       ],
       "venue": "CVPR",
       "year": 2016,
       "direction": "Agent",
       "subdirection": "图像识别",
       "presentationType": "Oral",
-      "contributionTypes": ["模型架构", "优化方法"],
+      "contributionTypes": [
+        "模型架构",
+        "优化方法"
+      ],
       "recommendationScore": 96,
       "quickRead": {
         "problem": "网络越深越难优化，简单堆叠层数甚至会导致训练误差上升。",
@@ -135,7 +407,10 @@
       "researchQuestion": "怎样让显著更深的神经网络仍然可以稳定优化并从深度中获益？",
       "method": "构造残差块，通过恒等快捷连接将输入直接加入堆叠层输出。",
       "findings": "152 层残差网络在 ImageNet 上取得领先结果，并迁移到检测与分割任务。",
-      "innovations": ["残差学习框架", "恒等快捷连接"],
+      "innovations": [
+        "残差学习框架",
+        "恒等快捷连接"
+      ],
       "significance": "残差连接成为深度学习架构中最广泛使用的基础构件之一。",
       "abstractExcerpt": "提出残差学习框架，以缓解显著加深网络带来的优化困难。",
       "links": {
@@ -147,19 +422,52 @@
       "id": "arxiv-2003.08934",
       "title": "NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis",
       "authors": [
-        { "name": "Ben Mildenhall", "affiliations": ["UC Berkeley"] },
-        { "name": "Pratul P. Srinivasan", "affiliations": ["Google Research"] },
-        { "name": "Matthew Tancik", "affiliations": ["UC Berkeley"] },
-        { "name": "Jonathan T. Barron", "affiliations": ["Google Research"] },
-        { "name": "Ravi Ramamoorthi", "affiliations": ["UC San Diego"] },
-        { "name": "Ren Ng", "affiliations": ["UC Berkeley"] }
+        {
+          "name": "Ben Mildenhall",
+          "affiliations": [
+            "UC Berkeley"
+          ]
+        },
+        {
+          "name": "Pratul P. Srinivasan",
+          "affiliations": [
+            "Google Research"
+          ]
+        },
+        {
+          "name": "Matthew Tancik",
+          "affiliations": [
+            "UC Berkeley"
+          ]
+        },
+        {
+          "name": "Jonathan T. Barron",
+          "affiliations": [
+            "Google Research"
+          ]
+        },
+        {
+          "name": "Ravi Ramamoorthi",
+          "affiliations": [
+            "UC San Diego"
+          ]
+        },
+        {
+          "name": "Ren Ng",
+          "affiliations": [
+            "UC Berkeley"
+          ]
+        }
       ],
       "venue": "ECCV",
       "year": 2020,
       "direction": "Agent",
       "subdirection": "三维视觉",
       "presentationType": "Oral",
-      "contributionTypes": ["场景表示", "渲染方法"],
+      "contributionTypes": [
+        "场景表示",
+        "渲染方法"
+      ],
       "recommendationScore": 95,
       "quickRead": {
         "problem": "从有限照片合成连续新视角时，传统三维表示难以兼顾细节和真实感。",
@@ -169,7 +477,11 @@
       "researchQuestion": "能否直接从带位姿的二维图像学习一个可连续查询和渲染的三维场景表示？",
       "method": "以五维坐标为输入的 MLP 预测体密度与颜色，结合位置编码和分层采样优化重建误差。",
       "findings": "在合成和真实场景的新视角合成上明显优于此前方法。",
-      "innovations": ["神经辐射场", "位置编码用于高频场景表示", "可微体渲染"],
+      "innovations": [
+        "神经辐射场",
+        "位置编码用于高频场景表示",
+        "可微体渲染"
+      ],
       "significance": "开启了神经场与神经渲染的大规模研究浪潮。",
       "abstractExcerpt": "使用全连接网络将场景表示为连续体密度和视角相关辐射场。",
       "links": {
@@ -183,16 +495,39 @@
       "id": "arxiv-1707.06347",
       "title": "Proximal Policy Optimization Algorithms",
       "authors": [
-        { "name": "John Schulman", "affiliations": ["OpenAI"] },
-        { "name": "Filip Wolski", "affiliations": ["OpenAI"] },
-        { "name": "Prafulla Dhariwal", "affiliations": ["OpenAI"] },
-        { "name": "Oleg Klimov", "affiliations": ["OpenAI"] }
+        {
+          "name": "John Schulman",
+          "affiliations": [
+            "OpenAI"
+          ]
+        },
+        {
+          "name": "Filip Wolski",
+          "affiliations": [
+            "OpenAI"
+          ]
+        },
+        {
+          "name": "Prafulla Dhariwal",
+          "affiliations": [
+            "OpenAI"
+          ]
+        },
+        {
+          "name": "Oleg Klimov",
+          "affiliations": [
+            "OpenAI"
+          ]
+        }
       ],
       "venue": "arXiv",
       "year": 2017,
       "direction": "RL",
       "subdirection": "策略优化",
-      "contributionTypes": ["优化算法", "强化学习"],
+      "contributionTypes": [
+        "优化算法",
+        "强化学习"
+      ],
       "recommendationScore": 94,
       "quickRead": {
         "problem": "策略梯度方法需要在更新幅度、训练稳定性和实现复杂度之间取舍。",
@@ -202,7 +537,10 @@
       "researchQuestion": "能否保留信赖域策略优化的稳定性，同时显著简化实现和计算？",
       "method": "提出裁剪代理目标，在不显式计算复杂约束的情况下限制单次策略更新幅度。",
       "findings": "PPO 在多类连续控制与 Atari 环境中表现稳定，并在样本效率和实现成本之间取得良好平衡。",
-      "innovations": ["裁剪概率比目标", "多轮小批量策略更新"],
+      "innovations": [
+        "裁剪概率比目标",
+        "多轮小批量策略更新"
+      ],
       "significance": "成为强化学习研究和工程实践中最常用的策略优化基线之一。",
       "abstractExcerpt": "PPO 以简单的一阶优化目标实现可靠、易复现的策略更新。",
       "links": {
@@ -214,19 +552,52 @@
       "id": "arxiv-2304.02643",
       "title": "Segment Anything",
       "authors": [
-        { "name": "Alexander Kirillov", "affiliations": ["Meta AI Research"] },
-        { "name": "Eric Mintun", "affiliations": ["Meta AI Research"] },
-        { "name": "Nikhila Ravi", "affiliations": ["Meta AI Research"] },
-        { "name": "Hanzi Mao", "affiliations": ["Meta AI Research"] },
-        { "name": "Chloe Rolland", "affiliations": ["Meta AI Research"] },
-        { "name": "Laura Gustafson", "affiliations": ["Meta AI Research"] }
+        {
+          "name": "Alexander Kirillov",
+          "affiliations": [
+            "Meta AI Research"
+          ]
+        },
+        {
+          "name": "Eric Mintun",
+          "affiliations": [
+            "Meta AI Research"
+          ]
+        },
+        {
+          "name": "Nikhila Ravi",
+          "affiliations": [
+            "Meta AI Research"
+          ]
+        },
+        {
+          "name": "Hanzi Mao",
+          "affiliations": [
+            "Meta AI Research"
+          ]
+        },
+        {
+          "name": "Chloe Rolland",
+          "affiliations": [
+            "Meta AI Research"
+          ]
+        },
+        {
+          "name": "Laura Gustafson",
+          "affiliations": [
+            "Meta AI Research"
+          ]
+        }
       ],
       "venue": "ICCV",
       "year": 2023,
       "direction": "Agent",
       "subdirection": "图像分割",
       "presentationType": "Oral",
-      "contributionTypes": ["基础模型", "数据集"],
+      "contributionTypes": [
+        "基础模型",
+        "数据集"
+      ],
       "recommendationScore": 91,
       "quickRead": {
         "problem": "传统分割模型通常针对固定任务训练，换领域时需要重新标注和适配。",
@@ -236,7 +607,11 @@
       "researchQuestion": "图像分割能否像语言模型一样，通过提示完成开放世界中的多种分割任务？",
       "method": "使用图像编码器、提示编码器和轻量掩码解码器，并通过模型辅助的数据引擎构建 SA-1B。",
       "findings": "在多种分割任务与分布迁移设置上展现了较强的零样本表现。",
-      "innovations": ["可提示分割任务", "Segment Anything Model", "SA-1B 数据集"],
+      "innovations": [
+        "可提示分割任务",
+        "Segment Anything Model",
+        "SA-1B 数据集"
+      ],
       "significance": "推动视觉基础模型从识别和生成扩展到通用像素级理解。",
       "abstractExcerpt": "提出可提示分割模型与十亿级掩码数据集，以支持零样本迁移。",
       "links": {
@@ -250,17 +625,45 @@
       "id": "arxiv-2103.00020",
       "title": "Learning Transferable Visual Models From Natural Language Supervision",
       "authors": [
-        { "name": "Alec Radford", "affiliations": ["OpenAI"] },
-        { "name": "Jong Wook Kim", "affiliations": ["OpenAI"] },
-        { "name": "Chris Hallacy", "affiliations": ["OpenAI"] },
-        { "name": "Aditya Ramesh", "affiliations": ["OpenAI"] },
-        { "name": "Gabriel Goh", "affiliations": ["OpenAI"] }
+        {
+          "name": "Alec Radford",
+          "affiliations": [
+            "OpenAI"
+          ]
+        },
+        {
+          "name": "Jong Wook Kim",
+          "affiliations": [
+            "OpenAI"
+          ]
+        },
+        {
+          "name": "Chris Hallacy",
+          "affiliations": [
+            "OpenAI"
+          ]
+        },
+        {
+          "name": "Aditya Ramesh",
+          "affiliations": [
+            "OpenAI"
+          ]
+        },
+        {
+          "name": "Gabriel Goh",
+          "affiliations": [
+            "OpenAI"
+          ]
+        }
       ],
       "venue": "ICML",
       "year": 2021,
       "direction": "LLM",
       "subdirection": "视觉语言预训练",
-      "contributionTypes": ["预训练方法", "对比学习"],
+      "contributionTypes": [
+        "预训练方法",
+        "对比学习"
+      ],
       "recommendationScore": 93,
       "quickRead": {
         "problem": "依赖固定类别标注的视觉模型难以直接迁移到开放词汇任务。",
@@ -270,7 +673,10 @@
       "researchQuestion": "自然语言监督能否训练出可迁移到广泛视觉任务的通用图像表示？",
       "method": "在四亿图文对上进行对比学习，分别编码图像和文本，并用文本提示完成零样本分类。",
       "findings": "无需目标数据集训练即可在大量图像分类基准上达到有竞争力的表现。",
-      "innovations": ["大规模图文对比预训练", "基于文本提示的零样本分类"],
+      "innovations": [
+        "大规模图文对比预训练",
+        "基于文本提示的零样本分类"
+      ],
       "significance": "成为开放词汇视觉识别和现代多模态模型的重要基础。",
       "abstractExcerpt": "从自然语言监督中学习可迁移视觉表示，并通过文本提示完成零样本识别。",
       "links": {
@@ -282,17 +688,45 @@
       "id": "arxiv-2106.09685",
       "title": "LoRA: Low-Rank Adaptation of Large Language Models",
       "authors": [
-        { "name": "Edward J. Hu", "affiliations": ["Microsoft"] },
-        { "name": "Yelong Shen", "affiliations": ["Microsoft"] },
-        { "name": "Phillip Wallis", "affiliations": ["Microsoft"] },
-        { "name": "Zeyuan Allen-Zhu", "affiliations": ["Microsoft Research"] },
-        { "name": "Yuanzhi Li", "affiliations": ["Microsoft Research"] }
+        {
+          "name": "Edward J. Hu",
+          "affiliations": [
+            "Microsoft"
+          ]
+        },
+        {
+          "name": "Yelong Shen",
+          "affiliations": [
+            "Microsoft"
+          ]
+        },
+        {
+          "name": "Phillip Wallis",
+          "affiliations": [
+            "Microsoft"
+          ]
+        },
+        {
+          "name": "Zeyuan Allen-Zhu",
+          "affiliations": [
+            "Microsoft Research"
+          ]
+        },
+        {
+          "name": "Yuanzhi Li",
+          "affiliations": [
+            "Microsoft Research"
+          ]
+        }
       ],
       "venue": "ICLR",
       "year": 2022,
       "direction": "LLM",
       "subdirection": "参数高效微调",
-      "contributionTypes": ["效率改进", "微调方法"],
+      "contributionTypes": [
+        "效率改进",
+        "微调方法"
+      ],
       "recommendationScore": 92,
       "quickRead": {
         "problem": "为每个任务完整微调并保存大型模型，训练和存储成本都很高。",
@@ -302,7 +736,10 @@
       "researchQuestion": "大型预训练模型的任务适配是否能用极少量参数完成？",
       "method": "将权重更新约束为两个低秩矩阵的乘积，训练时只优化这些增量参数。",
       "findings": "在 GPT-3 等模型上减少多个数量级的可训练参数，同时保持任务质量和推理延迟。",
-      "innovations": ["低秩权重更新", "无需额外推理延迟的参数高效微调"],
+      "innovations": [
+        "低秩权重更新",
+        "无需额外推理延迟的参数高效微调"
+      ],
       "significance": "使个人和团队以较低成本定制大型模型成为常规做法。",
       "abstractExcerpt": "冻结预训练模型并注入可训练低秩分解矩阵，以显著降低适配成本。",
       "links": {
@@ -315,17 +752,45 @@
       "id": "arxiv-2304.07193",
       "title": "DINOv2: Learning Robust Visual Features without Supervision",
       "authors": [
-        { "name": "Maxime Oquab", "affiliations": ["Meta AI Research"] },
-        { "name": "Timothée Darcet", "affiliations": ["Meta AI Research"] },
-        { "name": "Théo Moutakanni", "affiliations": ["Meta AI Research"] },
-        { "name": "Huy V. Vo", "affiliations": ["Meta AI Research"] },
-        { "name": "Marc Szafraniec", "affiliations": ["Meta AI Research"] }
+        {
+          "name": "Maxime Oquab",
+          "affiliations": [
+            "Meta AI Research"
+          ]
+        },
+        {
+          "name": "Timothée Darcet",
+          "affiliations": [
+            "Meta AI Research"
+          ]
+        },
+        {
+          "name": "Théo Moutakanni",
+          "affiliations": [
+            "Meta AI Research"
+          ]
+        },
+        {
+          "name": "Huy V. Vo",
+          "affiliations": [
+            "Meta AI Research"
+          ]
+        },
+        {
+          "name": "Marc Szafraniec",
+          "affiliations": [
+            "Meta AI Research"
+          ]
+        }
       ],
       "venue": "TMLR",
       "year": 2024,
       "direction": "Agent",
       "subdirection": "自监督学习",
-      "contributionTypes": ["预训练方法", "数据处理"],
+      "contributionTypes": [
+        "预训练方法",
+        "数据处理"
+      ],
       "recommendationScore": 88,
       "quickRead": {
         "problem": "自监督视觉特征往往依赖复杂任务专用流程，跨任务泛化仍不稳定。",
@@ -335,7 +800,10 @@
       "researchQuestion": "只依靠自监督学习，能否获得可直接服务多种像素级和图像级任务的通用视觉特征？",
       "method": "结合自蒸馏目标、教师模型更新、掩码图像建模与大规模自动策展数据训练 ViT。",
       "findings": "冻结特征在分类、深度估计和分割等任务上表现稳健，常能匹配任务专用模型。",
-      "innovations": ["可扩展的自监督视觉训练流程", "面向通用特征的数据策展方法"],
+      "innovations": [
+        "可扩展的自监督视觉训练流程",
+        "面向通用特征的数据策展方法"
+      ],
       "significance": "展示了无需文本或人工标注也能训练强通用视觉基础模型。",
       "abstractExcerpt": "通过大规模自监督训练获得可跨任务使用的稳健视觉特征。",
       "links": {
@@ -348,17 +816,45 @@
       "id": "arxiv-2205.14135",
       "title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
       "authors": [
-        { "name": "Tri Dao", "affiliations": ["Stanford University"] },
-        { "name": "Daniel Y. Fu", "affiliations": ["Stanford University"] },
-        { "name": "Stefano Ermon", "affiliations": ["Stanford University"] },
-        { "name": "Atri Rudra", "affiliations": ["University at Buffalo"] },
-        { "name": "Christopher Ré", "affiliations": ["Stanford University"] }
+        {
+          "name": "Tri Dao",
+          "affiliations": [
+            "Stanford University"
+          ]
+        },
+        {
+          "name": "Daniel Y. Fu",
+          "affiliations": [
+            "Stanford University"
+          ]
+        },
+        {
+          "name": "Stefano Ermon",
+          "affiliations": [
+            "Stanford University"
+          ]
+        },
+        {
+          "name": "Atri Rudra",
+          "affiliations": [
+            "University at Buffalo"
+          ]
+        },
+        {
+          "name": "Christopher Ré",
+          "affiliations": [
+            "Stanford University"
+          ]
+        }
       ],
       "venue": "NeurIPS",
       "year": 2022,
       "direction": "LLM",
       "subdirection": "高效注意力",
-      "contributionTypes": ["系统优化", "效率改进"],
+      "contributionTypes": [
+        "系统优化",
+        "效率改进"
+      ],
       "recommendationScore": 90,
       "quickRead": {
         "problem": "标准注意力频繁读写 GPU 高带宽内存，长序列训练既慢又占显存。",
@@ -368,7 +864,10 @@
       "researchQuestion": "能否从 IO 复杂度而不是只看算术复杂度，设计更快且精确的注意力算法？",
       "method": "使用 tiling 在 SRAM 中完成注意力块计算，并通过重计算避免存储完整注意力矩阵。",
       "findings": "在多种序列长度上获得显著速度提升和更低显存占用，同时保持精确结果。",
-      "innovations": ["IO-aware 精确注意力", "片上分块与反向重计算"],
+      "innovations": [
+        "IO-aware 精确注意力",
+        "片上分块与反向重计算"
+      ],
       "significance": "成为现代大模型训练和长上下文推理的重要底层算子。",
       "abstractExcerpt": "通过减少 GPU 内存层级之间的读写，实现快速且显存高效的精确注意力。",
       "links": {
@@ -381,17 +880,46 @@
       "id": "arxiv-2005.11401",
       "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
       "authors": [
-        { "name": "Patrick Lewis", "affiliations": ["Facebook AI Research", "University College London"] },
-        { "name": "Ethan Perez", "affiliations": ["New York University"] },
-        { "name": "Aleksandra Piktus", "affiliations": ["Facebook AI Research"] },
-        { "name": "Fabio Petroni", "affiliations": ["Facebook AI Research"] },
-        { "name": "Vladimir Karpukhin", "affiliations": ["Facebook AI Research"] }
+        {
+          "name": "Patrick Lewis",
+          "affiliations": [
+            "Facebook AI Research",
+            "University College London"
+          ]
+        },
+        {
+          "name": "Ethan Perez",
+          "affiliations": [
+            "New York University"
+          ]
+        },
+        {
+          "name": "Aleksandra Piktus",
+          "affiliations": [
+            "Facebook AI Research"
+          ]
+        },
+        {
+          "name": "Fabio Petroni",
+          "affiliations": [
+            "Facebook AI Research"
+          ]
+        },
+        {
+          "name": "Vladimir Karpukhin",
+          "affiliations": [
+            "Facebook AI Research"
+          ]
+        }
       ],
       "venue": "NeurIPS",
       "year": 2020,
       "direction": "LLM",
       "subdirection": "检索增强生成",
-      "contributionTypes": ["系统架构", "知识增强"],
+      "contributionTypes": [
+        "系统架构",
+        "知识增强"
+      ],
       "recommendationScore": 89,
       "quickRead": {
         "problem": "参数化语言模型难以及时更新知识，也不容易说明生成事实来自哪里。",
@@ -401,7 +929,10 @@
       "researchQuestion": "如何让生成模型在保留语言能力的同时，动态访问可更新且可追溯的外部知识？",
       "method": "用稠密段落检索器选取 Wikipedia 文档，并让序列生成模型对潜在文档进行边缘化。",
       "findings": "在开放域问答等知识密集任务上取得领先表现，并生成更具体、事实性更强的文本。",
-      "innovations": ["检索器与生成器的端到端结合", "参数记忆与非参数记忆融合"],
+      "innovations": [
+        "检索器与生成器的端到端结合",
+        "参数记忆与非参数记忆融合"
+      ],
       "significance": "确立了现代 RAG 系统的基本范式。",
       "abstractExcerpt": "结合预训练参数记忆与可检索的非参数记忆，处理知识密集型语言任务。",
       "links": {
@@ -413,16 +944,39 @@
       "id": "arxiv-1801.01290",
       "title": "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor",
       "authors": [
-        { "name": "Tuomas Haarnoja", "affiliations": ["UC Berkeley"] },
-        { "name": "Aurick Zhou", "affiliations": ["UC Berkeley"] },
-        { "name": "Pieter Abbeel", "affiliations": ["UC Berkeley"] },
-        { "name": "Sergey Levine", "affiliations": ["UC Berkeley"] }
+        {
+          "name": "Tuomas Haarnoja",
+          "affiliations": [
+            "UC Berkeley"
+          ]
+        },
+        {
+          "name": "Aurick Zhou",
+          "affiliations": [
+            "UC Berkeley"
+          ]
+        },
+        {
+          "name": "Pieter Abbeel",
+          "affiliations": [
+            "UC Berkeley"
+          ]
+        },
+        {
+          "name": "Sergey Levine",
+          "affiliations": [
+            "UC Berkeley"
+          ]
+        }
       ],
       "venue": "ICML",
       "year": 2018,
       "direction": "RL",
       "subdirection": "离策略强化学习",
-      "contributionTypes": ["强化学习", "连续控制"],
+      "contributionTypes": [
+        "强化学习",
+        "连续控制"
+      ],
       "recommendationScore": 89,
       "quickRead": {
         "problem": "连续控制中的深度强化学习往往样本消耗大、训练不稳定且对超参数敏感。",
@@ -432,13 +986,816 @@
       "researchQuestion": "如何构造兼具样本效率、稳定性和探索能力的连续控制算法？",
       "method": "在最大熵强化学习框架中使用随机 actor、软价值函数和离策略经验回放。",
       "findings": "SAC 在多项高维连续控制任务上取得领先表现，并降低了对任务特定调参的依赖。",
-      "innovations": ["最大熵离策略 actor-critic", "稳定的随机策略学习"],
+      "innovations": [
+        "最大熵离策略 actor-critic",
+        "稳定的随机策略学习"
+      ],
       "significance": "为现代连续控制和机器人强化学习提供了重要的通用基线。",
       "abstractExcerpt": "SAC 通过最大化期望奖励与策略熵，获得高效且稳定的连续控制能力。",
       "links": {
         "official": "https://arxiv.org/abs/1801.01290",
         "pdf": "https://arxiv.org/pdf/1801.01290"
       }
+    },
+    {
+      "id": "acl-2026.acl-long.1",
+      "title": "OctoTools: A Multi-Agent Framework with Extensible Tools for Complex Reasoning",
+      "authors": [
+        {
+          "name": "Pan Lu"
+        },
+        {
+          "name": "Bowen Chen"
+        },
+        {
+          "name": "Sheng Liu"
+        },
+        {
+          "name": "Rahul Thapa"
+        },
+        {
+          "name": "Joseph Boen"
+        },
+        {
+          "name": "James Zou"
+        }
+      ],
+      "venue": "ACL",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q02｜可扩展工具调用",
+      "researchQuestion": "在不额外训练模型的情况下，Agent如何协调不同类型工具，完成跨领域、多步骤的推理任务？",
+      "links": {
+        "official": "https://aclanthology.org/2026.acl-long.1/",
+        "pdf": "https://aclanthology.org/2026.acl-long.1.pdf",
+        "project": "https://octotools.github.io/"
+      },
+      "quickRead": {
+        "problem": "复杂任务往往需要查知识、看图和计算，但已有工具方案常限于特定领域、工具种类，或需要额外训练，难以灵活组合完成多步任务。",
+        "finding": "论文报告：在包括视觉推理、知识问答和工具任务的测试中，OctoTools比直接使用GPT-4o及若干工具框架取得更高准确率；具体预算和提升幅度仍待核读实验。",
+        "approach": "把各工具的用途写成统一的“工具卡”，由规划器安排任务和具体调用，再交给执行器使用工具；多个角色配合完成跨领域推理，无须额外训练。"
+      },
+      "questionId": "Q02",
+      "scenarios": [
+        "视觉推理",
+        "知识问答",
+        "跨领域工具使用"
+      ],
+      "contributionTypes": [
+        "方法 / 系统"
+      ],
+      "readingGuide": {
+        "headline": "把不同工具组织起来，让 Agent 完成跨领域的复杂任务。",
+        "kind": "method",
+        "diagram": {
+          "layout": "flow",
+          "title": "工具卡、规划器与执行器，各自做什么？",
+          "caption": "AI 概念示意，基于官方摘要组织角色分工；不是原论文算法图，也不表示精确执行时序。",
+          "nodes": [
+            {
+              "id": "cards",
+              "title": "工具卡",
+              "description": "把每个工具的功能写成统一描述，便于系统理解有哪些可用能力。摘要强调工具可扩展，不要求为了接入工具额外训练模型。"
+            },
+            {
+              "id": "planner",
+              "title": "规划器",
+              "description": "同时考虑任务层面与具体调用层面的计划，协调不同工具来处理多步骤推理；具体如何选择和调整计划，需要进一步阅读方法章节。"
+            },
+            {
+              "id": "executor",
+              "title": "执行器",
+              "description": "负责实际使用工具，让计划转化为操作。作者在多类任务上测试这套框架；摘要不提供足够信息来核查各对照的调用预算。"
+            }
+          ]
+        },
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ACL 官方论文页",
+            "url": "https://aclanthology.org/2026.acl-long.1/",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acl-2026.acl-long.27",
+      "title": "How Memory Management Impacts LLM Agents: An Empirical Study of Experience-Following Behavior",
+      "authors": [
+        {
+          "name": "Zidi Xiong"
+        },
+        {
+          "name": "Yuping Lin"
+        },
+        {
+          "name": "Wenya Xie"
+        },
+        {
+          "name": "Pengfei He"
+        },
+        {
+          "name": "Zirui Liu"
+        },
+        {
+          "name": "Jiliang Tang"
+        },
+        {
+          "name": "Himabindu Lakkaraju"
+        },
+        {
+          "name": "Zhen Xiang"
+        }
+      ],
+      "venue": "ACL",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q03｜经验记忆的质量控制",
+      "researchQuestion": "Agent不断积累经验时，哪些记忆应该添加或删除，才能避免错误传播和看似成功的经验误导后续行动？",
+      "links": {
+        "official": "https://aclanthology.org/2026.acl-long.27/",
+        "pdf": "https://aclanthology.org/2026.acl-long.27.pdf"
+      },
+      "quickRead": {
+        "problem": "Agent会检索过去的执行经验来完成新任务，但保存过的经验并不一定有帮助；若反复照搬错误或不适用的经验，长期表现可能反而变差。",
+        "finding": "论文报告：在其受控实验中，输入相似的旧经验容易诱发相似输出，带来错误传播；一些看似成功的执行记录也可能误导新任务。",
+        "approach": "系统改变记忆的添加与删除方式，观察Agent怎样沿用经验，并用后续任务的反馈评价已存经验质量，为保留或清理记忆提供依据。"
+      },
+      "questionId": "Q03",
+      "scenarios": [
+        "具有经验记忆的LLM Agent"
+      ],
+      "contributionTypes": [
+        "实证分析"
+      ],
+      "readingGuide": {
+        "headline": "过去的经验未必总有用：记忆也可能让 Agent 反复犯错。",
+        "kind": "analysis",
+        "diagram": {
+          "layout": "study",
+          "title": "怎样观察“记忆帮了忙，还是带偏了”？",
+          "caption": "AI 概念示意，基于摘要概括研究变量与观察现象；不是新提出的 Agent 算法流程。",
+          "nodes": [
+            {
+              "id": "control",
+              "title": "改变记忆增删",
+              "description": "研究者系统改变记忆添加和删除方式，观察存储的执行经验怎样影响 Agent 后续表现。这是一项行为分析，不是把更多记忆当作必然改进。"
+            },
+            {
+              "id": "behavior",
+              "title": "观察经验沿用",
+              "description": "论文报告：当新任务输入与检索到的旧经验相似时，Agent 的输出也容易相似。相似经验可能帮助处理任务，也可能把旧错误带入新任务。"
+            },
+            {
+              "id": "risk",
+              "title": "识别传播与误导",
+              "description": "摘要指出错误传播和不匹配的经验重放：一些看似成功的记录也可能没有帮助甚至产生误导。结论适用的具体任务和模型仍需查看实验。"
+            }
+          ]
+        },
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ACL 官方论文页",
+            "url": "https://aclanthology.org/2026.acl-long.27/",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "iclr-2026-002a6bef26174b590e4eab95b63feb1b",
+      "title": "LongHorizonUI: A Unified Framework for Robust long-horizon Task Automation of GUI Agent",
+      "authors": [
+        {
+          "name": "Bin Kang"
+        },
+        {
+          "name": "Shaoguo Wen"
+        },
+        {
+          "name": "YIFEI BI"
+        },
+        {
+          "name": "Shunlong Wu"
+        },
+        {
+          "name": "Xinbin Yuan"
+        },
+        {
+          "name": "Rui Shao"
+        },
+        {
+          "name": "Junle Wang"
+        },
+        {
+          "name": "Zhuotao Tian"
+        }
+      ],
+      "venue": "ICLR",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q01｜长程界面任务执行",
+      "researchQuestion": "图形界面不断变化时，Agent如何持续识别状态、校验行动并从失败中恢复，以完成长步骤任务？",
+      "links": {
+        "official": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/002a6bef26174b590e4eab95b63feb1b-Abstract-Conference.html",
+        "pdf": "https://proceedings.iclr.cc/paper_files/paper/2026/file/002a6bef26174b590e4eab95b63feb1b-Paper-Conference.pdf"
+      },
+      "quickRead": {
+        "problem": "多模态Agent能完成一些短界面任务，但任务步骤变多、界面动态变化后，状态识别和行动错误容易累积，持续完成任务仍不可靠。",
+        "finding": "论文报告：在其长程界面基准LongGUIBench上，这套框架改善了长步骤任务表现，并在所测其他公开基准上保持竞争力；具体收益仍待核读实验。",
+        "approach": "用元素检测和文字识别强化界面状态，再分层校验推理与行动；执行中监测进度，必要时补偿操作或回退，让长任务能从局部错误中继续。"
+      },
+      "questionId": "Q01",
+      "scenarios": [
+        "图形界面操作",
+        "游戏",
+        "复杂通用应用"
+      ],
+      "contributionTypes": [
+        "方法 / 系统"
+      ],
+      "readingGuide": {
+        "headline": "界面任务变长后，Agent 怎样发现操作失误并继续完成任务？",
+        "kind": "method",
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ICLR 官方论文页",
+            "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/002a6bef26174b590e4eab95b63feb1b-Abstract-Conference.html",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "iclr-2026-f9155a06ba1b20e40c38bf8541db456f",
+      "title": "Sculptor: Empowering LLMs with Cognitive Agency via Active Context Management",
+      "authors": [
+        {
+          "name": "Mo Li"
+        },
+        {
+          "name": "L.H. Xu"
+        },
+        {
+          "name": "Qitai Tan"
+        },
+        {
+          "name": "Long Ma"
+        },
+        {
+          "name": "Hongyong Song"
+        },
+        {
+          "name": "Ting Cao"
+        },
+        {
+          "name": "Yunxin Liu"
+        }
+      ],
+      "venue": "ICLR",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q03｜主动上下文管理",
+      "researchQuestion": "Agent能否主动整理自己的对话历史和工作记忆，减轻早先无关内容对当前推理的干扰？",
+      "links": {
+        "official": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/f9155a06ba1b20e40c38bf8541db456f-Abstract-Conference.html",
+        "pdf": "https://proceedings.iclr.cc/paper_files/paper/2026/file/f9155a06ba1b20e40c38bf8541db456f-Paper-Conference.pdf"
+      },
+      "quickRead": {
+        "problem": "上下文更长不一定让Agent记得更准；早先无关的信息可能干扰当前推理和回忆，单纯扩大上下文窗口未必能处理这种问题。",
+        "finding": "论文报告：在所测长上下文基准上，主动整理上下文的框架无需专门训练也能改善表现，并进一步探索用强化学习训练这种整理行为。",
+        "approach": "给Agent提供切分、摘要、隐藏、恢复和搜索历史的工具，让它主动整理工作记忆；再用适配动态上下文的强化学习，学习如何修改自己的对话历史。"
+      },
+      "questionId": "Q03",
+      "scenarios": [
+        "长上下文交互",
+        "对话历史管理"
+      ],
+      "contributionTypes": [
+        "方法 / 系统"
+      ],
+      "readingGuide": {
+        "headline": "让 Agent 主动整理对话历史，减少无关上下文的干扰。",
+        "kind": "method",
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ICLR 官方论文页",
+            "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/f9155a06ba1b20e40c38bf8541db456f-Abstract-Conference.html",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "iclr-2026-df20e06b04dfc499a1a698796abb0856",
+      "title": "Experience-based Knowledge Correction for Robust Planning in Minecraft",
+      "authors": [
+        {
+          "name": "Seungjoon Lee"
+        },
+        {
+          "name": "Suhwan Kim"
+        },
+        {
+          "name": "Minhyeon Oh"
+        },
+        {
+          "name": "Youngsik Yoon"
+        },
+        {
+          "name": "Jungseul Ok"
+        }
+      ],
+      "venue": "ICLR",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q05｜通过经验纠正规划知识",
+      "researchQuestion": "只有稀疏成败反馈时，Agent如何发现并修正错误的任务依赖与行动知识，而不是不断重复失败计划？",
+      "links": {
+        "official": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/df20e06b04dfc499a1a698796abb0856-Abstract-Conference.html",
+        "pdf": "https://proceedings.iclr.cc/paper_files/paper/2026/file/df20e06b04dfc499a1a698796abb0856-Paper-Conference.pdf"
+      },
+      "quickRead": {
+        "problem": "LLM可能一开始就记错物品依赖或行动规则；在Minecraft这类长任务中，仅告诉它失败了，也未必能让它纠正这些错误知识。",
+        "finding": "论文报告：在所测Minecraft基准上，XENON改善了知识学习和长程规划，能在错误先验与稀疏成败反馈条件下继续纠错；其他场景的适用性仍待验证。",
+        "approach": "用成功经验更新“先拿到什么才能做什么”的依赖图，用失败经验修正行动知识；把知识纠错写成明确的更新机制，帮助Agent重新规划。"
+      },
+      "questionId": "Q05",
+      "scenarios": [
+        "Minecraft",
+        "开放世界长程规划"
+      ],
+      "contributionTypes": [
+        "方法 / 系统"
+      ],
+      "readingGuide": {
+        "headline": "规划失败以后，用成功和失败经验修正原本记错的知识。",
+        "kind": "method",
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ICLR 官方论文页",
+            "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/df20e06b04dfc499a1a698796abb0856-Abstract-Conference.html",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "openreview-ORVJCJczoG",
+      "title": "AgentNoiseBench: Benchmarking Robustness of Tool-Using LLM Agents Under Noisy Condition",
+      "authors": [
+        {
+          "name": "Ruipeng Wang"
+        },
+        {
+          "name": "Yuxin Chen"
+        },
+        {
+          "name": "Yukai Wang"
+        },
+        {
+          "name": "Chang Wu"
+        },
+        {
+          "name": "Junfeng Fang"
+        },
+        {
+          "name": "Xiaodong Cai"
+        },
+        {
+          "name": "Qi GU"
+        },
+        {
+          "name": "Hui Su"
+        },
+        {
+          "name": "An Zhang"
+        },
+        {
+          "name": "Xiang Wang"
+        },
+        {
+          "name": "Xunliang Cai"
+        },
+        {
+          "name": "Tat-Seng Chua"
+        }
+      ],
+      "venue": "ICML",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q07｜噪声环境下的鲁棒评测",
+      "presentationType": "Poster",
+      "researchQuestion": "用户输入或工具反馈不够干净时，如何在保持任务可解的前提下测量工具Agent的可靠性？",
+      "links": {
+        "official": "https://icml.cc/virtual/2026/poster/64355",
+        "review": "https://openreview.net/forum?id=ORVJCJczoG"
+      },
+      "quickRead": {
+        "problem": "许多Agent基准默认指令清楚、工具反馈正常，但实际交互会出现含糊输入或不完美反馈，干净环境中的表现未必反映这些条件下的可靠性。",
+        "finding": "论文报告：在加入不同用户噪声和工具噪声的测试中，所测Agent表现持续变化，显示它们对环境扰动较敏感；摘要不足以判断具体下降幅度。",
+        "approach": "把噪声分为用户侧和工具侧，向已有Agent基准注入可控扰动，同时保持任务仍可完成，再比较不同模型在这些条件下的表现。"
+      },
+      "questionId": "Q07",
+      "scenarios": [
+        "带噪用户交互",
+        "带噪工具调用"
+      ],
+      "contributionTypes": [
+        "评测 / 基准"
+      ],
+      "readingGuide": {
+        "headline": "用户说不清、工具反馈不完美时，Agent 还可靠吗？",
+        "kind": "benchmark",
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ICML 官方论文页",
+            "url": "https://icml.cc/virtual/2026/poster/64355",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "openreview-YX4rgoI8pB",
+      "title": "Agent-Omit: Adaptive Context Omission for Efficient LLM Agents",
+      "authors": [
+        {
+          "name": "Yansong Ning"
+        },
+        {
+          "name": "Jun Fang"
+        },
+        {
+          "name": "Naiqiang Tan"
+        },
+        {
+          "name": "Hao Liu"
+        }
+      ],
+      "venue": "ICML",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q08｜自适应省略冗余上下文",
+      "presentationType": "Poster",
+      "researchQuestion": "多轮交互中，Agent怎样按需省略不再有用的思考与观察，在节省成本的同时保留完成任务所需的信息？",
+      "links": {
+        "official": "https://icml.cc/virtual/2026/poster/63271",
+        "review": "https://openreview.net/forum?id=YX4rgoI8pB",
+        "code": "https://github.com/usail-hkust/Agent-Omit"
+      },
+      "quickRead": {
+        "problem": "Agent多轮执行会积累思考与工具观察，但每一轮的信息价值不同；把整个历史都同等保留，可能浪费计算，也限制执行效率。",
+        "finding": "论文报告：在其Agent基准测试中，训练后的Agent-Omit在保持任务表现的同时改善了效果与效率的取舍；具体成本口径和公平性仍待核读。",
+        "approach": "先用少量单轮和多轮示例教Agent怎样省略，再用强化学习及专门的省略奖励，鼓励它按当前任务需要跳过冗余思考与观察。"
+      },
+      "questionId": "Q08",
+      "scenarios": [
+        "多轮Agent环境交互"
+      ],
+      "contributionTypes": [
+        "方法 / 系统"
+      ],
+      "readingGuide": {
+        "headline": "并非每一步思考和观察都要保留：学习何时省略冗余内容。",
+        "kind": "method",
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ICML 官方论文页",
+            "url": "https://icml.cc/virtual/2026/poster/63271",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "openreview-Iee7eL6QV0",
+      "title": "AgentAbstain: Do LLM Agents Know When Not to Act?",
+      "authors": [
+        {
+          "name": "Xun Liu"
+        },
+        {
+          "name": "Yi Evie Zhang"
+        },
+        {
+          "name": "Vira Kasprova"
+        },
+        {
+          "name": "Parisa Rabbani"
+        },
+        {
+          "name": "Pardissadat Zahraei"
+        },
+        {
+          "name": "Tianyu Zhang"
+        },
+        {
+          "name": "Ali Ebrahimpour-Boroojeny"
+        },
+        {
+          "name": "Varun Chandrasekaran"
+        }
+      ],
+      "venue": "NeurIPS",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q08｜行动前的拒绝与停止",
+      "presentationType": "Oral",
+      "researchQuestion": "遇到歧义、冲突约束或工具失败时，怎样判断Agent是否会在造成不可逆后果前停止行动？",
+      "links": {
+        "official": "https://neurips.cc/virtual/2026/poster/139558",
+        "review": "https://openreview.net/forum?id=Iee7eL6QV0"
+      },
+      "quickRead": {
+        "problem": "只测任务成功率，看不出Agent在指令含糊、约束冲突或工具出错时会不会及时停手；它可能先做了不可逆操作，之后才说不能继续。",
+        "finding": "论文报告：在其成对沙箱任务中，完成任务的能力与知道何时不应行动并不等同，并观察到一些Agent先执行、后拒绝的失败方式。",
+        "approach": "给同类任务构造“应该行动”和“应该停止”的配对版本，控制改变指令、工具或环境状态；再自动生成并校验任务，分别检查两边是否判断正确。"
+      },
+      "questionId": "Q08",
+      "scenarios": [
+        "可执行沙箱工具任务",
+        "存在不可逆操作的Agent交互"
+      ],
+      "contributionTypes": [
+        "评测 / 基准"
+      ],
+      "readingGuide": {
+        "headline": "会完成任务还不够：Agent 也要知道什么时候应该停手。",
+        "kind": "benchmark",
+        "diagram": {
+          "layout": "paired",
+          "title": "同类任务，两种正确的行动选择",
+          "caption": "AI 概念示意，基于摘要解释成对评测；下列是任务结构，不是论文的具体实验样本。",
+          "nodes": [
+            {
+              "id": "pair",
+              "title": "构造一对任务",
+              "description": "以相似任务为基础，控制改变指令、工具或环境状态，分别形成“应执行”和“应停止”的条件；这样可以一起检查行动与克制能力。"
+            },
+            {
+              "id": "act",
+              "title": "条件允许 → 执行",
+              "description": "在应该行动的一侧，Agent 需要完成任务。只会拒绝并不能在成对评测中得到完整的正确结果。"
+            },
+            {
+              "id": "abstain",
+              "title": "出现停止条件 → 停止",
+              "description": "在出现歧义、冲突或其他停止条件的一侧，需要及时避免行动。作者特别报告“先执行不可逆操作、之后才拒绝”的失败方式。"
+            }
+          ]
+        },
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "NeurIPS 官方论文页",
+            "url": "https://neurips.cc/virtual/2026/poster/139558",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "openreview-yPSKli19Mm",
+      "title": "AgentBrew: Offline Tool-Use Agent Learning from Raw Real-World Trajectories",
+      "authors": [
+        {
+          "name": "Zhiyi Lyu"
+        },
+        {
+          "name": "Yewen Li"
+        },
+        {
+          "name": "Longtao Zheng"
+        },
+        {
+          "name": "shengtian yang"
+        },
+        {
+          "name": "Lang Feng"
+        },
+        {
+          "name": "Lei Feng"
+        },
+        {
+          "name": "Peng Jiang"
+        },
+        {
+          "name": "Kun Gai"
+        },
+        {
+          "name": "Qingpeng Cai"
+        },
+        {
+          "name": "Bo An"
+        }
+      ],
+      "venue": "NeurIPS",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q04｜原始交互轨迹的离线训练",
+      "presentationType": "Poster",
+      "researchQuestion": "真实工具环境缺少任务验证器且交互预算有限时，如何从一次收集的嘈杂轨迹中提取有效的Agent训练信号？",
+      "links": {
+        "official": "https://neurips.cc/virtual/2026/poster/148366",
+        "review": "https://openreview.net/forum?id=yPSKli19Mm"
+      },
+      "quickRead": {
+        "problem": "真实工具应用常没有现成任务、自动判对器或忠实模拟器，反复在线试错又很贵，因而难以训练适应该环境的Agent。",
+        "finding": "论文报告：在所测GitHub、Notion和PostgreSQL应用中，从原始轨迹离线学习能改善工具任务表现，并利用一些筛选式训练会丢弃的轨迹。",
+        "approach": "先从实际结果反推每条轨迹适合的任务指令，再估计各动作对该指令提供了多少信息，用这些信息权重训练策略，强调有用动作、弱化无效动作。"
+      },
+      "questionId": "Q04",
+      "scenarios": [
+        "GitHub工具应用",
+        "Notion工具应用",
+        "PostgreSQL工具应用"
+      ],
+      "contributionTypes": [
+        "方法 / 系统"
+      ],
+      "readingGuide": {
+        "headline": "没有现成判对器，怎样从真实工具交互轨迹中训练 Agent？",
+        "kind": "method",
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "NeurIPS 官方论文页",
+            "url": "https://neurips.cc/virtual/2026/poster/148366",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "openreview-P9qqypDzuC",
+      "title": "AgentCollabBench: Diagnosing When Good Agents Make Bad Collaborators",
+      "authors": [
+        {
+          "name": "Aritra Mazumder"
+        },
+        {
+          "name": "Shubhashis Roy Dipta"
+        },
+        {
+          "name": "Nusrat Jahan Lia"
+        },
+        {
+          "name": "Tanzila Khan"
+        },
+        {
+          "name": "Kainat R Hossain"
+        },
+        {
+          "name": "Nehaa Shri"
+        },
+        {
+          "name": "Humayra Tasnim"
+        },
+        {
+          "name": "Gour G Shawon"
+        },
+        {
+          "name": "Shubhrangshu Debsarkar"
+        },
+        {
+          "name": "Sumaiya A Rani"
+        },
+        {
+          "name": "Al Jami Islam Anik"
+        },
+        {
+          "name": "Debjoty Mitra"
+        },
+        {
+          "name": "Al Nafeu Khan"
+        }
+      ],
+      "venue": "NeurIPS",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q06｜协作过程的信息失真",
+      "presentationType": "Poster",
+      "researchQuestion": "多个Agent传递和汇合信息时，哪些通信结构会让约束丢失或错误扩散，而最终答案检查又难以发现？",
+      "links": {
+        "official": "https://neurips.cc/virtual/2026/poster/139450",
+        "review": "https://openreview.net/forum?id=P9qqypDzuC",
+        "project": "https://www.aritramazumder.com/agentcollabbench/"
+      },
+      "quickRead": {
+        "problem": "多Agent传递信息时可能悄悄丢失约束、扩散错误或泄漏别的任务内容；即便最终输出看似正确，只看结果的评测也可能发现不了过程损坏。",
+        "finding": "论文报告：在所测工程任务与通信结构中，模型存在不同过程风险；多分支信息汇合时可能丢掉少数分支携带的约束，较强模型也不能自动避免。",
+        "approach": "设计分别追踪指令保持、错误信念传播、跨任务泄漏和标记信息传递的诊断任务，改变Agent通信结构，观察信息在多步协作中怎样保存或失真。"
+      },
+      "questionId": "Q06",
+      "scenarios": [
+        "软件工程",
+        "开发运维",
+        "数据工程",
+        "多Agent通信"
+      ],
+      "contributionTypes": [
+        "评测 / 基准"
+      ],
+      "readingGuide": {
+        "headline": "多个 Agent 合作时，重要约束可能在传话和信息汇合中丢失。",
+        "kind": "benchmark",
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "NeurIPS 官方论文页",
+            "url": "https://neurips.cc/virtual/2026/poster/139450",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    }
+  ],
+  "collections": [
+    {
+      "id": "agent-stage01-batch-001",
+      "name": "本轮调研",
+      "description": "从工具使用、记忆、规划与评测开始认识 Agent 研究。先看导读和图解，再比较同一问题的不同路线。",
+      "paperIds": [
+        "acl-2026.acl-long.1",
+        "acl-2026.acl-long.27",
+        "iclr-2026-002a6bef26174b590e4eab95b63feb1b",
+        "iclr-2026-f9155a06ba1b20e40c38bf8541db456f",
+        "iclr-2026-df20e06b04dfc499a1a698796abb0856",
+        "openreview-ORVJCJczoG",
+        "openreview-YX4rgoI8pB",
+        "openreview-Iee7eL6QV0",
+        "openreview-yPSKli19Mm",
+        "openreview-P9qqypDzuC"
+      ]
+    },
+    {
+      "id": "background-reading",
+      "name": "基础阅读",
+      "description": "保留的基础论文与历史阅读材料；收藏、便签和阅读状态继续关联原论文。",
+      "paperIds": [
+        "arxiv-1706.03762",
+        "arxiv-1810.04805",
+        "arxiv-1512.03385",
+        "arxiv-2003.08934",
+        "arxiv-1707.06347",
+        "arxiv-2304.02643",
+        "arxiv-2103.00020",
+        "arxiv-2106.09685",
+        "arxiv-2304.07193",
+        "arxiv-2205.14135",
+        "arxiv-2005.11401",
+        "arxiv-1801.01290"
+      ]
+    }
+  ],
+  "questionCatalog": [
+    {
+      "id": "Q01",
+      "name": "规划与长程执行",
+      "question": "Agent如何拆解长任务，并在环境变化后调整计划？"
+    },
+    {
+      "id": "Q02",
+      "name": "工具使用",
+      "question": "Agent如何选择工具、生成有效参数并处理工具调用失败？"
+    },
+    {
+      "id": "Q03",
+      "name": "记忆与状态",
+      "question": "Agent如何保存、检索和更新信息，避免使用无关或过时记忆？"
+    },
+    {
+      "id": "Q04",
+      "name": "Agent训练与RL",
+      "question": "如何从交互轨迹和延迟奖励中学习有效行动？"
+    },
+    {
+      "id": "Q05",
+      "name": "反思与恢复",
+      "question": "Agent如何发现错误，并利用反馈改善后续行动？"
+    },
+    {
+      "id": "Q06",
+      "name": "多智能体协作",
+      "question": "什么条件下协作有效，如何控制通信与协调成本？"
+    },
+    {
+      "id": "Q07",
+      "name": "评测与可靠性",
+      "question": "如何判断Agent真正完成任务，并测量结果的稳定性？"
+    },
+    {
+      "id": "Q08",
+      "name": "效率与安全",
+      "question": "如何控制执行成本、合理停止，并减少不安全行动？"
     }
   ]
 }

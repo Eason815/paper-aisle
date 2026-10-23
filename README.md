@@ -23,7 +23,7 @@ npm run preview
 
 1. 按照 [`public/data/papers.schema.json`](public/data/papers.schema.json) 准备 JSON。
 2. 保留 `schemaVersion: 1`，并设置稳定、唯一的 `datasetId`。
-3. 覆盖 `public/data/papers.json` 后刷新页面。请求使用 `cache: no-store`，无需改动应用代码。
+3. 本地替换 `public/data/papers.json` 后刷新页面。请求使用 `cache: no-store`。更新线上数据时，提交到 GitHub，由 Vercel 重新构建部署；不需要修改应用代码。
 
 根级最小示例：
 
@@ -59,7 +59,35 @@ paper-aisle:${datasetId}:user-state:v1
 
 ## 数据与隐私
 
-仓库当前收录 12 篇真实开放论文。论文公开元数据来自 arXiv 及会议官方页面，官方、PDF、评审、项目与代码链接只在数据提供且 URL 有效时显示。搜索、筛选、排序、收藏、导出与对比都在浏览器本地完成。
+仓库保留原有基础阅读数据，并接入首批 Agent 调研数据。论文公开元数据来自 arXiv 及会议官方页面，官方、PDF、评审、项目与代码链接只在数据提供且 URL 有效时显示。搜索、筛选、排序、收藏、导出与对比都在浏览器本地完成。
+
+## 调研集合与图解导读
+
+根级 `collections` 用稳定 ID、名称、说明和 `paperIds` 定义阅读范围；`config.defaultCollectionId` 指定默认集合。`questionCatalog` 定义研究问题，论文以 `questionId` 关联。没有这些配置的旧数据仍显示全库。
+
+论文可选 `scenarios` 和 `readingGuide`。导读包含中文概述、论文类型、材料深度、来源，以及可选的概念图；图示模块的数据和说明均由 JSON 提供。界面支持方法、分析和成对评测三种布局。摘要级概念图明确标记材料范围，不作为原论文算法图。
+
+详情在缺少完整 `method` / `findings` 时回退显示 `quickRead`，并支持在本次打开的阅读序列中前后翻篇。正文内的 J/K 可切换下一篇/上一篇；输入框内不触发快捷键。便签可插入阅读模板，原内容会保留。
+
+## 批次数据接入
+
+首批原始调研记录保存在 `data/batches/`，图解及中文概述补充在 `data/guides/`，集合配置位于 `data/research-import.json`。三段速读由调研记录投影，不独立改写。
+
+```powershell
+npm run data:preview
+npm run data:import
+npm run check
+```
+
+预览只报告新增、更新、保留及冲突；导入在现有库上增量合并，保留 datasetId 和未涉及的旧论文。遇到 ID/标题冲突会停止。轨道未知或没有人工确认不会阻止有原文依据的候选进入泛读库。再次运行不会重复添加论文。
+
+`data/library.before-round-one.json` 是第一轮前的公开数据快照，供回归检查和恢复公共数据使用，不含浏览器个人记录。实际批次证据和人工状态保存在调研数据中，未伪装为人工已读。
+
+## 阅读记录备份与恢复
+
+页头“阅读记录”支持完整个人状态 JSON 备份、当前集合 Markdown 导出和恢复预览。完整备份带 datasetId，保留不在当前论文列表里的旧记录；不同库的备份不会混入。
+
+恢复不会删除当前已有记录。标签合并，不同便签并列保留；收藏及阅读状态的差异会先展示，用户可选择优先采用当前或备份状态。所有操作在浏览器本地完成，个人备份不要加入公共数据或Git仓库。收藏夹原有 Markdown/BibTeX 导出继续可用，Markdown 现在也包含稳定论文 ID。
 
 ## 质量检查
 

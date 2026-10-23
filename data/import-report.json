@@ -1,0 +1,28 @@
+{
+  "added": [],
+  "updated": [],
+  "unchanged": [
+    "acl-2026.acl-long.1",
+    "acl-2026.acl-long.27",
+    "iclr-2026-002a6bef26174b590e4eab95b63feb1b",
+    "iclr-2026-f9155a06ba1b20e40c38bf8541db456f",
+    "iclr-2026-df20e06b04dfc499a1a698796abb0856",
+    "openreview-ORVJCJczoG",
+    "openreview-YX4rgoI8pB",
+    "openreview-Iee7eL6QV0",
+    "openreview-yPSKli19Mm",
+    "openreview-P9qqypDzuC"
+  ],
+  "skipped": [],
+  "originalCount": 22,
+  "sourceBatches": [
+    {
+      "batchId": "batch-001",
+      "path": "data/batches/batch-001.research.json",
+      "sha256": "cd8cb2edad59cf95df5ef33e4bfceea928beb0b3cbebebf17da4df68010988b2"
+    }
+  ],
+  "finalCount": 22,
+  "preservedLegacyCount": 12,
+  "defaultCollectionCount": 10
+}

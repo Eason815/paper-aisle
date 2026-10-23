@@ -66,6 +66,7 @@ export function matchesFilters(
   const personal = userState[paper.id] ?? {};
   const status = personal.readingStatus ?? "unread";
   const checks: Record<keyof Filters, boolean> = {
+    questions: includesAny(paper.questionId, filters.questions),
     directions: includesAny(paper.direction, filters.directions),
     subdirections: includesAny(paper.subdirection, filters.subdirections),
     years: filters.years.length === 0 || Boolean(paper.year && filters.years.includes(String(paper.year))),
@@ -142,7 +143,7 @@ export function categoryColor(category: string, overrides?: Record<string, strin
 }
 
 export function activeFilterCount(filters: Filters): number {
-  return filters.directions.length + filters.subdirections.length + filters.years.length
+  return filters.questions.length + filters.directions.length + filters.subdirections.length + filters.years.length
     + filters.venues.length + filters.presentationTypes.length + filters.contributionTypes.length
     + filters.readingStatuses.length + Number(filters.notableTeam) + Number(filters.favorites)
     + Number(filters.hasCode);

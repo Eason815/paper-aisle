@@ -46,6 +46,7 @@ describe("Paper Aisle app", () => {
     expect(within(dialog).getByRole("button", { name: "已收藏" })).toBeInTheDocument();
     await user.keyboard("{Escape}");
     await waitFor(() => expect(screen.queryByRole("dialog", { name: "论文详情" })).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole("button", { name: "快速查看" })).toHaveFocus());
   });
 
   it("renders only the first 48 papers and loads the next batch on demand", async () => {
