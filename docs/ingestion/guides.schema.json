@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Paper Aisle import-time reading guides v1",
+  "description": "data/guides 输入契约，不是最终 readingGuide。sourceLevel 和 sources 由当前转换器注入。键须对应同一批次 paper.id，节点 ID 须唯一；这些跨字段约束另行检查。",
+  "type": "object",
+  "propertyNames": { "minLength": 1 },
+  "additionalProperties": { "$ref": "#/$defs/guide" },
+  "$defs": {
+    "guide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["headline", "kind"],
+      "properties": {
+        "headline": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["method", "analysis", "benchmark"] },
+        "diagram": { "$ref": "#/$defs/diagram" }
+      }
+    },
+    "diagram": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layout", "title", "caption", "nodes"],
+      "properties": {
+        "layout": { "enum": ["flow", "study", "paired"] },
+        "title": { "type": "string", "minLength": 1 },
+        "caption": { "type": "string", "minLength": 1 },
+        "nodes": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "title", "description"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "title": { "type": "string", "minLength": 1 },
+              "description": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    }
+  }
+}

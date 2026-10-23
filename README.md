@@ -71,6 +71,8 @@ paper-aisle:${datasetId}:user-state:v1
 
 ## 批次数据接入
 
+后续批量制作论文使用 [`docs/ingestion/README.md`](docs/ingestion/README.md) 中的标准与主提示词。提示词包包含来源/证据规则、中文导读和图解格式、任务参数、校验与断点续跑指令；默认只生成待入库文件，不自动覆盖公共库或发布。
+
 首批原始调研记录保存在 `data/batches/`，图解及中文概述补充在 `data/guides/`，集合配置位于 `data/research-import.json`。三段速读由调研记录投影，不独立改写。
 
 ```powershell
