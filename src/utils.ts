@@ -2,9 +2,15 @@ import type { Filters, NotableInstitution, Paper, ReadingStatus, SortKey, UserSt
 
 export const readingLabels: Record<ReadingStatus, string> = {
   unread: "未读",
+  skimmed: "泛读",
   reading: "在读",
   read: "已读",
 };
+
+export function nextReadingStatus(status: ReadingStatus): ReadingStatus {
+  const statuses = Object.keys(readingLabels) as ReadingStatus[];
+  return statuses[(statuses.indexOf(status) + 1) % statuses.length];
+}
 
 export function uniqueSorted(values: Array<string | number | undefined>, descending = false): string[] {
   const unique = [...new Set(values.filter((value): value is string | number => value !== undefined && value !== "").map(String))];
@@ -97,6 +103,11 @@ export function sortPapers(
   notableInstitutions: NotableInstitution[] = [],
 ): Paper[] {
   return [...papers].sort((a, b) => {
+    if (sort === "recommended") {
+      const unreadFirst = Number((userState[b.id]?.readingStatus ?? "unread") === "unread")
+        - Number((userState[a.id]?.readingStatus ?? "unread") === "unread");
+      if (unreadFirst) return unreadFirst;
+    }
     if (sort === "relevance") {
       const diff = (relevance.get(a.id) ?? Number.MAX_SAFE_INTEGER) - (relevance.get(b.id) ?? Number.MAX_SAFE_INTEGER);
       if (diff) return diff;

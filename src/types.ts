@@ -229,7 +229,7 @@ export function parseDataset(input: unknown): ParsedDataset {
   };
 }
 
-export type ReadingStatus = "unread" | "reading" | "read";
+export type ReadingStatus = "unread" | "skimmed" | "reading" | "read";
 
 export interface PaperUserState {
   favorite?: boolean;

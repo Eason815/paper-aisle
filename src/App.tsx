@@ -58,6 +58,7 @@ import {
   matchesFilters,
   notableInstitutionsOf,
   readingLabels,
+  nextReadingStatus,
   sortPapers,
   uniqueSorted,
 } from "./utils";
@@ -72,7 +73,7 @@ const linkLabels: Record<string, string> = {
 };
 
 const sortOptions: Array<{ value: SortKey; label: string }> = [
-  { value: "recommended", label: "推荐排序" },
+  { value: "recommended", label: "推荐排序 · 未读优先" },
   { value: "relevance", label: "相关度" },
   { value: "presentationType", label: "展示形式" },
   { value: "notableTeam", label: "大厂 / 顶校优先" },
@@ -244,6 +245,9 @@ function FilterSection({
 function FilterPanel({
   dataset,
   scopePapers,
+  backgroundCount,
+  showBackground,
+  onShowBackground,
   searchable,
   filters,
   userState,
@@ -252,6 +256,9 @@ function FilterPanel({
 }: {
   dataset: Dataset;
   scopePapers: Paper[];
+  backgroundCount: number;
+  showBackground: boolean;
+  onShowBackground: (show: boolean) => void;
   searchable: Paper[];
   filters: Filters;
   userState: UserStateMap;
@@ -298,7 +305,7 @@ function FilterPanel({
     {
       key: "readingStatuses",
       label: "阅读状态",
-      options: ["unread", "reading", "read"],
+      options: Object.keys(readingLabels),
       paperValues: (p, state) => [state[p.id]?.readingStatus ?? "unread"],
     },
   ];
@@ -372,6 +379,7 @@ function FilterPanel({
         <span><SlidersHorizontal size={17} />筛选 / FILTERS</span>
         {activeFilterCount(filters) > 0 && <button onClick={onReset}>清空</button>}
       </div>
+      {backgroundCount > 0 && <div className="filter-specials"><label><input type="checkbox" checked={showBackground} onChange={(event) => onShowBackground(event.target.checked)} /><BookOpen size={16} /><span>显示基础论文<small>默认隐藏，记录仍保留</small></span><b>{backgroundCount}</b></label></div>}
       {facets.filter((facet) => facet.defaultOpen && facet.options.length).map(renderFacet)}
       <FilterSection title="关注信号" defaultOpen>
         <div className="attention-signals">
@@ -504,7 +512,7 @@ function PaperCard({
       <div className="ticket-edge" aria-hidden="true" />
       <div className="card-actions">
         <button className="button dark card-open" onClick={onOpen}>快速查看<ArrowRight size={17} /></button>
-        <button className={`icon-button status-button status-${readingStatus}`} aria-label={`将 ${paper.title} 标记为${readingLabels[readingStatus === "unread" ? "reading" : readingStatus === "reading" ? "read" : "unread"]}`} onClick={onStatus}>
+        <button className={`icon-button status-button status-${readingStatus}`} aria-label={`将 ${paper.title} 标记为${readingLabels[nextReadingStatus(readingStatus)]}`} onClick={onStatus}>
           <BookOpen size={17} /><span>{readingLabels[readingStatus]}</span>
         </button>
         <button className={`icon-button ${state.favorite ? "active favorite" : ""}`} aria-label={state.favorite ? `取消收藏 ${paper.title}` : `收藏 ${paper.title}`} aria-pressed={Boolean(state.favorite)} onClick={onFavorite}>
@@ -795,6 +803,7 @@ function App() {
   const [readerIds, setReaderIds] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [compareIds, setCompareIds] = useState<string[]>([]);
+  const [showBackground, setShowBackground] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
   const [favoritesOpen, setFavoritesOpen] = useState(false);
   const [compareOpen, setCompareOpen] = useState(false);
@@ -852,7 +861,7 @@ function App() {
   const cycleStatus = useCallback((paperId: string) => {
     setUserState((current) => {
       const status = current[paperId]?.readingStatus ?? "unread";
-      const next: ReadingStatus = status === "unread" ? "reading" : status === "reading" ? "read" : "unread";
+      const next: ReadingStatus = nextReadingStatus(status);
       return patchPaperState(current, paperId, { readingStatus: next });
     });
   }, []);
@@ -869,8 +878,10 @@ function App() {
   }, []);
 
   const papers = dataset?.papers ?? [];
-  const scopePapers = papers;
-  const scopeName = "全库";
+  const backgroundIds = useMemo(() => new Set(dataset?.collections.find((collection) => collection.id === "background-reading")?.paperIds ?? []), [dataset]);
+  const backgroundCount = papers.filter((paper) => backgroundIds.has(paper.id)).length;
+  const scopePapers = useMemo(() => showBackground ? papers : papers.filter((paper) => !backgroundIds.has(paper.id)), [papers, backgroundIds, showBackground]);
+  const scopeName = !showBackground && backgroundCount > 0 ? "调研论文" : "全库";
   const fuse = useMemo(() => new Fuse(scopePapers, {
     keys: [
       { name: "title", weight: 0.36 },
@@ -922,7 +933,7 @@ function App() {
     if (next) { flushState(); setSelectedId(next); }
   };
 
-  useEffect(() => setVisibleCount(PAGE_SIZE), [query, filters, sort]);
+  useEffect(() => setVisibleCount(PAGE_SIZE), [query, filters, sort, showBackground]);
   useEffect(() => {
     const target = loadMoreRef.current;
     if (!target || visibleCount >= sortedPapers.length) return;
@@ -956,8 +967,8 @@ function App() {
     safeRegister({
       name: "set_paper_reading_status",
       title: "更新阅读状态",
-      description: "把一篇论文标记为未读、在读或已读，并同步更新可见界面。",
-      inputSchema: { type: "object", properties: { paperId: { type: "string" }, status: { enum: ["unread", "reading", "read"] } }, required: ["paperId", "status"], additionalProperties: false },
+      description: "把一篇论文标记为未读、泛读、在读或已读，并同步更新可见界面。",
+      inputSchema: { type: "object", properties: { paperId: { type: "string" }, status: { enum: Object.keys(readingLabels) } }, required: ["paperId", "status"], additionalProperties: false },
       annotations: { readOnlyHint: false, untrustedContentHint: false },
       execute: (input) => {
         const value = input as { paperId?: string; status?: ReadingStatus };
@@ -1010,7 +1021,7 @@ function App() {
             <span><Bookmark size={20} /><b>{favoritePapers.length}</b><small>我的收藏</small></span>
             {dataset.library.updatedAt && <span><Check size={20} /><b>{dataset.library.updatedAt}</b><small>数据更新</small></span>}
           </div>
-          <CategoryStats papers={papers} dataset={dataset} />
+          <CategoryStats papers={scopePapers} dataset={dataset} />
           {dataset.library.sources?.length ? <div className="source-line"><span>数据来源</span>{dataset.library.sources.map((source) => source.url ? <a key={source.label} href={source.url} target="_blank" rel="noreferrer">{source.label}<ExternalLink size={13} /></a> : <em key={source.label}>{source.label}</em>)}</div> : null}
         </section>
 
@@ -1025,7 +1036,7 @@ function App() {
         <FilterChips filters={filters} onChange={setFilters} onReset={() => setFilters(emptyFilters)} />
 
         <div className="workspace">
-          <aside className="desktop-filters"><FilterPanel dataset={dataset} scopePapers={scopePapers} searchable={searchablePapers} filters={filters} userState={userState} onChange={setFilters} onReset={() => setFilters(emptyFilters)} /></aside>
+          <aside className="desktop-filters"><FilterPanel dataset={dataset} scopePapers={scopePapers} backgroundCount={backgroundCount} showBackground={showBackground} onShowBackground={setShowBackground} searchable={searchablePapers} filters={filters} userState={userState} onChange={setFilters} onReset={() => setFilters(emptyFilters)} /></aside>
           <section className="paper-results" aria-labelledby="results-title">
             <div className="results-heading">
               <h2 id="results-title">{scopeName === "全库" ? "全部论文" : scopeName}</h2>
@@ -1043,10 +1054,10 @@ function App() {
         </div>
       </main>
 
-      <ModalFrame open={filterOpen} onOpenChange={setFilterOpen} title="筛选论文" description={`${activeFilterCount(filters)} 个条件`} className="mobile-filter-dialog"><FilterPanel dataset={dataset} scopePapers={scopePapers} searchable={searchablePapers} filters={filters} userState={userState} onChange={setFilters} onReset={() => setFilters(emptyFilters)} /></ModalFrame>
+      <ModalFrame open={filterOpen} onOpenChange={setFilterOpen} title="筛选论文" description={`${activeFilterCount(filters)} 个条件`} className="mobile-filter-dialog"><FilterPanel dataset={dataset} scopePapers={scopePapers} backgroundCount={backgroundCount} showBackground={showBackground} onShowBackground={setShowBackground} searchable={searchablePapers} filters={filters} userState={userState} onChange={setFilters} onReset={() => setFilters(emptyFilters)} /></ModalFrame>
       <DetailDrawer paper={selectedPaper} dataset={dataset} open={Boolean(selectedPaper)} state={selectedPaper ? userState[selectedPaper.id] ?? {} : {}} comparing={selectedPaper ? compareIds.includes(selectedPaper.id) : false} saved={saved} saveError={saveError} readerIndex={readerIndex} readerCount={readerIds.length} onPrevious={() => navigatePaper(-1)} onNext={() => navigatePaper(1)} onOpenChange={(open) => { if (!open) { flushState(); setSelectedId(null); } }} onPatch={(patch) => selectedPaper && patchState(selectedPaper.id, patch)} onCompare={() => selectedPaper && toggleCompare(selectedPaper.id)} />
       <FavoritesDialog open={favoritesOpen} onOpenChange={setFavoritesOpen} papers={favoritePapers} dataset={dataset} userState={userState} onOpenPaper={(paper) => { setFavoritesOpen(false); openPaper(paper.id, favoritePapers.map((item) => item.id)); }} />
-      <PersonalRecordsDialog open={recordsOpen} onOpenChange={setRecordsOpen} dataset={dataset} scopePapers={scopePapers} scopeName={scopeName} state={userState} onRestore={(next) => { saveUserState(dataset.datasetId, next); setUserState(next); setSaved(true); setSaveError(""); }} />
+      <PersonalRecordsDialog open={recordsOpen} onOpenChange={setRecordsOpen} dataset={dataset} scopePapers={papers} scopeName="全库" state={userState} onRestore={(next) => { saveUserState(dataset.datasetId, next); setUserState(next); setSaved(true); setSaveError(""); }} />
       <CompareDialog open={compareOpen} onOpenChange={setCompareOpen} papers={comparePapers} />
       <ComparisonTray papers={comparePapers} onRemove={toggleCompare} onOpen={() => setCompareOpen(true)} />
       <div className="toast" role="status" aria-live="polite">{notice}</div>

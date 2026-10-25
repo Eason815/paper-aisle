@@ -68,6 +68,14 @@ describe("filtering and sorting", () => {
     expect(matchesFilters(paperB, filters, {})).toBe(true);
   });
 
+  it("prioritizes unread papers by default, reacts to status changes, and honors explicit sorts", () => {
+    const state = { b: { readingStatus: "skimmed" as const } };
+    expect(sortPapers([paperA, paperB], "recommended", [], state, new Map()).map(p => p.id)).toEqual(["a", "b"]);
+    expect(sortPapers([paperA, paperB], "year", [], state, new Map()).map(p => p.id)).toEqual(["b", "a"]);
+    expect(sortPapers([paperA, paperB], "recommended", [], { a: { readingStatus: "read" } }, new Map()).map(p => p.id)).toEqual(["b", "a"]);
+    expect(matchesFilters(paperB, { ...emptyFilters, readingStatuses: ["skimmed"] }, state)).toBe(true);
+  });
+
   it("sorts recommendation and configured presentation type deterministically", () => {
     expect(sortPapers([paperA, paperB], "recommended", ["Oral", "Poster"], {}, new Map())[0].id).toBe("b");
     expect(sortPapers([paperA, paperB], "presentationType", ["Oral", "Poster"], {}, new Map())[0].id).toBe("b");

@@ -101,9 +101,11 @@ describe("Paper Aisle app", () => {
     render(<App />);
     await screen.findByRole("heading", { name: "测试论文库" });
 
-    const unread = screen.getByRole("button", { name: /标记为在读/ });
+    const unread = screen.getByRole("button", { name: /标记为泛读/ });
     expect(unread).toHaveTextContent("未读");
     await user.click(unread);
+    expect(screen.getByRole("button", { name: /标记为在读/ })).toHaveTextContent("泛读");
+    await user.click(screen.getByRole("button", { name: /标记为在读/ }));
     expect(screen.getByRole("button", { name: /标记为已读/ })).toHaveTextContent("在读");
     await user.click(screen.getByRole("button", { name: /标记为已读/ }));
     expect(screen.getByRole("button", { name: /标记为未读/ })).toHaveTextContent("已读");

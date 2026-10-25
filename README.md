@@ -63,7 +63,7 @@ paper-aisle:${datasetId}:user-state:v1
 
 ## 调研集合与图解导读
 
-根级 `collections` 和 `config.defaultCollectionId` 保留为后台批次元数据；页面直接展示全库，不再提供批次切换区。`questionCatalog` 定义研究问题，论文以 `questionId` 关联，仍可搜索和筛选。
+根级 `collections` 和 `config.defaultCollectionId` 保留为后台批次元数据；页面默认展示调研论文，基础论文通过筛选开关显示，不再提供批次切换区。`questionCatalog` 定义研究问题，论文以 `questionId` 关联，仍可搜索和筛选。
 
 论文可选 `scenarios` 和 `readingGuide`。导读包含中文概述、论文类型、材料深度、来源，以及可选的概念图；图示模块的数据和说明均由 JSON 提供。界面支持方法、分析和成对评测三种布局。摘要级概念图明确标记材料范围，不作为原论文算法图。
 
@@ -98,3 +98,9 @@ npm run check
 ## 持续调研
 
 日常入口：[持续调研工作流](docs/ingestion/05-持续调研工作流.md)。`npm run research:status`查看制作进度；`research:validate`校验全部输入；`research:sync`生成问题地图。用户笔记与原始缓存不进入Git或公开数据。
+
+### 阅读视图与状态
+
+基础阅读集合（`background-reading`，12篇）默认从论文列表、检索和分类统计中隐藏，可在筛选中勾选“显示基础论文”恢复；开关仅影响当前页面，不删数据或个人记录。库内总数仍包含基础论文，收藏夹和全部记录导出仍保留它们。
+
+阅读状态为未读（unread）、泛读（skimmed：看过摘要或导读）、在读（reading：正在深入阅读）、已读（read：完成本轮阅读）。既有状态保持原值，备份支持新旧状态。详情中可直接选择，卡片依次切换。默认推荐排序先展示未读论文，其他排序遵循选定规则。阅读状态仅表示个人进度，不代表科研证据核查。

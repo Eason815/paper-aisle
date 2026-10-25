@@ -4,7 +4,7 @@ import { z } from "zod";
 const personalStateSchema = z.object({
   favorite: z.boolean().optional(),
   favoritedAt: z.number().finite().nonnegative().optional(),
-  readingStatus: z.enum(["unread", "reading", "read"]).optional(),
+  readingStatus: z.enum(["unread", "skimmed", "reading", "read"]).optional(),
   note: z.string().optional(),
   tags: z.array(z.string()).optional(),
 }).strict();
