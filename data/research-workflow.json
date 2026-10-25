@@ -23,6 +23,6 @@
     "diagrams": "supported-only",
     "mode": "import",
     "publish": true,
-    "makeDefault": true
+    "makeDefault": false
   }
 }

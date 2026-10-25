@@ -18,7 +18,7 @@
   ],
   "pending": [],
   "failures": [],
-  "nextStep": "按本次授权提交、推送并检查线上；线上结果留在.research-local/deployments",
+  "nextStep": "按本次授权发布并检查线上全库与新增论文；发布结果留在.research-local/deployments",
   "actualChecks": [
     {
       "name": "researchSchemasAndCrossFields",

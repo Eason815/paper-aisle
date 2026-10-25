@@ -12,7 +12,7 @@
     "productionBuild": "pass",
     "testTypes": "pass",
     "automatedTests": "36 passed; privacy change additionally reran 10 workflow tests",
-    "browser": "local narrow view: default collection, diagram node switch, source range and no-diagram next paper verified"
+    "browser": "local narrow view: full library32, no batch-navigation block; diagram node/source/next-paper inspected before simplification; search/filter/note regression tests36 pass after simplification"
   },
   "warnings": [
     "2 new papers have unknown track; browsing allowed",

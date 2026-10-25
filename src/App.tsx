@@ -202,21 +202,6 @@ function CategoryStats({ papers, dataset }: { papers: Paper[]; dataset: Dataset 
   );
 }
 
-function CollectionPicker({ dataset, selected, onSelect }: { dataset: Dataset; selected: string | null; onSelect: (id: string | null) => void }) {
-  if (!dataset.collections.length) return null;
-  const collection = dataset.collections.find((item) => item.id === selected);
-  return (
-    <section className="collection-picker" aria-label="阅读范围">
-      <div className="collection-title"><span className="eyebrow">YOUR RESEARCH SHELF</span><h2>今天，从这一组开始</h2></div>
-      <div className="collection-options" role="group" aria-label="选择论文集合">
-        {dataset.collections.map((item) => <button key={item.id} className={selected === item.id ? "selected" : ""} aria-pressed={selected === item.id} onClick={() => onSelect(item.id)}>{item.name}<b>{dataset.papers.filter((paper) => item.paperIds.includes(paper.id)).length}</b></button>)}
-        <button className={selected === null ? "selected" : ""} aria-pressed={selected === null} onClick={() => onSelect(null)}>全库<b>{dataset.papers.length}</b></button>
-      </div>
-      <p>{collection?.description ?? "浏览完整论文库；你已经留下的阅读记录会一直保留。"}</p>
-    </section>
-  );
-}
-
 type SidebarFacetDefinition = {
   key: "directions" | "presentationTypes" | "years" | "venues" | "readingStatuses" | "questions";
   label: string;
@@ -807,7 +792,6 @@ function App() {
   const [stateDatasetId, setStateDatasetId] = useState<string | null>(null);
   const [saved, setSaved] = useState(true);
   const [saveError, setSaveError] = useState("");
-  const [collectionId, setCollectionId] = useState<string | null>(null);
   const [readerIds, setReaderIds] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [compareIds, setCompareIds] = useState<string[]>([]);
@@ -825,8 +809,6 @@ function App() {
     try { setUserState(loadUserState(dataset.datasetId, legacyDatasetIds)); }
     catch { setNotice("浏览器暂时无法读取个人记录，请保留已有备份。"); setUserState({}); }
     setStateDatasetId(dataset.datasetId);
-    const defaultId = dataset.config.defaultCollectionId;
-    setCollectionId(defaultId && dataset.collections.some((collection) => collection.id === defaultId) ? defaultId : null);
   }, [dataset]);
 
   useEffect(() => {
@@ -887,9 +869,8 @@ function App() {
   }, []);
 
   const papers = dataset?.papers ?? [];
-  const collection = dataset?.collections.find((item) => item.id === collectionId);
-  const scopePapers = useMemo(() => collection ? papers.filter((paper) => collection.paperIds.includes(paper.id)) : papers, [papers, collection]);
-  const scopeName = collection?.name ?? "全库";
+  const scopePapers = papers;
+  const scopeName = "全库";
   const fuse = useMemo(() => new Fuse(scopePapers, {
     keys: [
       { name: "title", weight: 0.36 },
@@ -941,7 +922,7 @@ function App() {
     if (next) { flushState(); setSelectedId(next); }
   };
 
-  useEffect(() => setVisibleCount(PAGE_SIZE), [query, filters, sort, collectionId]);
+  useEffect(() => setVisibleCount(PAGE_SIZE), [query, filters, sort]);
   useEffect(() => {
     const target = loadMoreRef.current;
     if (!target || visibleCount >= sortedPapers.length) return;
@@ -1032,8 +1013,6 @@ function App() {
           <CategoryStats papers={papers} dataset={dataset} />
           {dataset.library.sources?.length ? <div className="source-line"><span>数据来源</span>{dataset.library.sources.map((source) => source.url ? <a key={source.label} href={source.url} target="_blank" rel="noreferrer">{source.label}<ExternalLink size={13} /></a> : <em key={source.label}>{source.label}</em>)}</div> : null}
         </section>
-
-        <CollectionPicker dataset={dataset} selected={collectionId} onSelect={(id) => { setCollectionId(id); setFilters(emptyFilters); setQuery(""); }} />
 
         {warnings.length > 0 && <details className="data-warning"><summary><AlertTriangle size={16} />{warnings.length} 条数据警告</summary><ul>{warnings.map((warning) => <li key={warning}>{warning}</li>)}</ul></details>}
 

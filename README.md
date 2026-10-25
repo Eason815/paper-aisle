@@ -63,7 +63,7 @@ paper-aisle:${datasetId}:user-state:v1
 
 ## 调研集合与图解导读
 
-根级 `collections` 用稳定 ID、名称、说明和 `paperIds` 定义阅读范围；`config.defaultCollectionId` 指定默认集合。`questionCatalog` 定义研究问题，论文以 `questionId` 关联。没有这些配置的旧数据仍显示全库。
+根级 `collections` 和 `config.defaultCollectionId` 保留为后台批次元数据；页面直接展示全库，不再提供批次切换区。`questionCatalog` 定义研究问题，论文以 `questionId` 关联，仍可搜索和筛选。
 
 论文可选 `scenarios` 和 `readingGuide`。导读包含中文概述、论文类型、材料深度、来源，以及可选的概念图；图示模块的数据和说明均由 JSON 提供。界面支持方法、分析和成对评测三种布局。摘要级概念图明确标记材料范围，不作为原论文算法图。
 

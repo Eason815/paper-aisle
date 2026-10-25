@@ -10,10 +10,8 @@ import originalLibrary from "../data/library.before-round-one.json";
 
 const dataset = parseDataset(library).dataset;
 
-function mockLibrary(collectionId = library.config.defaultCollectionId) {
-  const data = structuredClone(library);
-  data.config.defaultCollectionId = collectionId;
-  vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => data }));
+function mockLibrary() {
+  vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => library }));
 }
 
 describe("research dataset integration", () => {
@@ -32,22 +30,23 @@ describe("research dataset integration", () => {
     expect(dataset.papers.filter(p => first.paperIds.includes(p.id) && p.readingGuide?.diagram)).toHaveLength(3);
   });
 
-  it("defaults to the research collection and switches between all and historical papers", async () => {
+  it("shows the full library without batch navigation and still searches new research", async () => {
     mockLibrary();
     const user = userEvent.setup();
     const { container } = render(<App />);
-    await waitFor(() => expect(container.querySelectorAll(".paper-card")).toHaveLength(10));
-    await user.click(screen.getByRole("button", { name: new RegExp(`全库.*${dataset.papers.length}`) }));
-    expect(container.querySelectorAll(".paper-card")).toHaveLength(Math.min(48, dataset.papers.length));
-    await user.click(screen.getByRole("button", { name: /基础阅读.*12/ }));
-    expect(container.querySelectorAll(".paper-card")).toHaveLength(12);
+    await waitFor(() => expect(container.querySelectorAll(".paper-card")).toHaveLength(Math.min(48, dataset.papers.length)));
+    expect(screen.queryByRole("group", { name: "选择论文集合" })).not.toBeInTheDocument();
+    expect(screen.queryByText("今天，从这一组开始")).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "全部论文" })).toBeInTheDocument();
+    await user.type(screen.getByRole("searchbox", { name: "搜索论文" }), "ToolTree");
+    expect(screen.getByRole("button", { name: "ToolTree: Efficient LLM Tool Planning via Dual-Feedback Monte Carlo Tree Search and Bidirectional Pruning" })).toBeInTheDocument();
   });
 
   it("filters by research question and shows abstract content in the drawer without fulltext fields", async () => {
-    mockLibrary("agent-stage01-batch-001");
+    mockLibrary();
     const user = userEvent.setup();
     const { container } = render(<App />);
-    await waitFor(() => expect(container.querySelectorAll(".paper-card")).toHaveLength(10));
+    await waitFor(() => expect(container.querySelectorAll(".paper-card")).toHaveLength(Math.min(48, dataset.papers.length)));
     await user.click(screen.getByRole("button", { name: "展开研究问题" }));
     await user.click(screen.getByRole("checkbox", { name: /记忆与状态/ }));
     expect(container.querySelectorAll(".paper-card")).toHaveLength(2);
@@ -58,10 +57,10 @@ describe("research dataset integration", () => {
   });
 
   it("flushes a note before moving to the next paper and keeps the reading sequence stable", async () => {
-    mockLibrary("agent-stage01-batch-001");
+    mockLibrary();
     const user = userEvent.setup();
     const { container } = render(<App />);
-    await waitFor(() => expect(container.querySelectorAll(".paper-card")).toHaveLength(10));
+    await waitFor(() => expect(container.querySelectorAll(".paper-card")).toHaveLength(Math.min(48, dataset.papers.length)));
     await user.click(screen.getByRole("button", { name: "OctoTools: A Multi-Agent Framework with Extensible Tools for Complex Reasoning" }));
     const dialog = await screen.findByRole("dialog", { name: "论文详情" });
     await user.type(within(dialog).getByRole("textbox", { name: /个人便签/ }), "需要比较工具调用预算 j");
