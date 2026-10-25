@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "scope": {
+    "year": 2026,
+    "venues": [
+      "ACL",
+      "ICLR",
+      "ICML",
+      "NeurIPS"
+    ],
+    "direction": "LLM Agent",
+    "description": "Stage 01广泛扫描；补充材料单列，目的性样本不推断全领域趋势"
+  },
+  "target": {
+    "default": 60,
+    "coverageCheckpoint": 30,
+    "reviewAt": 50,
+    "maximum": 70,
+    "batchSize": 10
+  },
+  "processedRecordCount": 20,
+  "readableRecordCount": 20,
+  "humanConfirmedCount": 0,
+  "readerProgress": {
+    "storage": ".research-private/reading-progress.json",
+    "policy": "个人阅读进度仅保存在本地，不从AI制作数量推断、不写入公共进度。"
+  },
+  "questionCoverage": {
+    "Q02": 2,
+    "Q03": 2,
+    "Q01": 2,
+    "Q05": 3,
+    "Q07": 3,
+    "Q08": 2,
+    "Q04": 3,
+    "Q06": 3
+  },
+  "batches": [
+    {
+      "batchId": "batch-001",
+      "count": 10,
+      "ids": [
+        "acl-2026.acl-long.1",
+        "acl-2026.acl-long.27",
+        "iclr-2026-002a6bef26174b590e4eab95b63feb1b",
+        "iclr-2026-f9155a06ba1b20e40c38bf8541db456f",
+        "iclr-2026-df20e06b04dfc499a1a698796abb0856",
+        "openreview-ORVJCJczoG",
+        "openreview-YX4rgoI8pB",
+        "openreview-Iee7eL6QV0",
+        "openreview-yPSKli19Mm",
+        "openreview-P9qqypDzuC"
+      ]
+    },
+    {
+      "batchId": "batch-002",
+      "count": 10,
+      "ids": [
+        "iclr-2026-3428db291b383208dce69ed572f2b437",
+        "iclr-2026-065cb28127caf25d9f186f5460d7bb9c",
+        "iclr-2026-06c6b876c4890d4d57442365d7e6d864",
+        "iclr-2026-0b289714c468d6fdf26ea736af3d488c",
+        "acl-2026.acl-long.75",
+        "acl-2026.acl-long.77",
+        "acl-2026.acl-long.1880",
+        "iclr-2026-134ed7a477770f227f12450ef0cbb8f4",
+        "openreview-2Exmr1eIKZ",
+        "openreview-uHjkDW1QfY"
+      ]
+    }
+  ],
+  "unfinishedBatches": [],
+  "note": "问题覆盖只描述目的性选取样本；制作数量与用户阅读数量独立。humanConfirmed不作为泛读门槛。"
+}

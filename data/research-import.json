@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-23",
-  "defaultCollectionId": "agent-stage01-batch-001",
+  "updatedAt": "2026-10-25",
+  "defaultCollectionId": "agent-stage01-batch-002",
   "legacyCollection": {
     "id": "background-reading",
     "name": "基础阅读",
@@ -14,6 +14,15 @@
         "id": "agent-stage01-batch-001",
         "name": "本轮调研",
         "description": "从工具使用、记忆、规划与评测开始认识 Agent 研究。先看导读和图解，再比较同一问题的不同路线。"
+      }
+    },
+    {
+      "path": "data/batches/batch-002.research.json",
+      "guidesPath": "data/guides/batch-002.json",
+      "collection": {
+        "id": "agent-stage01-batch-002",
+        "name": "第二批｜路线与可靠性对照",
+        "description": "补充规划、工具数据、训练、恢复、协作及评测边界；摘要级泛读，不是热点排行。"
       }
     }
   ]

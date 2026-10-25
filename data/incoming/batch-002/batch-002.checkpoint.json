@@ -1,0 +1,75 @@
+{
+  "batchId": "batch-002",
+  "promptVersion": "1.1",
+  "mode": "import",
+  "depth": "abstract",
+  "status": "imported",
+  "completedIds": [
+    "iclr-2026-3428db291b383208dce69ed572f2b437",
+    "iclr-2026-065cb28127caf25d9f186f5460d7bb9c",
+    "iclr-2026-06c6b876c4890d4d57442365d7e6d864",
+    "iclr-2026-0b289714c468d6fdf26ea736af3d488c",
+    "acl-2026.acl-long.75",
+    "acl-2026.acl-long.77",
+    "acl-2026.acl-long.1880",
+    "iclr-2026-134ed7a477770f227f12450ef0cbb8f4",
+    "openreview-2Exmr1eIKZ",
+    "openreview-uHjkDW1QfY"
+  ],
+  "pending": [],
+  "failures": [],
+  "nextStep": "按本次授权提交、推送并检查线上；线上结果留在.research-local/deployments",
+  "actualChecks": [
+    {
+      "name": "researchSchemasAndCrossFields",
+      "result": "pass;20 records"
+    },
+    {
+      "name": "guideEvidenceMapping",
+      "result": "pass;10 headlines and 4 diagrams in batch-002"
+    },
+    {
+      "name": "cachedHtmlSha256",
+      "result": "pass;10 selected sources"
+    },
+    {
+      "name": "original22PapersExactEquality",
+      "result": "pass"
+    },
+    {
+      "name": "stableDatasetAndIds",
+      "result": "pass"
+    },
+    {
+      "name": "collections",
+      "result": "10 new + 10 prior + 12 background"
+    },
+    {
+      "name": "idempotentImport",
+      "result": "pass;0 added,0 updated"
+    },
+    {
+      "name": "productionBuild",
+      "result": "pass"
+    },
+    {
+      "name": "testTypes",
+      "result": "pass"
+    },
+    {
+      "name": "automatedTests",
+      "result": "36 passed; privacy change additionally reran 10 workflow tests"
+    },
+    {
+      "name": "browser",
+      "result": "local narrow view: default collection, diagram node switch, source range and no-diagram next paper verified"
+    }
+  ],
+  "lastSavedAt": "2026-10-25T22:10:58+08:00",
+  "files": [
+    "batch-002.research.json",
+    "batch-002.guides.json",
+    "batch-002.preview.md",
+    "batch-002.checks.md"
+  ]
+}

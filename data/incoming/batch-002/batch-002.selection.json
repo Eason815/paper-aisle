@@ -1,0 +1,118 @@
+{
+  "batchId": "batch-002",
+  "abstractsAccessed": 11,
+  "selected": [
+    {
+      "id": "iclr-2026-3428db291b383208dce69ed572f2b437",
+      "title": "ToolTree: Efficient LLM Tool Planning via Dual-Feedback Monte Carlo Tree Search and Bidirectional Pruning",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/3428db291b383208dce69ed572f2b437-Abstract-Conference.html",
+      "status": "completed",
+      "retrievedAt": "2026-10-25T21:53:03+08:00",
+      "savedAt": "2026-10-25T21:56:03+08:00",
+      "selectionReason": "补充Q01的搜索式规划路线，与首批OctoTools的工具角色组织进行对比；不按展示形式选择。",
+      "sha256": "8316feee7c9fa43210657421282d8b01daf07b9f8fc8f790404f9f8f951142a4"
+    },
+    {
+      "id": "iclr-2026-065cb28127caf25d9f186f5460d7bb9c",
+      "title": "ToolACE-MT: Non-Autoregressive Generation for Agentic Multi-Turn Interaction",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/065cb28127caf25d9f186f5460d7bb9c-Abstract-Conference.html",
+      "status": "completed",
+      "retrievedAt": "2026-10-25T21:47:46+08:00",
+      "savedAt": "2026-10-25T21:56:03+08:00",
+      "selectionReason": "补充工具使用的数据生产路线，区别于首批直接组织工具调用的框架；与训练类论文建立联系。",
+      "sha256": "b63c987afdf8c38a0e88536eae9dada9ba00bf5bbd5d682824ce7edf837cce6a"
+    },
+    {
+      "id": "iclr-2026-06c6b876c4890d4d57442365d7e6d864",
+      "title": "Meta-RL Induces Exploration in Language Agents",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/06c6b876c4890d4d57442365d7e6d864-Abstract-Conference.html",
+      "status": "completed",
+      "retrievedAt": "2026-10-25T21:47:46+08:00",
+      "savedAt": "2026-10-25T21:56:03+08:00",
+      "selectionReason": "补充Q04探索与测试时适应路线，与首批AgentBrew离线轨迹学习对照。",
+      "sha256": "ab033a502cdc8b16d89861388370d73eaf6853989bd156cc5da5b475ca174945"
+    },
+    {
+      "id": "iclr-2026-0b289714c468d6fdf26ea736af3d488c",
+      "title": "Don't Just Fine-tune the Agent, Tune the Environment",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/0b289714c468d6fdf26ea736af3d488c-Abstract-Conference.html",
+      "status": "completed",
+      "retrievedAt": "2026-10-25T21:47:47+08:00",
+      "savedAt": "2026-10-25T21:56:03+08:00",
+      "selectionReason": "与LaMer形成训练思路对照：一篇强调跨回合学习探索，另一篇强调学习环境和反馈设计。",
+      "sha256": "e13e007378ff321bc9e16d43ed0ed13733e20fcf6437818b9f55d69a5099e0d5"
+    },
+    {
+      "id": "acl-2026.acl-long.75",
+      "title": "Grammar Search for Multi-Agent Systems",
+      "url": "https://aclanthology.org/2026.acl-long.75/",
+      "status": "completed",
+      "retrievedAt": "2026-10-25T21:47:48+08:00",
+      "savedAt": "2026-10-25T21:56:03+08:00",
+      "selectionReason": "补充协作结构设计路线，提供“更自由生成未必更好”的有条件对照，不将其扩展为普遍负结果。",
+      "sha256": "a1fc771059733458c0459f66d373d2cd476e4fb38b16d929cace5042f13d9148"
+    },
+    {
+      "id": "acl-2026.acl-long.77",
+      "title": "Explicit Trait Inference for Multi-Agent Coordination",
+      "url": "https://aclanthology.org/2026.acl-long.77/",
+      "status": "completed",
+      "retrievedAt": "2026-10-25T21:47:48+08:00",
+      "savedAt": "2026-10-25T21:56:03+08:00",
+      "selectionReason": "与协作结构搜索对照：前者改变系统组合，本篇改变Agent对合作伙伴的认识。",
+      "sha256": "c8c7bf1e3244c846e6ff8b0007fadbe0ca15a97493fd5ceb8d9bc6749b01392f"
+    },
+    {
+      "id": "acl-2026.acl-long.1880",
+      "title": "Robust Tool Use via Fission-GRPO: Learning to Recover from Execution Errors",
+      "url": "https://aclanthology.org/2026.acl-long.1880/",
+      "status": "completed",
+      "retrievedAt": "2026-10-25T21:47:48+08:00",
+      "savedAt": "2026-10-25T21:56:03+08:00",
+      "selectionReason": "补充Q05训练式恢复，区别于首批XENON对知识和依赖关系的明确更新。",
+      "sha256": "30d57e761f2556d8d7f8e4bdc3d37175d392dec78084002dd73343b17d1f93d4"
+    },
+    {
+      "id": "iclr-2026-134ed7a477770f227f12450ef0cbb8f4",
+      "title": "AgenTracer: Who Is Inducing Failure in the LLM Agentic Systems?",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/134ed7a477770f227f12450ef0cbb8f4-Abstract-Conference.html",
+      "status": "completed",
+      "retrievedAt": "2026-10-25T21:47:49+08:00",
+      "savedAt": "2026-10-25T21:56:03+08:00",
+      "selectionReason": "将失败诊断与恢复训练并置，补充“先定位原因、再改行为”的不同环节。",
+      "sha256": "da5f8877d9805914f522f725e74c2504085eb7435bcc5c763743ef0ae51fab07"
+    },
+    {
+      "id": "openreview-2Exmr1eIKZ",
+      "title": "AgentSuite: Toward More Reliable Agent Evaluation with a Component-Based Benchmark Auditing Pipeline",
+      "url": "https://icml.cc/virtual/2026/poster/66603",
+      "status": "completed",
+      "retrievedAt": "2026-10-25T21:47:49+08:00",
+      "savedAt": "2026-10-25T21:56:03+08:00",
+      "selectionReason": "与首批AgentNoiseBench的环境噪声鲁棒性区分，本篇检查评测任务本身是否有效。",
+      "sha256": "868bd70e674449bc239915d57b1ff7f84f3face0fcaead5fe2f3f8c040665c7c"
+    },
+    {
+      "id": "openreview-uHjkDW1QfY",
+      "title": "AgentLens: Revealing The Lucky Pass Problem in SWE-Agent Evaluation",
+      "url": "https://neurips.cc/virtual/2026/poster/138951",
+      "status": "completed",
+      "retrievedAt": "2026-10-25T21:47:52+08:00",
+      "savedAt": "2026-10-25T21:56:03+08:00",
+      "selectionReason": "补充对结果指标的边界分析，与首批协作诊断和本批基准审计形成不同层面的可靠性对照。",
+      "sha256": "057476b7c1f6b72cd728881d7fb5da49a67dcc6d40ca465350ec5713acecf1e5"
+    }
+  ],
+  "deferred": [
+    {
+      "id": "iclr-2026-0d1986a61e30e5fa408c81216a616e20",
+      "title": "Dynamic Speculative Agent Planning",
+      "status": "deferred",
+      "reason": "摘要显示主要贡献是延迟与成本权衡，主问题更接近已有较多例子的Q08；本批用ToolTree补充Q01。不等于质量不足。"
+    }
+  ],
+  "unprocessedScope": "此前2386条未做摘要初筛的标题队列，本轮新处理11条，剩余2375条；另首批Sculptor来自完整目录补查。",
+  "startedAt": "2026-10-25T21:47:45+08:00",
+  "savedAt": "2026-10-25T21:56:03+08:00",
+  "timingBoundary": "时间跨度包含本批并行工具开发与内容处理；没有完整单篇生成计时，不据此声称纯AI每篇耗时。"
+}

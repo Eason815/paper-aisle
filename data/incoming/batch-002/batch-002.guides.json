@@ -1,0 +1,130 @@
+{
+  "iclr-2026-3428db291b383208dce69ed572f2b437": {
+    "headline": "调用下一件工具之前，先考虑后续步骤和工具之间的依赖。",
+    "kind": "method"
+  },
+  "iclr-2026-065cb28127caf25d9f186f5460d7bb9c": {
+    "headline": "不逐轮模拟所有对话，先搭骨架再完善工具交互数据。",
+    "kind": "method",
+    "diagram": {
+      "layout": "flow",
+      "title": "先搭骨架，再补全，最后检查",
+      "caption": "AI 概念示意，基于摘要组织已描述的机制与观察关系；不是原论文图或具体实验样本。",
+      "nodes": [
+        {
+          "id": "skeleton",
+          "title": "对话骨架",
+          "description": "先生成结构完整但语义粗略的多轮对话。"
+        },
+        {
+          "id": "refine",
+          "title": "迭代完善",
+          "description": "通过遮盖与补填增加复杂性，继续细化对话。"
+        },
+        {
+          "id": "verify",
+          "title": "离线验证",
+          "description": "用规则和模型检查调用正确性及对话连贯性。"
+        }
+      ]
+    }
+  },
+  "iclr-2026-06c6b876c4890d4d57442365d7e6d864": {
+    "headline": "让Agent从尝试和反馈中学会探索，而不只完成单次任务。",
+    "kind": "method"
+  },
+  "iclr-2026-0b289714c468d6fdf26ea736af3d488c": {
+    "headline": "不只调整Agent参数，也调整它学习时遇到的环境与反馈。",
+    "kind": "method",
+    "diagram": {
+      "layout": "flow",
+      "title": "三个训练设计分别提供什么帮助",
+      "caption": "AI 概念示意，基于摘要组织设计要素，表示角色分工而非精确时序；不是原论文图。",
+      "nodes": [
+        {
+          "id": "curriculum",
+          "title": "结构化课程",
+          "description": "组织由易到难的问题实例，支持稳定学习。"
+        },
+        {
+          "id": "feedback",
+          "title": "可操作的环境反馈",
+          "description": "环境增强提供纠错反馈，帮助继续探索。"
+        },
+        {
+          "id": "reward",
+          "title": "进度奖励",
+          "description": "用更细的进度信号引导学习，而不只依赖任务结束结果。"
+        }
+      ]
+    }
+  },
+  "acl-2026.acl-long.75": {
+    "headline": "多Agent系统不一定要靠模型自由写代码才能设计。",
+    "kind": "method"
+  },
+  "acl-2026.acl-long.77": {
+    "headline": "协作时记录伙伴是否可靠、擅长什么，再据此调整决策。",
+    "kind": "method"
+  },
+  "acl-2026.acl-long.1880": {
+    "headline": "工具调用报错后，学习修正，而不是反复重试同一个错误。",
+    "kind": "method",
+    "diagram": {
+      "layout": "flow",
+      "title": "从一次执行错误到新的恢复训练",
+      "caption": "AI 概念示意，基于摘要组织已描述的机制与观察关系；不是原论文图或具体实验样本。",
+      "nodes": [
+        {
+          "id": "failure",
+          "title": "遇到执行错误",
+          "description": "使用当前策略实际产生的失败轨迹。"
+        },
+        {
+          "id": "diagnose",
+          "title": "加入诊断反馈",
+          "description": "错误模拟器提供反馈，将失败转换为训练实例。"
+        },
+        {
+          "id": "recover",
+          "title": "采样恢复尝试",
+          "description": "当前策略生成多个恢复轨迹，用于学习如何纠错。"
+        }
+      ]
+    }
+  },
+  "iclr-2026-134ed7a477770f227f12450ef0cbb8f4": {
+    "headline": "先找出是哪一步、哪个Agent引发失败，再谈纠错。",
+    "kind": "method"
+  },
+  "openreview-2Exmr1eIKZ": {
+    "headline": "Agent答错了，也可能是任务、工具或判分器本身有问题。",
+    "kind": "benchmark"
+  },
+  "openreview-uHjkDW1QfY": {
+    "headline": "代码最终通过测试，不代表Agent的解决过程可靠。",
+    "kind": "analysis",
+    "diagram": {
+      "layout": "study",
+      "title": "同样通过测试，过程质量仍可能不同",
+      "caption": "AI 概念示意，基于摘要组织已描述的机制与观察关系；不是原论文图或具体实验样本。",
+      "nodes": [
+        {
+          "id": "reference",
+          "title": "建立参考空间",
+          "description": "合并同一任务的多条成功轨迹，表达可接受的行为路径。"
+        },
+        {
+          "id": "label",
+          "title": "理解行动阶段",
+          "description": "依据轨迹上下文识别探索、实现、验证和协调，而非只看工具名称。"
+        },
+        {
+          "id": "quality",
+          "title": "观察过程质量",
+          "description": "分析浪费与偏离信号，区分不同质量的成功过程；不是泛化到所有任务的评分证明。"
+        }
+      ]
+    }
+  }
+}

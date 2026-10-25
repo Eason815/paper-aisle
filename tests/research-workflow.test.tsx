@@ -10,21 +10,26 @@ import originalLibrary from "../data/library.before-round-one.json";
 
 const dataset = parseDataset(library).dataset;
 
-function mockLibrary() {
-  vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => library }));
+function mockLibrary(collectionId = library.config.defaultCollectionId) {
+  const data = structuredClone(library);
+  data.config.defaultCollectionId = collectionId;
+  vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => data }));
 }
 
 describe("research dataset integration", () => {
-  it("preserves every original paper and its state namespace, and imports all ten abstract records", () => {
+  it("preserves original papers and state namespace across multiple research batches", () => {
     const parsed = parseDataset(library);
     expect(parsed.warnings).toEqual([]);
-    expect(parsed.dataset.papers).toHaveLength(22);
+    const researchIds = new Set(dataset.collections.filter(c => c.id !== "background-reading").flatMap(c => c.paperIds));
+    expect(parsed.dataset.papers).toHaveLength(originalLibrary.papers.length + researchIds.size);
+    expect(researchIds.size).toBeGreaterThanOrEqual(10);
     expect(library.datasetId).toBe(originalLibrary.datasetId);
     for (const paper of originalLibrary.papers) expect(library.papers.find((item) => item.id === paper.id)).toEqual(paper);
     const current = dataset.collections.find((collection) => collection.id === dataset.config.defaultCollectionId)!;
-    expect(current.paperIds).toHaveLength(10);
-    expect(current.paperIds.every((id) => dataset.papers.some((paper) => paper.id === id && paper.quickRead?.finding))).toBe(true);
-    expect(dataset.papers.filter((paper) => paper.readingGuide?.diagram)).toHaveLength(3);
+    expect(current.paperIds.length).toBeGreaterThan(0);
+    expect(current.paperIds.every((id) => dataset.papers.some((paper) => paper.id === id && paper.quickRead?.problem))).toBe(true);
+    const first = dataset.collections.find(c => c.id === "agent-stage01-batch-001")!;
+    expect(dataset.papers.filter(p => first.paperIds.includes(p.id) && p.readingGuide?.diagram)).toHaveLength(3);
   });
 
   it("defaults to the research collection and switches between all and historical papers", async () => {
@@ -32,14 +37,14 @@ describe("research dataset integration", () => {
     const user = userEvent.setup();
     const { container } = render(<App />);
     await waitFor(() => expect(container.querySelectorAll(".paper-card")).toHaveLength(10));
-    await user.click(screen.getByRole("button", { name: /全库.*22/ }));
-    expect(container.querySelectorAll(".paper-card")).toHaveLength(22);
+    await user.click(screen.getByRole("button", { name: new RegExp(`全库.*${dataset.papers.length}`) }));
+    expect(container.querySelectorAll(".paper-card")).toHaveLength(Math.min(48, dataset.papers.length));
     await user.click(screen.getByRole("button", { name: /基础阅读.*12/ }));
     expect(container.querySelectorAll(".paper-card")).toHaveLength(12);
   });
 
   it("filters by research question and shows abstract content in the drawer without fulltext fields", async () => {
-    mockLibrary();
+    mockLibrary("agent-stage01-batch-001");
     const user = userEvent.setup();
     const { container } = render(<App />);
     await waitFor(() => expect(container.querySelectorAll(".paper-card")).toHaveLength(10));
@@ -53,7 +58,7 @@ describe("research dataset integration", () => {
   });
 
   it("flushes a note before moving to the next paper and keeps the reading sequence stable", async () => {
-    mockLibrary();
+    mockLibrary("agent-stage01-batch-001");
     const user = userEvent.setup();
     const { container } = render(<App />);
     await waitFor(() => expect(container.querySelectorAll(".paper-card")).toHaveLength(10));

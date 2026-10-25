@@ -94,3 +94,7 @@ npm run check
 ## 质量检查
 
 生产构建与测试配置相互隔离。发布前可运行 `npm run check`，依次执行生产构建、测试类型检查和自动化测试；Vercel 的 `npm run build` 只处理生产源码。
+
+## 持续调研
+
+日常入口：[持续调研工作流](docs/ingestion/05-持续调研工作流.md)。`npm run research:status`查看制作进度；`research:validate`校验全部输入；`research:sync`生成问题地图。用户笔记与原始缓存不进入Git或公开数据。

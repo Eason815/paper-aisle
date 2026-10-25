@@ -7,3 +7,7 @@ dist/
 *.tsbuildinfo
 vite.config.js
 vite.config.d.ts
+
+.research-local/
+
+.research-private/

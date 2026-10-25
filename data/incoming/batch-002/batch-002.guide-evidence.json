@@ -1,0 +1,120 @@
+{
+  "iclr-2026-3428db291b383208dce69ed572f2b437": {
+    "headline": [
+      "B002-iclr-2026-3428db291b383208dce69ed572f2b437-ABS"
+    ]
+  },
+  "iclr-2026-065cb28127caf25d9f186f5460d7bb9c": {
+    "headline": [
+      "B002-iclr-2026-065cb28127caf25d9f186f5460d7bb9c-ABS"
+    ],
+    "diagramTitle": [
+      "B002-iclr-2026-065cb28127caf25d9f186f5460d7bb9c-ABS"
+    ],
+    "caption": [
+      "B002-iclr-2026-065cb28127caf25d9f186f5460d7bb9c-ABS"
+    ],
+    "nodes": {
+      "skeleton": [
+        "B002-iclr-2026-065cb28127caf25d9f186f5460d7bb9c-ABS"
+      ],
+      "refine": [
+        "B002-iclr-2026-065cb28127caf25d9f186f5460d7bb9c-ABS"
+      ],
+      "verify": [
+        "B002-iclr-2026-065cb28127caf25d9f186f5460d7bb9c-ABS"
+      ]
+    }
+  },
+  "iclr-2026-06c6b876c4890d4d57442365d7e6d864": {
+    "headline": [
+      "B002-iclr-2026-06c6b876c4890d4d57442365d7e6d864-ABS"
+    ]
+  },
+  "iclr-2026-0b289714c468d6fdf26ea736af3d488c": {
+    "headline": [
+      "B002-iclr-2026-0b289714c468d6fdf26ea736af3d488c-ABS"
+    ],
+    "diagramTitle": [
+      "B002-iclr-2026-0b289714c468d6fdf26ea736af3d488c-ABS"
+    ],
+    "caption": [
+      "B002-iclr-2026-0b289714c468d6fdf26ea736af3d488c-ABS"
+    ],
+    "nodes": {
+      "curriculum": [
+        "B002-iclr-2026-0b289714c468d6fdf26ea736af3d488c-ABS"
+      ],
+      "feedback": [
+        "B002-iclr-2026-0b289714c468d6fdf26ea736af3d488c-ABS"
+      ],
+      "reward": [
+        "B002-iclr-2026-0b289714c468d6fdf26ea736af3d488c-ABS"
+      ]
+    }
+  },
+  "acl-2026.acl-long.75": {
+    "headline": [
+      "B002-acl-2026.acl-long.75-ABS"
+    ]
+  },
+  "acl-2026.acl-long.77": {
+    "headline": [
+      "B002-acl-2026.acl-long.77-ABS"
+    ]
+  },
+  "acl-2026.acl-long.1880": {
+    "headline": [
+      "B002-acl-2026.acl-long.1880-ABS"
+    ],
+    "diagramTitle": [
+      "B002-acl-2026.acl-long.1880-ABS"
+    ],
+    "caption": [
+      "B002-acl-2026.acl-long.1880-ABS"
+    ],
+    "nodes": {
+      "failure": [
+        "B002-acl-2026.acl-long.1880-ABS"
+      ],
+      "diagnose": [
+        "B002-acl-2026.acl-long.1880-ABS"
+      ],
+      "recover": [
+        "B002-acl-2026.acl-long.1880-ABS"
+      ]
+    }
+  },
+  "iclr-2026-134ed7a477770f227f12450ef0cbb8f4": {
+    "headline": [
+      "B002-iclr-2026-134ed7a477770f227f12450ef0cbb8f4-ABS"
+    ]
+  },
+  "openreview-2Exmr1eIKZ": {
+    "headline": [
+      "B002-openreview-2Exmr1eIKZ-ABS"
+    ]
+  },
+  "openreview-uHjkDW1QfY": {
+    "headline": [
+      "B002-openreview-uHjkDW1QfY-ABS"
+    ],
+    "diagramTitle": [
+      "B002-openreview-uHjkDW1QfY-ABS"
+    ],
+    "caption": [
+      "B002-openreview-uHjkDW1QfY-ABS"
+    ],
+    "nodes": {
+      "reference": [
+        "B002-openreview-uHjkDW1QfY-ABS"
+      ],
+      "label": [
+        "B002-openreview-uHjkDW1QfY-ABS"
+      ],
+      "quality": [
+        "B002-openreview-uHjkDW1QfY-ABS"
+      ]
+    }
+  }
+}

@@ -10,9 +10,13 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck:test": "tsc -p tsconfig.test.json --noEmit",
-    "check": "npm run build && npm run typecheck:test && npm test",
+    "check": "npm run research:validate && npm run build && npm run typecheck:test && npm test",
     "data:preview": "node scripts/import-research.mjs",
-    "data:import": "node scripts/import-research.mjs --write"
+    "data:import": "node scripts/import-research.mjs --write",
+    "research:validate": "node scripts/research-workflow.mjs validate",
+    "research:status": "node scripts/research-workflow.mjs status",
+    "research:sync": "node scripts/research-workflow.mjs sync",
+    "research:resume": "node scripts/research-workflow.mjs resume"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.6",
@@ -30,6 +34,8 @@
     "@types/react": "^19.0.6",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1",
     "jsdom": "^25.0.1",
     "typescript": "^5.7.3",
     "vite": "^6.1.0",

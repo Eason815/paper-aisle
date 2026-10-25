@@ -11,18 +11,33 @@
     "openreview-YX4rgoI8pB",
     "openreview-Iee7eL6QV0",
     "openreview-yPSKli19Mm",
-    "openreview-P9qqypDzuC"
+    "openreview-P9qqypDzuC",
+    "iclr-2026-3428db291b383208dce69ed572f2b437",
+    "iclr-2026-065cb28127caf25d9f186f5460d7bb9c",
+    "iclr-2026-06c6b876c4890d4d57442365d7e6d864",
+    "iclr-2026-0b289714c468d6fdf26ea736af3d488c",
+    "acl-2026.acl-long.75",
+    "acl-2026.acl-long.77",
+    "acl-2026.acl-long.1880",
+    "iclr-2026-134ed7a477770f227f12450ef0cbb8f4",
+    "openreview-2Exmr1eIKZ",
+    "openreview-uHjkDW1QfY"
   ],
   "skipped": [],
-  "originalCount": 22,
+  "originalCount": 32,
   "sourceBatches": [
     {
       "batchId": "batch-001",
       "path": "data/batches/batch-001.research.json",
       "sha256": "cd8cb2edad59cf95df5ef33e4bfceea928beb0b3cbebebf17da4df68010988b2"
+    },
+    {
+      "batchId": "batch-002",
+      "path": "data/batches/batch-002.research.json",
+      "sha256": "9e576fec2dad999696af1533b46b45efb8e643aa061fd4aeb42e1ce715a8345b"
     }
   ],
-  "finalCount": 22,
+  "finalCount": 32,
   "preservedLegacyCount": 12,
   "defaultCollectionCount": 10
 }

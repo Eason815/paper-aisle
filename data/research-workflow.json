@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "scope": {
+    "year": 2026,
+    "venues": [
+      "ACL",
+      "ICLR",
+      "ICML",
+      "NeurIPS"
+    ],
+    "direction": "LLM Agent",
+    "description": "Stage 01广泛扫描；补充材料单列，目的性样本不推断全领域趋势"
+  },
+  "target": {
+    "default": 60,
+    "coverageCheckpoint": 30,
+    "reviewAt": 50,
+    "maximum": 70,
+    "batchSize": 10
+  },
+  "defaultTask": {
+    "depth": "abstract",
+    "diagrams": "supported-only",
+    "mode": "import",
+    "publish": true,
+    "makeDefault": true
+  }
+}
