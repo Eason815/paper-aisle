@@ -1,0 +1,79 @@
+{
+  "batchId": "batch-003",
+  "promptVersion": "1.2",
+  "mode": "import",
+  "depth": "abstract",
+  "publish": true,
+  "makeDefault": true,
+  "status": "imported",
+  "completedIds": [
+    "acl-2026.acl-long.583",
+    "acl-2026.acl-long.370",
+    "acl-2026.acl-long.584",
+    "acl-2026.acl-long.1483",
+    "acl-2026.acl-long.1736",
+    "acl-2026.acl-long.522",
+    "iclr-2026-28e4c3696637ac727051a2922643ec6a",
+    "iclr-2026-0d1986a61e30e5fa408c81216a616e20",
+    "openreview-UAXQW194WT",
+    "acl-2026.acl-long.1387"
+  ],
+  "pending": [],
+  "failures": [],
+  "milestonesReached": [
+    5,
+    10
+  ],
+  "nextStep": "本地验收通过；按授权提交并推送main，线上实际内容核验结果保存至.research-local/deployments",
+  "actualChecks": [
+    {
+      "name": "schemas-crossfields-guide-evidence-identity",
+      "result": "pass; 3 batches / 30 research records; final site projection schema validated"
+    },
+    {
+      "name": "production-build-and-test-types",
+      "result": "pass"
+    },
+    {
+      "name": "automated-tests",
+      "result": "57 passed across 8 suites"
+    },
+    {
+      "name": "idempotent-import-preview",
+      "result": "0 added,0 updated,30 unchanged"
+    },
+    {
+      "name": "resume",
+      "result": "10 completed,no repair,pending or uncheckpointed saved IDs"
+    },
+    {
+      "name": "source-raw-sha256-and-formal-abstract",
+      "result": "14 actual source snapshots verified; Lay Summary excluded"
+    },
+    {
+      "name": "history-and-identifiers",
+      "result": "all prior32 paper objects and all prior collections exactly retained; datasetId unchanged; 42 unique IDs; batch003 default metadata"
+    },
+    {
+      "name": "browser-desktop",
+      "result": "30 research papers visible; new hierarchical-failure analysis diagram, node interaction, Abstract source label and no-diagram VPI-Bench; previous-paper navigation verified"
+    },
+    {
+      "name": "browser-mobile-390x844",
+      "result": "filter dialog and Q03 count4, new Memory-R1 drawer and diagram visually inspected; no personal state modified"
+    },
+    {
+      "name": "privacy",
+      "result": "only public papers and research docs in change list; private/local caches remain ignored; personal records not read or altered"
+    }
+  ],
+  "lastSavedAt": "2026-10-26T13:10:00+08:00",
+  "files": [
+    "batch-003.research.json",
+    "batch-003.guides.json",
+    "batch-003.selection.json",
+    "batch-003.guide-evidence.json",
+    "batch-003.preview.md",
+    "batch-003.checks.md"
+  ]
+}

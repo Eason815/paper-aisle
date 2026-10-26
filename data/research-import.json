@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-25",
-  "defaultCollectionId": "agent-stage01-batch-002",
+  "updatedAt": "2026-10-26",
+  "defaultCollectionId": "agent-stage01-batch-003",
   "legacyCollection": {
     "id": "background-reading",
     "name": "基础阅读",
@@ -23,6 +23,15 @@
         "id": "agent-stage01-batch-002",
         "name": "第二批｜路线与可靠性对照",
         "description": "补充规划、工具数据、训练、恢复、协作及评测边界；摘要级泛读，不是热点排行。"
+      }
+    },
+    {
+      "path": "data/batches/batch-003.research.json",
+      "guidesPath": "data/guides/batch-003.json",
+      "collection": {
+        "id": "agent-stage01-batch-003",
+        "name": "第三批｜行动、适应与安全边界",
+        "description": "补充记忆行动、动态工具、失败诊断、安全与效率；Abstract级候选，不是质量排名。"
       }
     }
   ]

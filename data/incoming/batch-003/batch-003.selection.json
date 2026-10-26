@@ -1,0 +1,173 @@
+{
+  "batchId": "batch-003",
+  "abstractsAccessed": 14,
+  "firstTimeAbstractsInThisRound": 13,
+  "revisitedPreviouslyDeferred": 1,
+  "selected": [
+    {
+      "id": "acl-2026.acl-long.583",
+      "title": "Memory-R1: Enhancing Large Language Model Agents to Manage and Utilize Memories via Reinforcement Learning",
+      "url": "https://aclanthology.org/2026.acl-long.583/",
+      "status": "completed",
+      "retrievedAt": "2026-10-26T12:59:27+08:00",
+      "savedAt": "2026-10-26T13:04:20+08:00",
+      "selectionReason": "相较Sculptor主动整理上下文和经验记忆质量分析，本篇补充通过任务结果学习外部记忆操作的路线。",
+      "incrementalUnderstanding": "学习记忆管理操作",
+      "sha256": "5b2811d4a491545b41aa05449a27c7cd8ac7c680b6669bc499dae55e7fe68269",
+      "previouslyDeferred": false
+    },
+    {
+      "id": "acl-2026.acl-long.370",
+      "title": "Mem2ActBench: A Benchmark for Evaluating Long-Term Memory Utilization in Task-Oriented Autonomous Agents",
+      "url": "https://aclanthology.org/2026.acl-long.370/",
+      "status": "completed",
+      "retrievedAt": "2026-10-26T12:59:28+08:00",
+      "savedAt": "2026-10-26T13:04:20+08:00",
+      "selectionReason": "补充Q03的行动型评测边界，与Memory-R1的记忆问答训练对照：记住或答对不自动代表会行动。",
+      "incrementalUnderstanding": "从记住信息到正确行动",
+      "sha256": "5c0dac02bed9ab1e9310a5b6862c46f61eaced0cacd32cafb5bfa1848e091964",
+      "previouslyDeferred": false
+    },
+    {
+      "id": "acl-2026.acl-long.584",
+      "title": "CostBench: Evaluating Multi-Turn Cost-Optimal Planning and Adaptation in Dynamic Environments for LLM Tool-Use Agents",
+      "url": "https://aclanthology.org/2026.acl-long.584/",
+      "status": "completed",
+      "retrievedAt": "2026-10-26T12:59:29+08:00",
+      "savedAt": "2026-10-26T13:04:20+08:00",
+      "selectionReason": "相较ToolTree的搜索方法和LongHorizonUI的界面执行，本篇补充环境变化与成本约束这一评测切面。",
+      "incrementalUnderstanding": "动态环境中的成本规划",
+      "sha256": "591b35a1806668d6969a32b8d3740bbb76d5e9bd19b54ac792f17b8a7f6866b7",
+      "previouslyDeferred": false
+    },
+    {
+      "id": "acl-2026.acl-long.1483",
+      "title": "Why Do LLM-based Web Agents Fail? A Hierarchical Planning Perspective",
+      "url": "https://aclanthology.org/2026.acl-long.1483/",
+      "status": "completed",
+      "retrievedAt": "2026-10-26T12:59:29+08:00",
+      "savedAt": "2026-10-26T13:04:20+08:00",
+      "selectionReason": "补充失败归因的非训练分析路线；与AgenTracer学习诊断、Fission-GRPO学习恢复形成不同层次的比较。",
+      "incrementalUnderstanding": "区分计划与执行的失败",
+      "sha256": "c7271fd7d7a09f1f408ce06866ff8245e63c53ed6c5f8d1f7c4cd42d29ad0f6e",
+      "previouslyDeferred": false
+    },
+    {
+      "id": "acl-2026.acl-long.1736",
+      "title": "ToolOmni: Enabling Open-World Tool Use via Agentic learning with Proactive Retrieval and Grounded Execution",
+      "url": "https://aclanthology.org/2026.acl-long.1736/",
+      "status": "completed",
+      "retrievedAt": "2026-10-26T12:59:30+08:00",
+      "savedAt": "2026-10-26T13:04:20+08:00",
+      "selectionReason": "相较OctoTools的工具组织、ToolACE-MT的数据生成，本篇补充大规模变化工具库的检索与泛化路线。",
+      "incrementalUnderstanding": "开放工具库的检索与执行",
+      "sha256": "9482fa22a08c123cc78f32359eb92a76fa52a9c3e0c3bd57947e10b8c747e1bc",
+      "previouslyDeferred": false
+    },
+    {
+      "id": "acl-2026.acl-long.522",
+      "title": "SafeMCP: Proactive Power Regulation for LLM Agent Defense via Environment-Grounded Look-Ahead Reasoning",
+      "url": "https://aclanthology.org/2026.acl-long.522/",
+      "status": "completed",
+      "retrievedAt": "2026-10-26T12:59:27+08:00",
+      "savedAt": "2026-10-26T13:04:20+08:00",
+      "selectionReason": "首批Q08侧重停止与上下文省略，本篇补充服务端工具获取控制，扩展安全边界而非增加同类成功率案例。",
+      "incrementalUnderstanding": "限制危险工具能力扩张",
+      "sha256": "ce119db6a256379423434398d7eb5fb51dbf9f6c325931b6ee08a6c2442b8f89",
+      "previouslyDeferred": false
+    },
+    {
+      "id": "iclr-2026-28e4c3696637ac727051a2922643ec6a",
+      "title": "VPI-Bench: Visual Prompt Injection Attacks for Computer-Use Agents",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/28e4c3696637ac727051a2922643ec6a-Abstract-Conference.html",
+      "status": "completed",
+      "retrievedAt": "2026-10-26T12:59:27+08:00",
+      "savedAt": "2026-10-26T13:04:20+08:00",
+      "selectionReason": "补充Q08的视觉输入攻击面，与SafeMCP的服务端防护、AgentAbstain的停止判断区分，不将不同威胁模型直接排名。",
+      "incrementalUnderstanding": "视觉内容中的指令注入",
+      "sha256": "e1a59a46683e2f28f2c49b7d94e44eeb7819d06c3618e3ec9ee054f9c70f8224",
+      "previouslyDeferred": false
+    },
+    {
+      "id": "iclr-2026-0d1986a61e30e5fa408c81216a616e20",
+      "title": "Dynamic Speculative Agent Planning",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/0d1986a61e30e5fa408c81216a616e20-Abstract-Conference.html",
+      "status": "completed",
+      "retrievedAt": "2026-10-26T12:59:30+08:00",
+      "savedAt": "2026-10-26T13:04:20+08:00",
+      "selectionReason": "重新处理第二批已读但延后的候选，补充Q08端到端执行调度，与Agent-Omit的上下文省略形成不同效率路线。",
+      "incrementalUnderstanding": "延迟与费用的执行取舍",
+      "sha256": "abb30f3da89c96e405c104748db2b294845a821d53e3491531817d4b0c6ba951",
+      "previouslyDeferred": true
+    },
+    {
+      "id": "openreview-UAXQW194WT",
+      "title": "De-Linearizing Agent Traces: Bayesian Inference of Latent Partial Orders for Efficient Execution",
+      "url": "https://icml.cc/virtual/2026/poster/63737",
+      "status": "completed",
+      "retrievedAt": "2026-10-26T12:59:31+08:00",
+      "savedAt": "2026-10-26T13:04:20+08:00",
+      "selectionReason": "相较ToolTree在线搜索下一步，本篇从旧轨迹学习可复用依赖，补充规划结构复用与并行执行的路线。",
+      "incrementalUnderstanding": "从轨迹学习任务依赖",
+      "sha256": "9a1e19ad912a014b4daa1eb6c4746936b538768e92035e84fbe635d91bdfd625",
+      "previouslyDeferred": false
+    },
+    {
+      "id": "acl-2026.acl-long.1387",
+      "title": "AgentSlimming: Towards Efficient and Cost-Aware Multi-Agent Systems",
+      "url": "https://aclanthology.org/2026.acl-long.1387/",
+      "status": "completed",
+      "retrievedAt": "2026-10-26T12:59:32+08:00",
+      "savedAt": "2026-10-26T13:04:20+08:00",
+      "selectionReason": "相较Grammar Search搜索协作结构，本篇从既有结构做压缩，补充“减少角色”与成本质量取舍，避免只收集扩张式方法。",
+      "incrementalUnderstanding": "压缩冗余协作结构",
+      "sha256": "38a5287b7efe595fd35914ece50aaedcab31b14d8ea108d36be2c2c355aab4e1",
+      "previouslyDeferred": false
+    }
+  ],
+  "deferred": [
+    {
+      "id": "openreview-CITSCNrUja",
+      "title": "AutoTool: Dynamic Tool Selection and Integration for Agentic Reasoning",
+      "url": "https://icml.cc/virtual/2026/poster/65574",
+      "retrievedAt": "2026-10-26T12:59:30+08:00",
+      "sha256": "dbe9232acf5ce8cc7969cd8540ee4df5c16a9c51550c1b459e48bb4d4e75e70a",
+      "status": "deferred",
+      "reason": "同样补充动态工具选择；本批先用ToolOmni覆盖检索与执行联合学习，保留本篇作后续不同训练路线对照，不等于质量不足。"
+    },
+    {
+      "id": "iclr-2026-a0f6c06b8d6114bb37688c2dc19b4d74",
+      "title": "OpenAgentSafety: A Comprehensive Framework For Evaluating Real-World AI Agent Safety",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/a0f6c06b8d6114bb37688c2dc19b4d74-Abstract-Conference.html",
+      "retrievedAt": "2026-10-26T12:59:31+08:00",
+      "sha256": "534de5b268547ac0d92928c8060fad199545700b4ccd1235af038de1c48eb392",
+      "status": "deferred",
+      "reason": "安全综合评测值得补充；本批先用VPI-Bench补视觉攻击面、SafeMCP补防护，后续可补非攻击型真实工具风险。"
+    },
+    {
+      "id": "acl-2026.acl-long.335",
+      "title": "DeepPlanning: Benchmarking Long-Horizon Agentic Planning with Verifiable Constraints",
+      "url": "https://aclanthology.org/2026.acl-long.335/",
+      "retrievedAt": "2026-10-26T12:59:33+08:00",
+      "sha256": "85be3c48bb54cedc52f83d1625cabde3ddede0752fc3d3544a51087d787e41f8",
+      "status": "deferred",
+      "reason": "与CostBench都补充约束规划；本批先覆盖动态环境和成本，后续检查全局约束与主动信息收集的区别。"
+    },
+    {
+      "id": "acl-2026.acl-long.534",
+      "title": "Chain-of-Memory: Lightweight Memory Construction with Dynamic Evolution for LLM Agents",
+      "url": "https://aclanthology.org/2026.acl-long.534/",
+      "retrievedAt": "2026-10-26T12:59:33+08:00",
+      "sha256": "c882f5211046ca73e7b8e293458da683c67fee309185120c459e231897b2bd6a",
+      "status": "deferred",
+      "reason": "轻量构建与复杂使用路线值得补查；本批先用Memory-R1和Mem2ActBench对照记忆训练与行动利用，避免同批记忆问题过密。"
+    }
+  ],
+  "startedAt": "2026-10-26T12:59:26+08:00",
+  "savedAt": "2026-10-26T13:04:20+08:00",
+  "screeningBoundary": "14篇是本批实际打开摘要的候选；2395条标题命中不是2395篇已读或纳入论文。",
+  "unprocessedScope": "原2395条标题命中队列尚未完成全量摘要筛选。本批只记录实际处理的14篇及4篇延后，不以简单减法声称剩余未读数；既有批次与新发现可能重叠。",
+  "timingBoundary": "startedAt至最终验收的墙钟跨度，包含内容制作、标准更新、检查与部署等待；非纯摘要生成耗时。",
+  "localValidationCompletedAt": "2026-10-26T13:10:00+08:00",
+  "elapsedToLocalValidationSeconds": 634
+}

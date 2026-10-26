@@ -1,0 +1,130 @@
+{
+  "acl-2026.acl-long.583": {
+    "headline": "让Agent学会哪些记忆该新增、更新或删除。",
+    "kind": "method",
+    "diagram": {
+      "layout": "flow",
+      "title": "记忆管理与回答两个角色",
+      "caption": "AI 概念示意，基于摘要；角色与学习关系示意，不表示每次调用的固定时序。",
+      "nodes": [
+        {
+          "id": "manage",
+          "title": "管理记忆",
+          "description": "学习新增、更新、删除或不操作等结构化记忆动作。"
+        },
+        {
+          "id": "answer",
+          "title": "利用记忆",
+          "description": "筛选相关条目并据此推理回答。"
+        },
+        {
+          "id": "learn",
+          "title": "结果驱动训练",
+          "description": "使用任务结果的强化学习训练两个角色。"
+        }
+      ]
+    }
+  },
+  "acl-2026.acl-long.370": {
+    "headline": "能回答旧信息，不代表能用记忆选对工具和参数。",
+    "kind": "benchmark"
+  },
+  "acl-2026.acl-long.584": {
+    "headline": "工具失效或价格变化后，原计划还划算吗？",
+    "kind": "benchmark"
+  },
+  "acl-2026.acl-long.1483": {
+    "headline": "长任务失败，问题可能在执行，而不只在计划。",
+    "kind": "analysis",
+    "diagram": {
+      "layout": "study",
+      "title": "把失败拆到三个层次",
+      "caption": "AI 概念示意，基于摘要；分层诊断示意，不代表作者给出三个互斥或穷尽的错误类型。",
+      "nodes": [
+        {
+          "id": "plan",
+          "title": "高层规划",
+          "description": "检查目标与步骤组织是否合理。"
+        },
+        {
+          "id": "execute",
+          "title": "底层执行",
+          "description": "检查行动能否在页面上正确落地。"
+        },
+        {
+          "id": "replan",
+          "title": "重新规划",
+          "description": "检查反馈出现后能否调整后续行动。"
+        }
+      ]
+    }
+  },
+  "acl-2026.acl-long.1736": {
+    "headline": "工具库不断变大和变化，Agent怎样找到并用对新工具？",
+    "kind": "method"
+  },
+  "acl-2026.acl-long.522": {
+    "headline": "在Agent拿到危险工具能力之前，先评估后续风险。",
+    "kind": "method",
+    "diagram": {
+      "layout": "flow",
+      "title": "前瞻过滤与即时干预",
+      "caption": "AI 概念示意，基于摘要；防护要素示意，不表示全部运行细节或绝对安全保证。",
+      "nodes": [
+        {
+          "id": "forecast",
+          "title": "前瞻风险推理",
+          "description": "内部世界模型推演工具能力可能带来的后续安全风险。"
+        },
+        {
+          "id": "filter",
+          "title": "主动工具过滤",
+          "description": "限制危险工具能力的获取与扩张。"
+        },
+        {
+          "id": "intervene",
+          "title": "即时干预兜底",
+          "description": "以即时干预作为另一层保护。"
+        }
+      ]
+    }
+  },
+  "iclr-2026-28e4c3696637ac727051a2922643ec6a": {
+    "headline": "页面里看见的文字，也可能把Agent带离用户目标。",
+    "kind": "benchmark"
+  },
+  "iclr-2026-0d1986a61e30e5fa408c81216a616e20": {
+    "headline": "同一套Agent执行，怎样在响应速度与调用费用之间调节？",
+    "kind": "method"
+  },
+  "openreview-UAXQW194WT": {
+    "headline": "历史执行顺序里，哪些步骤必须先做，哪些可以并行？",
+    "kind": "method",
+    "diagram": {
+      "layout": "flow",
+      "title": "由历史轨迹得到依赖计划",
+      "caption": "AI 概念示意，基于摘要；摘要明确描述的结构学习与执行关系示意，不是原论文图。",
+      "nodes": [
+        {
+          "id": "traces",
+          "title": "历史线性轨迹",
+          "description": "将轨迹视为潜在依赖结构的某种合法执行顺序。"
+        },
+        {
+          "id": "infer",
+          "title": "推断偏序依赖",
+          "description": "用贝叶斯框架估计哪些动作具有先后约束。"
+        },
+        {
+          "id": "execute",
+          "title": "编译执行",
+          "description": "利用学得的依赖结构执行，并减少无关上下文。"
+        }
+      ]
+    }
+  },
+  "acl-2026.acl-long.1387": {
+    "headline": "多Agent系统里，哪些角色可以去掉或换成便宜模型？",
+    "kind": "method"
+  }
+}

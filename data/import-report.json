@@ -1,5 +1,16 @@
 {
-  "added": [],
+  "added": [
+    "acl-2026.acl-long.583",
+    "acl-2026.acl-long.370",
+    "acl-2026.acl-long.584",
+    "acl-2026.acl-long.1483",
+    "acl-2026.acl-long.1736",
+    "acl-2026.acl-long.522",
+    "iclr-2026-28e4c3696637ac727051a2922643ec6a",
+    "iclr-2026-0d1986a61e30e5fa408c81216a616e20",
+    "openreview-UAXQW194WT",
+    "acl-2026.acl-long.1387"
+  ],
   "updated": [],
   "unchanged": [
     "acl-2026.acl-long.1",
@@ -35,9 +46,14 @@
       "batchId": "batch-002",
       "path": "data/batches/batch-002.research.json",
       "sha256": "9e576fec2dad999696af1533b46b45efb8e643aa061fd4aeb42e1ce715a8345b"
+    },
+    {
+      "batchId": "batch-003",
+      "path": "data/batches/batch-003.research.json",
+      "sha256": "dc58c0bd5992fa1e37f9d31575fb13aebf5410512c230033f875c43de7c14e2f"
     }
   ],
-  "finalCount": 32,
+  "finalCount": 42,
   "preservedLegacyCount": 12,
   "defaultCollectionCount": 10
 }

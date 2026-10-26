@@ -18,22 +18,22 @@
     "maximum": 70,
     "batchSize": 10
   },
-  "processedRecordCount": 20,
-  "readableRecordCount": 20,
+  "processedRecordCount": 30,
+  "readableRecordCount": 30,
   "humanConfirmedCount": 0,
   "readerProgress": {
     "storage": ".research-private/reading-progress.json",
     "policy": "个人阅读进度仅保存在本地，不从AI制作数量推断、不写入公共进度。"
   },
   "questionCoverage": {
-    "Q02": 2,
-    "Q03": 2,
-    "Q01": 2,
-    "Q05": 3,
+    "Q02": 3,
+    "Q03": 4,
+    "Q01": 4,
+    "Q05": 4,
     "Q07": 3,
-    "Q08": 2,
+    "Q08": 5,
     "Q04": 3,
-    "Q06": 3
+    "Q06": 4
   },
   "batches": [
     {
@@ -66,6 +66,22 @@
         "iclr-2026-134ed7a477770f227f12450ef0cbb8f4",
         "openreview-2Exmr1eIKZ",
         "openreview-uHjkDW1QfY"
+      ]
+    },
+    {
+      "batchId": "batch-003",
+      "count": 10,
+      "ids": [
+        "acl-2026.acl-long.583",
+        "acl-2026.acl-long.370",
+        "acl-2026.acl-long.584",
+        "acl-2026.acl-long.1483",
+        "acl-2026.acl-long.1736",
+        "acl-2026.acl-long.522",
+        "iclr-2026-28e4c3696637ac727051a2922643ec6a",
+        "iclr-2026-0d1986a61e30e5fa408c81216a616e20",
+        "openreview-UAXQW194WT",
+        "acl-2026.acl-long.1387"
       ]
     }
   ],

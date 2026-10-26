@@ -1,0 +1,120 @@
+{
+  "acl-2026.acl-long.583": {
+    "headline": [
+      "B003-acl-2026.acl-long.583-ABS"
+    ],
+    "diagramTitle": [
+      "B003-acl-2026.acl-long.583-ABS"
+    ],
+    "caption": [
+      "B003-acl-2026.acl-long.583-ABS"
+    ],
+    "nodes": {
+      "manage": [
+        "B003-acl-2026.acl-long.583-ABS"
+      ],
+      "answer": [
+        "B003-acl-2026.acl-long.583-ABS"
+      ],
+      "learn": [
+        "B003-acl-2026.acl-long.583-ABS"
+      ]
+    }
+  },
+  "acl-2026.acl-long.370": {
+    "headline": [
+      "B003-acl-2026.acl-long.370-ABS"
+    ]
+  },
+  "acl-2026.acl-long.584": {
+    "headline": [
+      "B003-acl-2026.acl-long.584-ABS"
+    ]
+  },
+  "acl-2026.acl-long.1483": {
+    "headline": [
+      "B003-acl-2026.acl-long.1483-ABS"
+    ],
+    "diagramTitle": [
+      "B003-acl-2026.acl-long.1483-ABS"
+    ],
+    "caption": [
+      "B003-acl-2026.acl-long.1483-ABS"
+    ],
+    "nodes": {
+      "plan": [
+        "B003-acl-2026.acl-long.1483-ABS"
+      ],
+      "execute": [
+        "B003-acl-2026.acl-long.1483-ABS"
+      ],
+      "replan": [
+        "B003-acl-2026.acl-long.1483-ABS"
+      ]
+    }
+  },
+  "acl-2026.acl-long.1736": {
+    "headline": [
+      "B003-acl-2026.acl-long.1736-ABS"
+    ]
+  },
+  "acl-2026.acl-long.522": {
+    "headline": [
+      "B003-acl-2026.acl-long.522-ABS"
+    ],
+    "diagramTitle": [
+      "B003-acl-2026.acl-long.522-ABS"
+    ],
+    "caption": [
+      "B003-acl-2026.acl-long.522-ABS"
+    ],
+    "nodes": {
+      "forecast": [
+        "B003-acl-2026.acl-long.522-ABS"
+      ],
+      "filter": [
+        "B003-acl-2026.acl-long.522-ABS"
+      ],
+      "intervene": [
+        "B003-acl-2026.acl-long.522-ABS"
+      ]
+    }
+  },
+  "iclr-2026-28e4c3696637ac727051a2922643ec6a": {
+    "headline": [
+      "B003-iclr-2026-28e4c3696637ac727051a2922643ec6a-ABS"
+    ]
+  },
+  "iclr-2026-0d1986a61e30e5fa408c81216a616e20": {
+    "headline": [
+      "B003-iclr-2026-0d1986a61e30e5fa408c81216a616e20-ABS"
+    ]
+  },
+  "openreview-UAXQW194WT": {
+    "headline": [
+      "B003-openreview-UAXQW194WT-ABS"
+    ],
+    "diagramTitle": [
+      "B003-openreview-UAXQW194WT-ABS"
+    ],
+    "caption": [
+      "B003-openreview-UAXQW194WT-ABS"
+    ],
+    "nodes": {
+      "traces": [
+        "B003-openreview-UAXQW194WT-ABS"
+      ],
+      "infer": [
+        "B003-openreview-UAXQW194WT-ABS"
+      ],
+      "execute": [
+        "B003-openreview-UAXQW194WT-ABS"
+      ]
+    }
+  },
+  "acl-2026.acl-long.1387": {
+    "headline": [
+      "B003-acl-2026.acl-long.1387-ABS"
+    ]
+  }
+}

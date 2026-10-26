@@ -4,7 +4,7 @@
   "library": {
     "name": "Paper Aisle 论文库",
     "description": "围绕 Agent、强化学习与大语言模型整理的个人论文调研库，支持检索、筛选、收藏、对比与速读。",
-    "updatedAt": "2026-10-25",
+    "updatedAt": "2026-10-26",
     "sources": [
       {
         "label": "arXiv 开放论文页面",
@@ -218,7 +218,7 @@
       "RL": "oklch(83% 0.14 25)",
       "LLM": "oklch(82% 0.12 230)"
     },
-    "defaultCollectionId": "agent-stage01-batch-002"
+    "defaultCollectionId": "agent-stage01-batch-003"
   },
   "papers": [
     {
@@ -2420,9 +2420,704 @@
           }
         ]
       }
+    },
+    {
+      "id": "acl-2026.acl-long.583",
+      "title": "Memory-R1: Enhancing Large Language Model Agents to Manage and Utilize Memories via Reinforcement Learning",
+      "authors": [
+        {
+          "name": "Sikuan Yan"
+        },
+        {
+          "name": "Xiufeng Yang"
+        },
+        {
+          "name": "Zuchao Huang"
+        },
+        {
+          "name": "Ercong Nie"
+        },
+        {
+          "name": "Zifeng Ding"
+        },
+        {
+          "name": "Zonggen Li"
+        },
+        {
+          "name": "Xiaowen Ma"
+        },
+        {
+          "name": "Jinhe Bi"
+        },
+        {
+          "name": "Kristian Kersting"
+        },
+        {
+          "name": "Jeff Z. Pan"
+        },
+        {
+          "name": "Hinrich Schütze"
+        },
+        {
+          "name": "Volker Tresp"
+        },
+        {
+          "name": "Yunpu Ma"
+        }
+      ],
+      "venue": "ACL",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q03｜学习记忆管理操作",
+      "researchQuestion": "如何用任务结果训练Agent，使它主动管理外部记忆并利用相关内容回答问题？",
+      "links": {
+        "official": "https://aclanthology.org/2026.acl-long.583/",
+        "pdf": "https://aclanthology.org/2026.acl-long.583.pdf"
+      },
+      "quickRead": {
+        "problem": "外部记忆库能补充有限上下文，但静态规则未必知道该保存、更新或删除什么，也未必能把检索结果有效用于推理。",
+        "finding": "论文报告：Memory-R1在LoCoMo、MSC和LongMemEval等记忆测试中优于所比较基线，并展示跨问题类型与模型规模的适用性；这不等于已验证真实工具执行效果。",
+        "approach": "设置记忆管理与回答两个角色：前者学习新增、更新、删除或不操作，后者筛选相关条目并推理；使用结果驱动的强化学习训练两者。"
+      },
+      "questionId": "Q03",
+      "scenarios": [
+        "长期对话记忆与问答"
+      ],
+      "contributionTypes": [
+        "方法 / 系统"
+      ],
+      "readingGuide": {
+        "headline": "让Agent学会哪些记忆该新增、更新或删除。",
+        "kind": "method",
+        "diagram": {
+          "layout": "flow",
+          "title": "记忆管理与回答两个角色",
+          "caption": "AI 概念示意，基于摘要；角色与学习关系示意，不表示每次调用的固定时序。",
+          "nodes": [
+            {
+              "id": "manage",
+              "title": "管理记忆",
+              "description": "学习新增、更新、删除或不操作等结构化记忆动作。"
+            },
+            {
+              "id": "answer",
+              "title": "利用记忆",
+              "description": "筛选相关条目并据此推理回答。"
+            },
+            {
+              "id": "learn",
+              "title": "结果驱动训练",
+              "description": "使用任务结果的强化学习训练两个角色。"
+            }
+          ]
+        },
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ACL 官方论文页",
+            "url": "https://aclanthology.org/2026.acl-long.583/",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acl-2026.acl-long.370",
+      "title": "Mem2ActBench: A Benchmark for Evaluating Long-Term Memory Utilization in Task-Oriented Autonomous Agents",
+      "authors": [
+        {
+          "name": "Yiting Shen"
+        },
+        {
+          "name": "Kun Li"
+        },
+        {
+          "name": "Wei Zhou"
+        },
+        {
+          "name": "Songlin Hu"
+        }
+      ],
+      "venue": "ACL",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q03｜从记住信息到正确行动",
+      "researchQuestion": "Agent能否主动利用长期交互中的偏好与任务状态，选择工具并填写正确参数？",
+      "links": {
+        "official": "https://aclanthology.org/2026.acl-long.370/",
+        "pdf": "https://aclanthology.org/2026.acl-long.370.pdf",
+        "code": "https://github.com/Cantaloupe-M/Mem2ActBench"
+      },
+      "quickRead": {
+        "problem": "现有记忆测试常要求回答明确提出的事实问题，难以判断Agent是否会在没有显式提醒时，把旧偏好和任务状态用于工具执行。",
+        "finding": "论文报告：在其工具使用测试中，所测记忆框架仍难以主动利用记忆确定调用参数；结论限定于该基准及所比较系统。",
+        "approach": "合并工具与对话来源，进行一致性处理，构造长期交互记忆链，再反向生成依赖这些记忆的工具任务，检查工具选择与参数依据。"
+      },
+      "questionId": "Q03",
+      "scenarios": [
+        "长期个人助理与工具调用"
+      ],
+      "contributionTypes": [
+        "评测 / 基准"
+      ],
+      "readingGuide": {
+        "headline": "能回答旧信息，不代表能用记忆选对工具和参数。",
+        "kind": "benchmark",
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ACL 官方论文页",
+            "url": "https://aclanthology.org/2026.acl-long.370/",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acl-2026.acl-long.584",
+      "title": "CostBench: Evaluating Multi-Turn Cost-Optimal Planning and Adaptation in Dynamic Environments for LLM Tool-Use Agents",
+      "authors": [
+        {
+          "name": "Jiayu Liu"
+        },
+        {
+          "name": "Cheng Qian"
+        },
+        {
+          "name": "Zhaochen Su"
+        },
+        {
+          "name": "Qing Zong"
+        },
+        {
+          "name": "Shijue Huang"
+        },
+        {
+          "name": "Bingxiang He"
+        },
+        {
+          "name": "Yi R. Fung"
+        }
+      ],
+      "venue": "ACL",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q01｜动态环境中的成本规划",
+      "researchQuestion": "Agent如何在工具成本与可用性发生变化后，重新找到满足任务的低成本执行计划？",
+      "links": {
+        "official": "https://aclanthology.org/2026.acl-long.584/",
+        "pdf": "https://aclanthology.org/2026.acl-long.584.pdf"
+      },
+      "quickRead": {
+        "problem": "只评任务完成会忽略资源消耗；静态设置也看不出工具失效、费用变化以后，Agent能否及时调整原计划。",
+        "finding": "论文报告：所测模型在其旅行规划任务中难以稳定找到成本最优解，动态变化进一步影响表现；不能由此判断真实出行效果。",
+        "approach": "在旅行规划环境中组合不同成本的原子和复合工具，并引入工具故障、费用变化等阻断事件，比较静态规划与动态适应。"
+      },
+      "questionId": "Q01",
+      "scenarios": [
+        "合成旅行规划与动态工具环境"
+      ],
+      "contributionTypes": [
+        "评测 / 基准"
+      ],
+      "readingGuide": {
+        "headline": "工具失效或价格变化后，原计划还划算吗？",
+        "kind": "benchmark",
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ACL 官方论文页",
+            "url": "https://aclanthology.org/2026.acl-long.584/",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acl-2026.acl-long.1483",
+      "title": "Why Do LLM-based Web Agents Fail? A Hierarchical Planning Perspective",
+      "authors": [
+        {
+          "name": "Mohamed Aghzal"
+        },
+        {
+          "name": "Gregory J. Stein"
+        },
+        {
+          "name": "Ziyu Yao"
+        }
+      ],
+      "venue": "ACL",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q05｜区分计划与执行的失败",
+      "researchQuestion": "怎样区分Web Agent在高层规划、具体执行和重新规划中的失败来源？",
+      "links": {
+        "official": "https://aclanthology.org/2026.acl-long.1483/",
+        "pdf": "https://aclanthology.org/2026.acl-long.1483.pdf"
+      },
+      "quickRead": {
+        "problem": "端到端成功率只告诉我们任务是否完成，难以判断是目标分解有问题、页面操作落地失败，还是出错后没有正确调整。",
+        "finding": "论文报告：所测设置中，结构化计划比自然语言计划更简洁且面向目标，但底层执行仍是主要瓶颈；不能据此概括所有Web Agent。",
+        "approach": "用分层规划框架分别分析高层计划、底层执行和重新规划，并比较规划领域定义语言PDDL与自然语言表示，观察推理、落地与恢复。"
+      },
+      "questionId": "Q05",
+      "scenarios": [
+        "长程Web导航"
+      ],
+      "contributionTypes": [
+        "实证分析"
+      ],
+      "readingGuide": {
+        "headline": "长任务失败，问题可能在执行，而不只在计划。",
+        "kind": "analysis",
+        "diagram": {
+          "layout": "study",
+          "title": "把失败拆到三个层次",
+          "caption": "AI 概念示意，基于摘要；分层诊断示意，不代表作者给出三个互斥或穷尽的错误类型。",
+          "nodes": [
+            {
+              "id": "plan",
+              "title": "高层规划",
+              "description": "检查目标与步骤组织是否合理。"
+            },
+            {
+              "id": "execute",
+              "title": "底层执行",
+              "description": "检查行动能否在页面上正确落地。"
+            },
+            {
+              "id": "replan",
+              "title": "重新规划",
+              "description": "检查反馈出现后能否调整后续行动。"
+            }
+          ]
+        },
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ACL 官方论文页",
+            "url": "https://aclanthology.org/2026.acl-long.1483/",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acl-2026.acl-long.1736",
+      "title": "ToolOmni: Enabling Open-World Tool Use via Agentic learning with Proactive Retrieval and Grounded Execution",
+      "authors": [
+        {
+          "name": "Shouzheng Huang"
+        },
+        {
+          "name": "Meishan Zhang"
+        },
+        {
+          "name": "Baotian Hu"
+        },
+        {
+          "name": "Min Zhang"
+        }
+      ],
+      "venue": "ACL",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q02｜开放工具库的检索与执行",
+      "researchQuestion": "面对大量且持续变化的工具，Agent如何联合学习工具检索和有依据的执行？",
+      "links": {
+        "official": "https://aclanthology.org/2026.acl-long.1736/",
+        "pdf": "https://aclanthology.org/2026.acl-long.1736.pdf"
+      },
+      "quickRead": {
+        "problem": "固定的向量检索可能不能对齐用户意图与工具语义，把工具记进模型参数又难以适应未见工具，导致检索与执行之间脱节。",
+        "finding": "论文报告：ToolOmni在所测开放工具设置中改善检索和执行，并展示未见工具相关的泛化收益；具体划分、对照预算与提升幅度仍待核读。",
+        "approach": "先用多轮交互数据进行监督微调，再以解耦多目标GRPO强化学习同时优化工具检索和执行，把主动检索与执行纳入推理循环。"
+      },
+      "questionId": "Q02",
+      "scenarios": [
+        "开放世界工具检索与调用"
+      ],
+      "contributionTypes": [
+        "方法 / 系统"
+      ],
+      "readingGuide": {
+        "headline": "工具库不断变大和变化，Agent怎样找到并用对新工具？",
+        "kind": "method",
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ACL 官方论文页",
+            "url": "https://aclanthology.org/2026.acl-long.1736/",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acl-2026.acl-long.522",
+      "title": "SafeMCP: Proactive Power Regulation for LLM Agent Defense via Environment-Grounded Look-Ahead Reasoning",
+      "authors": [
+        {
+          "name": "Lichao Wang"
+        },
+        {
+          "name": "ZhaoXing Ren"
+        },
+        {
+          "name": "Tianzhuo Yang"
+        },
+        {
+          "name": "Jiaming Ji (吉嘉铭)"
+        },
+        {
+          "name": "Chi Harold Liu"
+        },
+        {
+          "name": "Yaodong Yang (杨耀东)"
+        },
+        {
+          "name": "Juntao Dai"
+        }
+      ],
+      "venue": "ACL",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q08｜限制危险工具能力扩张",
+      "researchQuestion": "如何在保留任务效用的同时，限制Agent获取可能导致危险行为的工具能力？",
+      "links": {
+        "official": "https://aclanthology.org/2026.acl-long.522/",
+        "pdf": "https://aclanthology.org/2026.acl-long.522.pdf"
+      },
+      "quickRead": {
+        "problem": "更多工具扩大了Agent能影响的环境范围，也可能把小错误放大；只在危险行动发生后检查，可能无法及时约束能力扩张。",
+        "finding": "论文报告：SafeMCP在PowerSeeking Bench、ToolEmu和AgentHarm等测试中降低风险并保留任务效用；不同任务与部署条件下的取舍仍需核查。",
+        "approach": "在服务端使用内部世界模型做前瞻推理，通过主动工具过滤约束危险能力获取，并以即时干预兜底；训练包含环境动态学习、安全策略初始化和强化学习。"
+      },
+      "questionId": "Q08",
+      "scenarios": [
+        "MCP工具权限与风险控制"
+      ],
+      "contributionTypes": [
+        "方法 / 系统"
+      ],
+      "readingGuide": {
+        "headline": "在Agent拿到危险工具能力之前，先评估后续风险。",
+        "kind": "method",
+        "diagram": {
+          "layout": "flow",
+          "title": "前瞻过滤与即时干预",
+          "caption": "AI 概念示意，基于摘要；防护要素示意，不表示全部运行细节或绝对安全保证。",
+          "nodes": [
+            {
+              "id": "forecast",
+              "title": "前瞻风险推理",
+              "description": "内部世界模型推演工具能力可能带来的后续安全风险。"
+            },
+            {
+              "id": "filter",
+              "title": "主动工具过滤",
+              "description": "限制危险工具能力的获取与扩张。"
+            },
+            {
+              "id": "intervene",
+              "title": "即时干预兜底",
+              "description": "以即时干预作为另一层保护。"
+            }
+          ]
+        },
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ACL 官方论文页",
+            "url": "https://aclanthology.org/2026.acl-long.522/",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "iclr-2026-28e4c3696637ac727051a2922643ec6a",
+      "title": "VPI-Bench: Visual Prompt Injection Attacks for Computer-Use Agents",
+      "authors": [
+        {
+          "name": "Cao, Tri"
+        },
+        {
+          "name": "Lim, Bennett"
+        },
+        {
+          "name": "Liu, Yue"
+        },
+        {
+          "name": "Sui, Yuan"
+        },
+        {
+          "name": "LI, YUEXIN"
+        },
+        {
+          "name": "Deng, Shumin"
+        },
+        {
+          "name": "Lu, Lin"
+        },
+        {
+          "name": "Oo, Nay"
+        },
+        {
+          "name": "YAN, Shuicheng"
+        },
+        {
+          "name": "Hooi, Bryan"
+        }
+      ],
+      "venue": "ICLR",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q08｜视觉内容中的指令注入",
+      "researchQuestion": "电脑操作Agent遇到视觉嵌入的恶意指令时，能否继续遵守原始任务和权限边界？",
+      "links": {
+        "official": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/28e4c3696637ac727051a2922643ec6a-Abstract-Conference.html",
+        "pdf": "https://proceedings.iclr.cc/paper_files/paper/2026/file/28e4c3696637ac727051a2922643ec6a-Paper-Conference.pdf"
+      },
+      "quickRead": {
+        "problem": "只研究HTML层面的浏览器攻击，难以覆盖直接看屏幕的Agent；视觉内容中的指令可能诱导越权操作或泄露信息。",
+        "finding": "论文报告：所测电脑与浏览器Agent在部分平台上会被视觉注入误导，现有防御改进有限；攻击成功率依赖平台、模型和威胁设置。",
+        "approach": "定义从视觉内容注入到越权结果的端到端威胁模型，在多个交互平台的真实运行环境中构造测试案例，检查Agent与防御方法的表现。"
+      },
+      "questionId": "Q08",
+      "scenarios": [
+        "电脑操作与浏览器交互安全"
+      ],
+      "contributionTypes": [
+        "评测 / 基准"
+      ],
+      "readingGuide": {
+        "headline": "页面里看见的文字，也可能把Agent带离用户目标。",
+        "kind": "benchmark",
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ICLR 官方论文页",
+            "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/28e4c3696637ac727051a2922643ec6a-Abstract-Conference.html",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "iclr-2026-0d1986a61e30e5fa408c81216a616e20",
+      "title": "Dynamic Speculative Agent Planning",
+      "authors": [
+        {
+          "name": "Guan, Yilin"
+        },
+        {
+          "name": "Lan, Qingfeng"
+        },
+        {
+          "name": "Sun, Fei"
+        },
+        {
+          "name": "Ding, Dujian"
+        },
+        {
+          "name": "Acharya, Devang"
+        },
+        {
+          "name": "Wang, Chi"
+        },
+        {
+          "name": "Wang, William"
+        },
+        {
+          "name": "Hua, Wenyue"
+        }
+      ],
+      "venue": "ICLR",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q08｜延迟与费用的执行取舍",
+      "researchQuestion": "如何在保持任务表现的前提下，调节Agent端到端延迟和推理费用之间的取舍？",
+      "links": {
+        "official": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/0d1986a61e30e5fa408c81216a616e20-Abstract-Conference.html",
+        "pdf": "https://proceedings.iclr.cc/paper_files/paper/2026/file/0d1986a61e30e5fa408c81216a616e20-Paper-Conference.pdf",
+        "code": "https://github.com/guanyilin428/Dynamic-Speculative-Planning"
+      },
+      "quickRead": {
+        "problem": "现有加速路线可能损失任务表现、依赖预先训练路由器，或带来额外运行成本，使用者也难以直接控制速度与费用的平衡。",
+        "finding": "论文报告：DSP在两个Agent基准上展示延迟与费用收益，并声称保持表现；这尚不能证明所有设置下均无损。",
+        "approach": "采用异步在线强化学习的动态推测规划，联合优化端到端延迟与费用，并提供一个控制参数来调节取舍；具体调度机制需看全文。"
+      },
+      "questionId": "Q08",
+      "scenarios": [
+        "多步Agent执行与推理成本"
+      ],
+      "contributionTypes": [
+        "方法 / 系统"
+      ],
+      "readingGuide": {
+        "headline": "同一套Agent执行，怎样在响应速度与调用费用之间调节？",
+        "kind": "method",
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ICLR 官方论文页",
+            "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/0d1986a61e30e5fa408c81216a616e20-Abstract-Conference.html",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "openreview-UAXQW194WT",
+      "title": "De-Linearizing Agent Traces: Bayesian Inference of Latent Partial Orders for Efficient Execution",
+      "authors": [
+        {
+          "name": "Dongqing Li"
+        },
+        {
+          "name": "Zheqiao Cheng"
+        },
+        {
+          "name": "Geoff Nicholls"
+        },
+        {
+          "name": "Quyu Kong"
+        }
+      ],
+      "venue": "ICML",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q01｜从轨迹学习任务依赖",
+      "researchQuestion": "如何从带噪声的历史线性执行轨迹中恢复步骤依赖，并将其用于可复用的执行计划？",
+      "links": {
+        "official": "https://icml.cc/virtual/2026/poster/63737",
+        "review": "https://openreview.net/forum?id=UAXQW194WT"
+      },
+      "quickRead": {
+        "problem": "把成功轨迹当成固定顺序会隐藏可并行步骤，还可能让Agent反复为熟悉流程逐步推理，增加时间和调用开销。",
+        "finding": "论文报告：BPOP在Cloud-IaC-6与WFCommons工作流中更准确恢复依赖结构，编译执行器减少了令牌与执行时间；其他任务适用性仍待验证。",
+        "approach": "把线性轨迹看作潜在依赖图的一种合法排序，用贝叶斯方法推断偏序结构，再交由编译执行器利用该结构并裁剪无关上下文。"
+      },
+      "questionId": "Q01",
+      "scenarios": [
+        "云基础设施配置与科学工作流"
+      ],
+      "contributionTypes": [
+        "方法 / 系统"
+      ],
+      "readingGuide": {
+        "headline": "历史执行顺序里，哪些步骤必须先做，哪些可以并行？",
+        "kind": "method",
+        "diagram": {
+          "layout": "flow",
+          "title": "由历史轨迹得到依赖计划",
+          "caption": "AI 概念示意，基于摘要；摘要明确描述的结构学习与执行关系示意，不是原论文图。",
+          "nodes": [
+            {
+              "id": "traces",
+              "title": "历史线性轨迹",
+              "description": "将轨迹视为潜在依赖结构的某种合法执行顺序。"
+            },
+            {
+              "id": "infer",
+              "title": "推断偏序依赖",
+              "description": "用贝叶斯框架估计哪些动作具有先后约束。"
+            },
+            {
+              "id": "execute",
+              "title": "编译执行",
+              "description": "利用学得的依赖结构执行，并减少无关上下文。"
+            }
+          ]
+        },
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ICML 官方论文页",
+            "url": "https://icml.cc/virtual/2026/poster/63737",
+            "locator": "Abstract"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acl-2026.acl-long.1387",
+      "title": "AgentSlimming: Towards Efficient and Cost-Aware Multi-Agent Systems",
+      "authors": [
+        {
+          "name": "Yulang Chen"
+        },
+        {
+          "name": "Haoxuan Peng"
+        },
+        {
+          "name": "Jinyan Liu"
+        },
+        {
+          "name": "Zichen Wen"
+        },
+        {
+          "name": "Dongrui Liu"
+        },
+        {
+          "name": "Linfeng Zhang"
+        }
+      ],
+      "venue": "ACL",
+      "year": 2026,
+      "direction": "Agent",
+      "subdirection": "Q06｜压缩冗余协作结构",
+      "researchQuestion": "如何压缩图结构多Agent工作流中的冗余角色，同时控制任务表现的损失？",
+      "links": {
+        "official": "https://aclanthology.org/2026.acl-long.1387/",
+        "pdf": "https://aclanthology.org/2026.acl-long.1387.pdf"
+      },
+      "quickRead": {
+        "problem": "自动扩张协作结构可能留下冗余Agent并增加令牌消耗，手工设计又费力；更多角色不一定意味着更值得付出的成本。",
+        "finding": "论文报告：AgentSlimming在所测工作流中显著降低令牌成本，表现变化较小且部分设置有所改善；收益和可接受损失依赖具体比较条件。",
+        "approach": "先用混合机制估计各Agent的重要性，再删除冗余角色或替换为低成本角色，每次操作都通过相对基线的接受规则检查。"
+      },
+      "questionId": "Q06",
+      "scenarios": [
+        "图结构多Agent工作流"
+      ],
+      "contributionTypes": [
+        "方法 / 系统"
+      ],
+      "readingGuide": {
+        "headline": "多Agent系统里，哪些角色可以去掉或换成便宜模型？",
+        "kind": "method",
+        "sourceLevel": "abstract",
+        "sources": [
+          {
+            "label": "ACL 官方论文页",
+            "url": "https://aclanthology.org/2026.acl-long.1387/",
+            "locator": "Abstract"
+          }
+        ]
+      }
     }
   ],
   "collections": [
+    {
+      "id": "agent-stage01-batch-003",
+      "name": "第三批｜行动、适应与安全边界",
+      "description": "补充记忆行动、动态工具、失败诊断、安全与效率；Abstract级候选，不是质量排名。",
+      "paperIds": [
+        "acl-2026.acl-long.583",
+        "acl-2026.acl-long.370",
+        "acl-2026.acl-long.584",
+        "acl-2026.acl-long.1483",
+        "acl-2026.acl-long.1736",
+        "acl-2026.acl-long.522",
+        "iclr-2026-28e4c3696637ac727051a2922643ec6a",
+        "iclr-2026-0d1986a61e30e5fa408c81216a616e20",
+        "openreview-UAXQW194WT",
+        "acl-2026.acl-long.1387"
+      ]
+    },
     {
       "id": "agent-stage01-batch-002",
       "name": "第二批｜路线与可靠性对照",

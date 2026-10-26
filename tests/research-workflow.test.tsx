@@ -54,7 +54,7 @@ describe("research dataset integration", () => {
     await waitFor(() => expect(container.querySelectorAll(".paper-card")).toHaveLength(Math.min(48, dataset.papers.length - 12)));
     await user.click(screen.getByRole("button", { name: "展开研究问题" }));
     await user.click(screen.getByRole("checkbox", { name: /记忆与状态/ }));
-    expect(container.querySelectorAll(".paper-card")).toHaveLength(2);
+    expect(container.querySelectorAll(".paper-card")).toHaveLength(dataset.papers.filter(p => p.questionId === "Q03").length);
     await user.click(screen.getByRole("button", { name: "Sculptor: Empowering LLMs with Cognitive Agency via Active Context Management" }));
     const dialog = await screen.findByRole("dialog", { name: "论文详情" });
     expect(within(dialog).getByText(/给Agent提供切分/)).toBeInTheDocument();

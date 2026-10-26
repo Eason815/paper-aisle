@@ -1,0 +1,96 @@
+{
+  "checkedAt": "2026-10-26T13:04:20+08:00",
+  "boundary": "执行AI基于已读取官方摘要的逐篇语义复核；不是独立专家评审或全文实验核查。",
+  "records": [
+    {
+      "id": "acl-2026.acl-long.583",
+      "officialAbstractRead": true,
+      "sourceSha256Verified": true,
+      "track": "main",
+      "summarySemanticCheck": "对照已保存正式摘要；未引用数值提升，保留任务和作者主张边界",
+      "guideSemanticCheck": "对照Abstract中的明确机制/分析关系；图不表示未描述的具体调用时序",
+      "uncertainty": "需核读训练样本、奖励、基线与数据划分；摘要的问答收益不能直接外推到行动任务。"
+    },
+    {
+      "id": "acl-2026.acl-long.370",
+      "officialAbstractRead": true,
+      "sourceSha256Verified": true,
+      "track": "main",
+      "summarySemanticCheck": "对照已保存正式摘要；未引用数值提升，保留任务和作者主张边界",
+      "guideSemanticCheck": "只保留概述；摘要不足以确认精确流程或图解不增加理解价值",
+      "uncertainty": "需核读任务生成、记忆依赖性的人工检查和判分方式，判断是否能区分检索失败与使用失败。"
+    },
+    {
+      "id": "acl-2026.acl-long.584",
+      "officialAbstractRead": true,
+      "sourceSha256Verified": true,
+      "track": "main",
+      "summarySemanticCheck": "对照已保存正式摘要；未引用数值提升，保留任务和作者主张边界",
+      "guideSemanticCheck": "只保留概述；摘要不足以确认精确流程或图解不增加理解价值",
+      "uncertainty": "需核读最优计划的求解与验证、动态事件设计，以及模型工具预算是否公平。"
+    },
+    {
+      "id": "acl-2026.acl-long.1483",
+      "officialAbstractRead": true,
+      "sourceSha256Verified": true,
+      "track": "main",
+      "summarySemanticCheck": "对照已保存正式摘要；未引用数值提升，保留任务和作者主张边界",
+      "guideSemanticCheck": "对照Abstract中的明确机制/分析关系；图不表示未描述的具体调用时序",
+      "uncertainty": "需核读模型、环境、错误归因协议及底层执行瓶颈的证据，避免把单一测试结论当成普遍规律。"
+    },
+    {
+      "id": "acl-2026.acl-long.1736",
+      "officialAbstractRead": true,
+      "sourceSha256Verified": true,
+      "track": "main",
+      "summarySemanticCheck": "对照已保存正式摘要；未引用数值提升，保留任务和作者主张边界",
+      "guideSemanticCheck": "只保留概述；摘要不足以确认精确流程或图解不增加理解价值",
+      "uncertainty": "需核读未见工具划分、检索候选规模、工具描述泄漏和同预算比较，不能仅凭摘要的领先表述下结论。"
+    },
+    {
+      "id": "acl-2026.acl-long.522",
+      "officialAbstractRead": true,
+      "sourceSha256Verified": true,
+      "track": "main",
+      "summarySemanticCheck": "对照已保存正式摘要；未引用数值提升，保留任务和作者主张边界",
+      "guideSemanticCheck": "对照Abstract中的明确机制/分析关系；图不表示未描述的具体调用时序",
+      "uncertainty": "需核读风险定义、世界模型误差、漏拦与误拦，以及安全收益对应的效用损失。"
+    },
+    {
+      "id": "iclr-2026-28e4c3696637ac727051a2922643ec6a",
+      "officialAbstractRead": true,
+      "sourceSha256Verified": true,
+      "track": "main",
+      "summarySemanticCheck": "对照已保存正式摘要；未引用数值提升，保留任务和作者主张边界",
+      "guideSemanticCheck": "只保留概述；摘要不足以确认精确流程或图解不增加理解价值",
+      "uncertainty": "需核读攻击者控制范围、成功判据和防御预算，不能把特定平台比例外推为日常使用风险。"
+    },
+    {
+      "id": "iclr-2026-0d1986a61e30e5fa408c81216a616e20",
+      "officialAbstractRead": true,
+      "sourceSha256Verified": true,
+      "track": "main",
+      "summarySemanticCheck": "对照已保存正式摘要；未引用数值提升，保留任务和作者主张边界",
+      "guideSemanticCheck": "只保留概述；摘要不足以确认精确流程或图解不增加理解价值",
+      "uncertainty": "需核读无损的定义、加速方法对照、费用口径与失败案例；摘要不足以验证具体调用次序。"
+    },
+    {
+      "id": "openreview-UAXQW194WT",
+      "officialAbstractRead": true,
+      "sourceSha256Verified": true,
+      "track": "unknown",
+      "summarySemanticCheck": "对照已保存正式摘要；未引用数值提升，保留任务和作者主张边界",
+      "guideSemanticCheck": "对照Abstract中的明确机制/分析关系；图不表示未描述的具体调用时序",
+      "uncertainty": "该页具体轨道未知；需核读轨迹质量、依赖真值、结构恢复指标与并行执行是否保持正确性。"
+    },
+    {
+      "id": "acl-2026.acl-long.1387",
+      "officialAbstractRead": true,
+      "sourceSha256Verified": true,
+      "track": "main",
+      "summarySemanticCheck": "对照已保存正式摘要；未引用数值提升，保留任务和作者主张边界",
+      "guideSemanticCheck": "只保留概述；摘要不足以确认精确流程或图解不增加理解价值",
+      "uncertainty": "需核读重要性估计、接受阈值、搜索费用与任务分布，不能把压缩比例当成普遍可达的收益。"
+    }
+  ]
+}
