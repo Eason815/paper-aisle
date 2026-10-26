@@ -35,7 +35,9 @@ import {
 } from "react";
 import { loadDataset } from "./data";
 import { bibtexFor, downloadText, exportFilename, markdownFor } from "./export";
-import { loadUserState, patchPaperState, saveUserState } from "./storage";
+import { patchPaperState } from "./storage";
+import { usePersonalRecords } from "./cloud/usePersonalRecords";
+import { AccountDialog } from "./AccountDialog";
 import { ReadingDiagram } from "./ReadingDiagram";
 import { PersonalRecordsDialog } from "./PersonalRecordsDialog";
 import {
@@ -576,6 +578,7 @@ function DetailDrawer({
   onPrevious,
   onNext,
   saveError,
+  syncLabel,
 }: {
   paper: Paper | null;
   dataset: Dataset;
@@ -583,6 +586,7 @@ function DetailDrawer({
   state: PaperUserState;
   comparing: boolean;
   saved: boolean;
+  syncLabel: string;
   onOpenChange: (open: boolean) => void;
   onPatch: (patch: Partial<PaperUserState>) => void;
   onCompare: () => void;
@@ -680,7 +684,7 @@ function DetailDrawer({
             </div>
           </div>
           <label className="note-field">
-            <span>个人便签 <small aria-live="polite">{saveError || (saved ? <><Check size={13} />已保存</> : "保存中…")}</small></span>
+            <span>个人便签 <small aria-live="polite">{saveError || (saved ? <><Check size={13} />{syncLabel}</> : "保存中…")}</small></span>
             <textarea value={state.note ?? ""} onChange={(event) => onPatch({ note: event.target.value })} placeholder="记录复现实验、可借鉴方法或下一步问题…" rows={6} />
           </label>
           <button className="note-template" onClick={() => {
@@ -796,10 +800,9 @@ function App() {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<SortKey>("recommended");
   const [filters, setFilters] = useState<Filters>(emptyFilters);
-  const [userState, setUserState] = useState<UserStateMap>({});
-  const [stateDatasetId, setStateDatasetId] = useState<string | null>(null);
-  const [saved, setSaved] = useState(true);
-  const [saveError, setSaveError] = useState("");
+  const records = usePersonalRecords(dataset?.datasetId);
+  const { state: userState, saved, saveError, flush: flushState } = records;
+  const [accountOpen, setAccountOpen] = useState(false);
   const [readerIds, setReaderIds] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [compareIds, setCompareIds] = useState<string[]>([]);
@@ -813,58 +816,29 @@ function App() {
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!dataset) return;
-    const legacyDatasetIds = dataset.datasetId === "paper-aisle-main-v1" ? ["paper-aisle-demo-v1"] : [];
-    try { setUserState(loadUserState(dataset.datasetId, legacyDatasetIds)); }
-    catch { setNotice("浏览器暂时无法读取个人记录，请保留已有备份。"); setUserState({}); }
-    setStateDatasetId(dataset.datasetId);
-  }, [dataset]);
-
-  useEffect(() => {
-    if (!dataset || stateDatasetId !== dataset.datasetId) return;
-    setSaved(false);
-    const timeout = window.setTimeout(() => {
-      try { saveUserState(dataset.datasetId, userState); setSaved(true); setSaveError(""); }
-      catch { setSaveError("未保存，请导出备份"); }
-    }, 450);
-    return () => window.clearTimeout(timeout);
-  }, [dataset, stateDatasetId, userState]);
-
-  const flushState = useCallback(() => {
-    if (!dataset || stateDatasetId !== dataset.datasetId) return;
-    try { saveUserState(dataset.datasetId, userState); setSaved(true); setSaveError(""); }
-    catch { setSaveError("未保存，请导出备份"); }
-  }, [dataset, stateDatasetId, userState]);
-
-  useEffect(() => {
-    window.addEventListener("pagehide", flushState);
-    return () => window.removeEventListener("pagehide", flushState);
-  }, [flushState]);
-
-  useEffect(() => {
     if (!notice) return;
     const timeout = window.setTimeout(() => setNotice(null), 2600);
     return () => window.clearTimeout(timeout);
   }, [notice]);
 
   const patchState = useCallback((paperId: string, patch: Partial<PaperUserState>) => {
-    setUserState((current) => patchPaperState(current, paperId, patch));
-  }, []);
+    records.update((current) => patchPaperState(current, paperId, patch));
+  }, [records.update]);
 
   const toggleFavorite = useCallback((paperId: string) => {
-    setUserState((current) => {
+    records.update((current) => {
       const favorite = !current[paperId]?.favorite;
       return patchPaperState(current, paperId, { favorite, favoritedAt: favorite ? Date.now() : undefined });
     });
-  }, []);
+  }, [records.update]);
 
   const cycleStatus = useCallback((paperId: string) => {
-    setUserState((current) => {
+    records.update((current) => {
       const status = current[paperId]?.readingStatus ?? "unread";
       const next: ReadingStatus = nextReadingStatus(status);
       return patchPaperState(current, paperId, { readingStatus: next });
     });
-  }, []);
+  }, [records.update]);
 
   const toggleCompare = useCallback((paperId: string) => {
     setCompareIds((current) => {
@@ -1006,7 +980,7 @@ function App() {
       <header className="site-header">
         <Logo />
         <nav aria-label="当前页面"><span className="active">全部论文</span></nav>
-        <div className="header-actions"><button className="records-button" onClick={() => setRecordsOpen(true)}><Download size={16} /><span>阅读记录</span></button><button className="favorites-button" onClick={() => setFavoritesOpen(true)}><Heart size={17} /><span>我的收藏</span><b>{favoritePapers.length}</b></button></div>
+        <div className="header-actions">{records.enabled && <button className="account-button" onClick={() => setAccountOpen(true)}><span>{records.session ? records.syncLabel : "登录同步"}</span></button>}<button className="records-button" onClick={() => setRecordsOpen(true)}><Download size={16} /><span>阅读记录</span></button><button className="favorites-button" onClick={() => setFavoritesOpen(true)}><Heart size={17} /><span>我的收藏</span><b>{favoritePapers.length}</b></button></div>
       </header>
 
       <main>
@@ -1055,9 +1029,10 @@ function App() {
       </main>
 
       <ModalFrame open={filterOpen} onOpenChange={setFilterOpen} title="筛选论文" description={`${activeFilterCount(filters)} 个条件`} className="mobile-filter-dialog"><FilterPanel dataset={dataset} scopePapers={scopePapers} backgroundCount={backgroundCount} showBackground={showBackground} onShowBackground={setShowBackground} searchable={searchablePapers} filters={filters} userState={userState} onChange={setFilters} onReset={() => setFilters(emptyFilters)} /></ModalFrame>
-      <DetailDrawer paper={selectedPaper} dataset={dataset} open={Boolean(selectedPaper)} state={selectedPaper ? userState[selectedPaper.id] ?? {} : {}} comparing={selectedPaper ? compareIds.includes(selectedPaper.id) : false} saved={saved} saveError={saveError} readerIndex={readerIndex} readerCount={readerIds.length} onPrevious={() => navigatePaper(-1)} onNext={() => navigatePaper(1)} onOpenChange={(open) => { if (!open) { flushState(); setSelectedId(null); } }} onPatch={(patch) => selectedPaper && patchState(selectedPaper.id, patch)} onCompare={() => selectedPaper && toggleCompare(selectedPaper.id)} />
+      <DetailDrawer paper={selectedPaper} dataset={dataset} open={Boolean(selectedPaper)} state={selectedPaper ? userState[selectedPaper.id] ?? {} : {}} comparing={selectedPaper ? compareIds.includes(selectedPaper.id) : false} saved={saved} syncLabel={records.syncLabel} saveError={saveError} readerIndex={readerIndex} readerCount={readerIds.length} onPrevious={() => navigatePaper(-1)} onNext={() => navigatePaper(1)} onOpenChange={(open) => { if (!open) { flushState(); setSelectedId(null); } }} onPatch={(patch) => selectedPaper && patchState(selectedPaper.id, patch)} onCompare={() => selectedPaper && toggleCompare(selectedPaper.id)} />
       <FavoritesDialog open={favoritesOpen} onOpenChange={setFavoritesOpen} papers={favoritePapers} dataset={dataset} userState={userState} onOpenPaper={(paper) => { setFavoritesOpen(false); openPaper(paper.id, favoritePapers.map((item) => item.id)); }} />
-      <PersonalRecordsDialog open={recordsOpen} onOpenChange={setRecordsOpen} dataset={dataset} scopePapers={papers} scopeName="全库" state={userState} onRestore={(next) => { saveUserState(dataset.datasetId, next); setUserState(next); setSaved(true); setSaveError(""); }} />
+      <PersonalRecordsDialog open={recordsOpen} onOpenChange={setRecordsOpen} dataset={dataset} scopePapers={papers} scopeName="全库" state={userState} cloudMode={Boolean(records.session)} onRestore={(next) => records.update(() => next)} />
+      {records.enabled && <AccountDialog open={accountOpen} onOpenChange={setAccountOpen} records={records} dataset={dataset} />}
       <CompareDialog open={compareOpen} onOpenChange={setCompareOpen} papers={comparePapers} />
       <ComparisonTray papers={comparePapers} onRemove={toggleCompare} onOpen={() => setCompareOpen(true)} />
       <div className="toast" role="status" aria-live="polite">{notice}</div>

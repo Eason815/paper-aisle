@@ -7,7 +7,7 @@ import type { Dataset, Paper, UserStateMap } from "./types";
 
 const conflictLabels: Record<string, string> = { favorite: "收藏", readingStatus: "阅读状态", note: "便签" };
 
-export function PersonalRecordsDialog({ open, onOpenChange, dataset, scopePapers, scopeName, state, onRestore }: {
+export function PersonalRecordsDialog({ open, onOpenChange, dataset, scopePapers, scopeName, state, onRestore, cloudMode = false }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   dataset: Dataset;
@@ -15,6 +15,7 @@ export function PersonalRecordsDialog({ open, onOpenChange, dataset, scopePapers
   scopeName: string;
   state: UserStateMap;
   onRestore: (next: UserStateMap) => void;
+  cloudMode?: boolean;
 }) {
   const [backup, setBackup] = useState<UserStateBackup | null>(null);
   const [preference, setPreference] = useState<RestorePreference>("current");
@@ -55,7 +56,7 @@ export function PersonalRecordsDialog({ open, onOpenChange, dataset, scopePapers
         <Dialog.Content className="dialog-content personal-records-dialog" onOpenAutoFocus={() => { openerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null; }} onCloseAutoFocus={(event) => { event.preventDefault(); if (openerRef.current?.isConnected) openerRef.current.focus(); }}>
           <div className="dialog-topbar"><div><Dialog.Title>个人阅读记录</Dialog.Title><Dialog.Description>备份、恢复，以及导出当前阅读范围</Dialog.Description></div><Dialog.Close className="dialog-close" aria-label="关闭"><X size={20} /></Dialog.Close></div>
           <div className="modal-body">
-            <div className="records-intro"><ShieldCheck size={24} aria-hidden="true" /><div><h3>把自己的理解留好</h3><p>当前有 {handledStateCount} 篇论文的个人记录。记录保存在这个浏览器里；备份可带到同一论文库的其他设备，不会上传到服务器。</p></div></div>
+            <div className="records-intro"><ShieldCheck size={24} aria-hidden="true" /><div><h3>把自己的理解留好</h3><p>当前有 {handledStateCount} 篇论文的个人记录。{cloudMode ? "记录保存本机并同步到你的私人账号；导入备份也会在确认后进入同步队列。" : "记录保存在这个浏览器里；备份可带到同一论文库的其他设备，不会上传到服务器。"}</p></div></div>
             <section className="records-section"><h3>完整备份</h3><p>包含所有论文的收藏、收藏时间、阅读状态、标签与便签，包括暂时不在当前论文库列表里的记录。</p><button className="button dark" onClick={exportBackup}><Download size={16} />导出全部记录 JSON</button></section>
             <section className="records-section"><h3>导出本轮阅读记录</h3><p>范围：{scopeName} · {scopePapers.length} 篇。包含稳定论文 ID、原文链接和个人笔记，方便交给 AI 整理。</p><button className="button outline" disabled={!scopePapers.length} onClick={() => downloadText("paper-aisle-reading-notes.md", markdownFor(scopePapers, state, dataset.library.name, scopeName), "text/markdown;charset=utf-8")}><Download size={16} />导出阅读 Markdown</button></section>
             <section className="records-section"><h3>从备份恢复</h3><p>选择文件后先预览。不同便签会并列保留，标签取并集；收藏和阅读状态可选择优先使用哪一份。</p>

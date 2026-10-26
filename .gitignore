@@ -11,3 +11,9 @@ vite.config.d.ts
 .research-local/
 
 .research-private/
+
+.env
+.env.*
+!.env.example
+supabase/.temp/
+supabase/.branches/

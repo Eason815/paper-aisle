@@ -1,7 +1,7 @@
 import type { PaperUserState, UserStateMap } from "./types";
 import { z } from "zod";
 
-const personalStateSchema = z.object({
+export const personalStateSchema = z.object({
   favorite: z.boolean().optional(),
   favoritedAt: z.number().finite().nonnegative().optional(),
   readingStatus: z.enum(["unread", "skimmed", "reading", "read"]).optional(),

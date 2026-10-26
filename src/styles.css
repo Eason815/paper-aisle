@@ -416,3 +416,22 @@ main { width: min(1900px, 100%); margin: auto; }
   .diagram-explanation { min-height: 0; }
   .reading-diagram h3 { font-size: 1rem; }
 }
+
+/* Personal cloud synchronization */
+.account-button { min-height: 44px; padding: .55rem .7rem; border: 1px solid var(--line); background: var(--mint); color: var(--ink); font-weight: 700; white-space: nowrap; }
+.account-dialog { width: min(760px, calc(100vw - 2rem)); }
+.account-dialog form, .account-dialog label { display: grid; gap: .5rem; }
+.account-dialog form { gap: 1rem; }
+.account-dialog input:not([type="radio"]), .account-dialog textarea, .account-dialog select { width: 100%; padding: .7rem; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font: inherit; }
+.account-dialog textarea { min-height: 140px; }
+.account-dialog fieldset label { display: flex; align-items: center; margin: .6rem 0; }
+.account-actions, .sync-summary { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.sync-conflict { border: 1px solid var(--line); padding: 1rem; margin-top: 1rem; }
+.conflict-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.record-preview { margin: .5rem 0 1rem; }
+.record-preview dt { font-size: .8rem; color: var(--ink-soft); }
+.record-preview dd { margin: .15rem 0 .5rem; overflow-wrap: anywhere; }
+.note-preview { white-space: pre-wrap; max-height: 220px; overflow-y: auto; }
+.migration-preview details { margin: .8rem 0; }
+.mobile-reading-tip { font-size: .85rem; color: var(--ink-soft); line-height: 1.7; }
+@media (max-width: 650px) { .conflict-columns { grid-template-columns: 1fr; } .header-actions { gap: .35rem; } .account-button { font-size: .78rem; padding: .4rem; } }
