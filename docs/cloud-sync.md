@@ -61,6 +61,6 @@
 
 - 项目：paper-aisle；project ref：mduvrwxfmcnuuyewlujf；组织 Eason815's Org；Singapore；创建报价 $0/月。
 - 托管数据库迁移实际版本为 20261027090659，仓库文件名已与服务端历史对齐。不要重复执行初始迁移。
-- 真实 SQL 角色检查已确认匿名与未获准账号的读取、写入及允许名单修改被阻止；当前无阅读记录、无允许账号。
+- 真实 SQL 角色检查已确认匿名与未获准账号的读取、写入及允许名单修改被阻止；当前无阅读记录，允许名单仅包含一个已确认的个人账号。已通过该账号的数据库角色验证首次写入和旧版本冲突拒绝，合成测试事务已回滚。
 - Security advisors 没有 WARNING/ERROR；唯一 INFO 为私人允许名单没有 RLS policy，这是有意的默认拒绝，保持管理端维护，不添加开放策略。[检查说明](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy)。Performance advisors 无提示。
-- 用户明确从空记录开始，不需要旧记录迁移。个人账号、关闭公开注册与匿名登录、真实登录和手机验收尚待完成。
+- 用户明确从空记录开始，不需要旧记录迁移。个人账号及允许名单已配置，匿名登录已关闭；关闭公开注册、Vercel预览配置、真实登录和手机验收尚待完成。
