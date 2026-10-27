@@ -63,4 +63,7 @@
 - 托管数据库迁移实际版本为 20261027090659，仓库文件名已与服务端历史对齐。不要重复执行初始迁移。
 - 真实 SQL 角色检查已确认匿名与未获准账号的读取、写入及允许名单修改被阻止；账号配置时阅读记录为空；允许名单仅包含一个已确认的个人账号。后续合成验收记录仅保存在preview范围。已通过该账号的数据库角色验证首次写入和旧版本冲突拒绝，合成测试事务已回滚。
 - Security advisors 没有 WARNING/ERROR；唯一 INFO 为私人允许名单没有 RLS policy，这是有意的默认拒绝，保持管理端维护，不添加开放策略。[检查说明](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy)。Performance advisors 无提示。
-- 用户明确从空记录开始，不需要旧记录迁移。个人账号及允许名单已配置，公开注册和匿名登录均已关闭。Vercel Preview四项公开配置已保存，namespace为preview；预览部署已READY，测试地址：https://paper-aisle-pkf4gk3ei-eason815s-projects.vercel.app/。线上账号入口、本人真实登录、合成记录上传和刷新恢复均已核验；真实手机、重启浏览器、断网和冲突验收仍待完成。Production尚未启用。
+- 用户明确从空记录开始，不需要旧记录迁移。个人账号及允许名单已配置，公开注册和匿名登录均已关闭。Vercel Preview四项公开配置已保存，namespace为preview；预览部署已READY，测试地址：https://paper-aisle-pkf4gk3ei-eason815s-projects.vercel.app/。线上账号入口、本人真实登录、合成记录上传和刷新恢复均已核验；真实手机、重启浏览器、断网和冲突验收仍待完成。用户于2026-10-27明确调整为先启用正式网址、再由本人完成设备验收。Production已启用，正式部署7JNr32DzMeDQL6rhBPXdRzzBG7Jv为READY；https://paper-aisle.vercel.app/已核验可直接访问并显示邮箱密码登录入口。真实正式账号登录、手机、断网和冲突检查由本人继续验收。
+
+
+2026-10-27实施顺序例外：原上线步骤中的手机验收前置条件已由用户明确调整为正式启用后验收，目的是避免预览网址的Vercel登录。该调整不表示设备验收通过。后续更新按实际完成情况维护验收文档。
