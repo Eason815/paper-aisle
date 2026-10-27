@@ -4,7 +4,7 @@ import type { UserStateMap } from "../types";
 import { loadUserState, mergeBackup, type RestorePreference } from "../storage";
 import { cloudClient, cloudConfigIssue, transportFor } from "./client";
 import { SyncEngine } from "./SyncEngine";
-import { cleanRecord, type Snapshot } from "./model";
+import { cleanRecord, cloudDatasetId, type Snapshot } from "./model";
 
 const emptySnapshot: Snapshot = { state: {}, pending: 0, conflicts: {}, syncing: false, error: "", localSaved: true, lastSyncedAt: null, legacyImported: false, initialFetchComplete: false };
 function protectedKey(dataset: string) { return `paper-aisle:${dataset}:legacy-private`; }
@@ -61,7 +61,8 @@ export function usePersonalRecords(datasetId: string | undefined, client: Supaba
         const migratable = mergeBackup(original, guest, "current");
         localStorage.setItem(protectedKey(datasetId), "true");
         if (!alive.current || !active || sequence !== epoch.current) return;
-        const engine = new SyncEngine(next.user.id, datasetId, transportFor(client, next.user.id, datasetId), localStorage);
+        const scopeId = cloudDatasetId(datasetId, import.meta.env.VITE_CLOUD_SYNC_NAMESPACE ?? "");
+        const engine = new SyncEngine(next.user.id, scopeId, transportFor(client, next.user.id, scopeId), localStorage);
         engineRef.current = engine;
         setLegacy(migratable);
         const refresh = () => {

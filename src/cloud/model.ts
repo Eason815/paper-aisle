@@ -44,3 +44,11 @@ export function parseCache(raw: string | null): Cache {
   if (Object.keys(cache.entries).some(id => ["__proto__", "constructor", "prototype"].includes(id))) throw new Error("缓存含无效论文ID");
   return cache;
 }
+
+// A preview namespace keeps synthetic acceptance records away from the real reading pool.
+export function cloudDatasetId(datasetId: string, namespace = ""): string {
+  const value = namespace.trim();
+  if (!value) return datasetId;
+  if (!/^[a-z0-9_-]{1,40}$/i.test(value)) throw new Error("同步测试命名空间格式无效。");
+  return `${datasetId}::${value}`;
+}

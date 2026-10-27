@@ -7,6 +7,9 @@ export default defineConfig(({ mode }) => {
   if (publishable && !publishable.startsWith("sb_publishable_")) {
     throw new Error("Use a Supabase publishable key for the browser; privileged and legacy keys are rejected.");
   }
+  if (env.VITE_CLOUD_SYNC_NAMESPACE && !/^[a-z0-9_-]{1,40}$/i.test(env.VITE_CLOUD_SYNC_NAMESPACE)) {
+    throw new Error("Invalid cloud sync namespace.");
+  }
   return {
     base: "./",
     plugins: [react()],

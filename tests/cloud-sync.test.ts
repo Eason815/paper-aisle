@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { SyncEngine } from "../src/cloud/SyncEngine";
-import { accountCacheKey, type CloudRecord, type CloudTransport } from "../src/cloud/model";
+import { cloudDatasetId, accountCacheKey, type CloudRecord, type CloudTransport } from "../src/cloud/model";
 
 class Server implements CloudTransport {
   rows: Record<string, CloudRecord> = {};
@@ -26,6 +26,13 @@ function memoryStorage(): Storage {
 const engine = (server: CloudTransport, storage = memoryStorage(), user = "owner") => new SyncEngine(user, "library", server, storage);
 
 describe("account record synchronization", () => {
+  it("isolates preview records without changing the production dataset identity", () => {
+    expect(cloudDatasetId("library")).toBe("library");
+    expect(cloudDatasetId("library", "preview")).toBe("library::preview");
+    expect(accountCacheKey("owner", cloudDatasetId("library", "preview"))).not.toBe(accountCacheKey("owner", "library"));
+    expect(() => cloudDatasetId("library", "invalid space")).toThrow();
+  });
+
   it("persists offline edits across reload and syncs without duplicate rows", async () => {
     const server = new Server(); const storage = memoryStorage(); let device = engine(server, storage);
     server.offline = true;

@@ -8,9 +8,18 @@ create table private.paper_aisle_allowed_users (
 alter table private.paper_aisle_allowed_users enable row level security;
 revoke all on private.paper_aisle_allowed_users from public, anon, authenticated;
 
-create function public.paper_aisle_sync_access() returns boolean
+create function private.paper_aisle_sync_access() returns boolean
 language sql stable security definer set search_path = '' as $$
   select exists (select 1 from private.paper_aisle_allowed_users where user_id = (select auth.uid()));
+$$;
+revoke all on function private.paper_aisle_sync_access() from public, anon, authenticated;
+grant usage on schema private to authenticated;
+grant execute on function private.paper_aisle_sync_access() to authenticated;
+
+-- Only an invoker wrapper is exposed through the Data API.
+create function public.paper_aisle_sync_access() returns boolean
+language sql stable security invoker set search_path = '' as $$
+  select private.paper_aisle_sync_access();
 $$;
 revoke all on function public.paper_aisle_sync_access() from public, anon;
 grant execute on function public.paper_aisle_sync_access() to authenticated;
@@ -53,13 +62,13 @@ create policy own_allowed_read on public.paper_reading_records for select to aut
 
 -- All writes go through this atomic compare-and-swap RPC. Caller cannot select a user_id.
 -- Row locks and ON CONFLICT protect both simultaneous first writes and later edits.
-create function public.paper_aisle_write_record(p_dataset_id text, p_paper_id text, p_data jsonb, p_expected_revision bigint)
+create function private.paper_aisle_write_record(p_dataset_id text, p_paper_id text, p_data jsonb, p_expected_revision bigint)
 returns jsonb language plpgsql security definer set search_path = '' as $$
 declare
   caller uuid := (select auth.uid());
   current_row public.paper_reading_records%rowtype;
 begin
-  if caller is null or not public.paper_aisle_sync_access() then
+  if caller is null or not private.paper_aisle_sync_access() then
     raise exception 'Sync access denied' using errcode = '42501';
   end if;
   if p_dataset_id is null or length(p_dataset_id) not between 1 and 200
@@ -87,6 +96,13 @@ begin
     where user_id=caller and dataset_id=p_dataset_id and paper_id=p_paper_id returning * into current_row;
   return jsonb_build_object('applied',true,'record',to_jsonb(current_row));
 end;
+$$;
+revoke all on function private.paper_aisle_write_record(text,text,jsonb,bigint) from public, anon, authenticated;
+grant execute on function private.paper_aisle_write_record(text,text,jsonb,bigint) to authenticated;
+
+create function public.paper_aisle_write_record(p_dataset_id text, p_paper_id text, p_data jsonb, p_expected_revision bigint)
+returns jsonb language sql security invoker set search_path = '' as $$
+  select private.paper_aisle_write_record(p_dataset_id,p_paper_id,p_data,p_expected_revision);
 $$;
 revoke all on function public.paper_aisle_write_record(text,text,jsonb,bigint) from public, anon;
 grant execute on function public.paper_aisle_write_record(text,text,jsonb,bigint) to authenticated;

@@ -20,13 +20,19 @@ beforeAll(async () => {
     create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;
     grant usage on schema auth to anon,authenticated; grant execute on function auth.uid() to anon,authenticated;
     insert into auth.users values ('${owner}'),('${other}');`);
-  await db.exec(readFileSync("supabase/migrations/202610260001_reading_sync.sql", "utf8"));
+  await db.exec(readFileSync("supabase/migrations/20261027090659_reading_sync.sql", "utf8"));
   await db.query("insert into private.paper_aisle_allowed_users(user_id) values ($1)", [owner]);
 }, 30000);
 beforeEach(async () => { await db.exec("reset role; truncate public.paper_reading_records;"); });
 afterAll(async () => { await db?.close(); });
 
 describe("actual SQL authorization and revision contract", () => {
+  it("keeps privileged helpers outside the exposed public schema", async () => {
+    const publicDefiners = await db.query("select p.proname from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname like 'paper_aisle_%' and p.prosecdef");
+    expect(publicDefiners.rows).toHaveLength(0);
+    await actor("anon");
+    await expect(db.query("select private.paper_aisle_sync_access()")).rejects.toThrow(/permission denied/);
+  });
   it("denies anonymous reads and writes", async () => {
     await actor("anon");
     await expect(db.query("select * from public.paper_reading_records")).rejects.toThrow(/permission denied/);

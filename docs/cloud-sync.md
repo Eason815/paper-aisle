@@ -5,7 +5,7 @@
 ## 上线配置
 
 1. 在自己的 Supabase 账号建立专用 Free 项目，地区默认 Singapore。数据库密码由本人设置并保管。先完成账号连接和真实手机网络测试，再决定正式启用。
-2. 通过 Supabase migration 工具或 SQL Editor 执行 `supabase/migrations/202610260001_reading_sync.sql` 一次。默认没有允许账号，因此没有读写权限。迁移中的 private 表不向浏览器开放。
+2. 通过 Supabase migration 工具或 SQL Editor 执行 `supabase/migrations/20261027090659_reading_sync.sql` 一次。默认没有允许账号，因此没有读写权限。迁移中的 private 表不向浏览器开放。
 3. 在 Authentication → Users 创建个人邮箱账号，使用本人设置的密码并确认邮箱；在 Auth 配置关闭“Allow new users to sign up”，不启用匿名登录。不要将密码写进仓库、聊天、公共 JSON 或 shell 命令历史。第一版不依赖邮件，忘记密码由本人在管理端恢复。不要全局关闭邮箱验证来替代单个账号确认。
 4. 在 SQL Editor 将个人账号 UUID 加入允许名单。只替换 UUID，不使用邮箱作为前端权限判断：
 
@@ -16,7 +16,7 @@
    ```
 
 5. 从项目 Connect/API Keys 取得项目 URL 和 **publishable** key（`sb_publishable_` 开头）。在本机 `.env.local` 或 Vercel Preview 环境设置 `.env.example` 中的三个变量。前端不接受 secret、service-role 或旧 JWT key；构建时检测到错误类型会失败，且不回显值。
-6. 首先只在 Preview 设置 `VITE_ENABLE_CLOUD_SYNC=true`，Production 继续 false/不配置。只使用合成阅读记录测试；登录密码由本人在界面输入。同步记录绑定 datasetId，同一项目的预览测试使用独立测试 datasetId，避免与正式记录混合。
+6. 首先只在 Preview 设置 `VITE_ENABLE_CLOUD_SYNC=true`，Production 继续 false/不配置。只使用合成阅读记录测试；登录密码由本人在界面输入。Preview 设置 `VITE_CLOUD_SYNC_NAMESPACE=preview`，同步和账号缓存使用独立的 `datasetId::preview`；Production 此项留空，继续使用原 datasetId。公共论文和个人备份的 datasetId 不变。
 7. 执行本文末尾的真实验收。通过后在 Vercel Production 设置相同项目 URL、publishable key，启用 flag 并重新部署。没有完成真实设备验收时，不报告云端上线成功。
 
 环境变量变动需重新构建部署。`.env*` 已忽略，只有 `.env.example` 可提交。
@@ -56,3 +56,11 @@
 免费项目可能因低活跃暂停。恢复项目后重试，暂停期间保持本地记录；不通过无意义请求规避平台规则。开启真实同步前应测试本人手机实际网络，不能根据本机连通代替手机验收。
 
 回退：停用前导出完整备份，设 `VITE_ENABLE_CLOUD_SYNC=false` 后重新部署。公共论文和匿名本地模式继续可用；账号缓存、旧记录和云端表不删除，重新启用并登录相同账号后可继续。停用状态不自动向匿名界面展示账号缓存。
+
+## 已建立的真实项目（2026-10-27）
+
+- 项目：paper-aisle；project ref：mduvrwxfmcnuuyewlujf；组织 Eason815's Org；Singapore；创建报价 $0/月。
+- 托管数据库迁移实际版本为 20261027090659，仓库文件名已与服务端历史对齐。不要重复执行初始迁移。
+- 真实 SQL 角色检查已确认匿名与未获准账号的读取、写入及允许名单修改被阻止；当前无阅读记录、无允许账号。
+- Security advisors 没有 WARNING/ERROR；唯一 INFO 为私人允许名单没有 RLS policy，这是有意的默认拒绝，保持管理端维护，不添加开放策略。[检查说明](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy)。Performance advisors 无提示。
+- 用户明确从空记录开始，不需要旧记录迁移。个人账号、关闭公开注册与匿名登录、真实登录和手机验收尚待完成。
